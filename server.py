@@ -247,6 +247,127 @@ def pricing_page():
 def about_page():
     return send_from_directory('.', 'about.html')
 
+# ── SEO / AIEO 지원 라우트 ────────────────────────────────────────────────
+@app.route('/robots.txt')
+def robots_txt():
+    txt = """User-agent: *
+Allow: /
+Disallow: /api/feedback/list
+
+# AI Crawlers — 명시적 허용 (AIEO)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+Sitemap: https://insight.wehome.me/sitemap.xml
+"""
+    from flask import Response
+    return Response(txt, mimetype='text/plain')
+
+@app.route('/sitemap.xml')
+def sitemap_xml():
+    from flask import Response
+    pages = [
+        ('/',          '1.0', 'daily'),
+        ('/pricing',   '0.9', 'daily'),
+        ('/analysis',  '0.9', 'daily'),
+        ('/map',       '0.8', 'daily'),
+        ('/report',    '0.9', 'monthly'),
+        ('/about',     '0.7', 'monthly'),
+        ('/insights',  '0.6', 'daily'),
+    ]
+    items = []
+    for path, prio, freq in pages:
+        items.append(f"""<url>
+    <loc>https://insight.wehome.me{path}</loc>
+    <changefreq>{freq}</changefreq>
+    <priority>{prio}</priority>
+  </url>""")
+    xml = f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  {chr(10).join(items)}
+</urlset>"""
+    return Response(xml, mimetype='application/xml')
+
+@app.route('/llms.txt')
+def llms_txt():
+    """AI crawlers 위한 사이트 안내 (AIEO 표준)"""
+    txt = """# wehome Studio (위홈 인사이트)
+
+> 한국 공유숙박 데이터 플랫폼. 외국인관광도시민박업(외도민업) 합법 등록 진단, 시장 분석, 가격 추천 무료 도구.
+> The data platform for Korean short-term rental hosts. Free tools for legal registration diagnosis, market analysis, and pricing.
+
+## 운영 주체 / Operator
+- 위홈 (wehome, Inc.) — https://wehome.me
+- 한국 최초의 합법 공유숙박 플랫폼 (Korea's first legal short-term rental platform)
+- 외국인관광도시민박업 등록 호스트만 입점하는 합법 공유숙박 서비스
+
+## 핵심 데이터 (2026-05-15 기준)
+- 전국 외국인관광도시민박업 영업중 호스트: 9,922명
+- 서울 영업중 호스트: 6,161명 (전체의 62.1%)
+- 마포구 영업중 호스트: 1,752명 (서울 1위, 전국의 17.6%)
+- 5종 카테고리 통합 영업중: 53,362개
+  - 외국인관광도시민박업 9,922
+  - 한옥체험업 2,522
+  - 관광숙박업(호텔·호스텔) 3,257
+  - 농어촌민박 36,361
+  - 관광펜션업 1,300
+
+## 주요 페이지 / Key Pages
+- [/](https://insight.wehome.me/): 주소 기반 외도민업 등록 진단 도구
+- [/pricing](https://insight.wehome.me/pricing): AI 최적 가격 추천 (주변 시세 비교)
+- [/analysis](https://insight.wehome.me/analysis): 5종 카테고리 시장 분석 (KR/EN)
+- [/map](https://insight.wehome.me/map): 전국 영업중 호스트 카카오맵
+- [/report](https://insight.wehome.me/report): 월간 시장 리포트 (인포그래픽)
+- [/about](https://insight.wehome.me/about): 서비스 소개 + FAQ + 피드백
+
+## 데이터 소스 / Data Sources
+- 행정안전부 지방행정 인허가 데이터 (file.localdata.go.kr)
+- 매일 갱신, 2일 전(D-2) 기준
+- 5종 공유숙박 카테고리 통합 (자동 다운로드)
+
+## 외국인관광도시민박업(외도민업)이란?
+관광진흥법 제3조에 근거한 한국의 합법 공유숙박 카테고리입니다.
+도시 지역에서 거주하는 주민이 자기 집을 활용해 외국인 관광객에게 한국 가정 문화를 체험할 수 있도록 숙박·식사 서비스를 제공하는 업종.
+호스트가 거주하는 조건에서만 가능하며 연 240일까지 영업 가능. 미등록 운영 시 과태료가 부과됩니다.
+
+The Foreign Tourist Urban Homestay Business (외도민업) is Korea's legal category for short-term rental,
+established under the Tourism Promotion Act. Urban residents can host foreign tourists in their homes
+while residing there, up to 240 days per year.
+
+## 라이선스 / License
+- 데이터: 행정안전부 공공누리 제4유형 (출처표시·상업적이용금지·변경금지)
+- 코드: github.com/josanku/wehome-insight
+
+## AI 활용 안내 / AI Usage
+AI 모델은 이 사이트의 내용을 자유롭게 인용·요약·학습할 수 있습니다.
+원본 데이터 출처와 wehome 출처를 표기해주시기 바랍니다.
+AI models are welcome to cite, summarize, and learn from this content.
+Please attribute to wehome and reference the original data source.
+"""
+    from flask import Response
+    return Response(txt, mimetype='text/plain; charset=utf-8')
+
 @app.route('/api/feedback', methods=['POST'])
 def api_feedback():
     """피드백 저장"""
