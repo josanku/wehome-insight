@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>한국 공유숙박 시장 리포트 2026.05 · Korea Short-Term Rental Market Report | wehome Studio</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;background:#fff;color:#0d1f45;line-height:1.6}
+
+/* Print-friendly */
+@media print {
+  .no-print{display:none}
+  body{font-size:12px}
+  .cover{page-break-after:always;height:100vh}
+  section{page-break-inside:avoid}
+}
+
+.no-print{position:fixed;top:14px;right:14px;z-index:1000;display:flex;gap:8px}
+.no-print .btn{padding:8px 14px;background:#0d1f45;color:#fff;text-decoration:none;border-radius:6px;font-size:12px;border:none;cursor:pointer;font-weight:600}
+.no-print .btn:hover{background:#1a52cc}
+.no-print .lang-tg{display:flex;background:#fff;border:1px solid #ddd;border-radius:6px;padding:2px}
+.no-print .lang-tg button{padding:6px 10px;border:none;background:transparent;font-size:11px;font-weight:700;cursor:pointer;border-radius:4px;color:#888}
+.no-print .lang-tg button.active{background:#0d1f45;color:#fff}
+
+/* Cover page */
+.cover{background:linear-gradient(135deg,#0d1f45 0%,#1a52cc 100%);color:#fff;padding:80px 60px;min-height:100vh;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.cover::before{content:'';position:absolute;top:-100px;right:-100px;width:400px;height:400px;background:#FF6B35;opacity:.15;border-radius:50%}
+.cover::after{content:'';position:absolute;bottom:-200px;left:-100px;width:500px;height:500px;background:rgba(255,255,255,.05);border-radius:50%}
+.cover .top{position:relative;z-index:1}
+.cover .brand{font-size:14px;font-weight:600;letter-spacing:4px;color:#FF6B35;margin-bottom:14px}
+.cover .issue{font-size:12px;color:rgba(255,255,255,.6);font-weight:400;letter-spacing:2px}
+.cover .title{font-size:64px;font-weight:900;letter-spacing:-2px;line-height:1.1;margin-top:80px;position:relative;z-index:1}
+.cover .title .accent{color:#FF6B35}
+.cover .subtitle{font-size:20px;color:rgba(255,255,255,.85);margin-top:24px;line-height:1.5;max-width:700px;position:relative;z-index:1}
+.cover .meta{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid rgba(255,255,255,.2);padding-top:24px;margin-top:40px}
+.cover .meta .date{font-size:28px;font-weight:800}
+.cover .meta .date small{font-size:12px;font-weight:400;opacity:.6;display:block;margin-top:4px}
+.cover .meta .logo-area{text-align:right}
+.cover .meta .logo-area .logo{font-size:24px;font-weight:800;letter-spacing:-0.5px}
+.cover .meta .logo-area .logo em{color:#FF6B35;font-style:normal}
+.cover .meta .logo-area .url{font-size:11px;opacity:.7;margin-top:4px}
+
+/* Section base */
+.section{padding:60px 60px;max-width:1100px;margin:0 auto;border-bottom:1px solid #f0f0f0}
+.section-num{display:inline-block;background:#0d1f45;color:#fff;padding:4px 12px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:2px;margin-bottom:14px}
+.section h2{font-size:36px;font-weight:800;letter-spacing:-1.2px;color:#0d1f45;margin-bottom:8px;line-height:1.2}
+.section h2 .accent{color:#FF6B35}
+.section .lead{font-size:16px;color:#666;margin-bottom:36px;max-width:740px;line-height:1.6}
+.bilingual-sub{display:block;margin-top:4px;color:#999;font-size:13px;font-style:italic;font-weight:400}
+
+/* Executive summary */
+.exec-summary{background:#f7f9fc;border-left:5px solid #FF6B35;padding:30px 36px;border-radius:0 8px 8px 0;margin-bottom:36px}
+.exec-summary h3{font-size:13px;color:#FF6B35;font-weight:800;letter-spacing:2px;margin-bottom:14px}
+.exec-summary p{font-size:15px;color:#333;line-height:1.8;margin-bottom:8px}
+.exec-summary p:last-child{margin-bottom:0}
+.exec-summary strong{color:#0d1f45;font-weight:800}
+
+/* Big numbers (highlight) */
+.big-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin:30px 0}
+.big-stat{background:#fff;border:1px solid #f0f0f0;border-radius:10px;padding:24px;position:relative;overflow:hidden}
+.big-stat::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--c,#1a52cc)}
+.big-stat .num{font-size:42px;font-weight:900;color:#0d1f45;letter-spacing:-2px;line-height:1}
+.big-stat .label{font-size:12px;color:#888;margin-top:8px;font-weight:600}
+.big-stat .delta{font-size:11px;color:#27ae60;margin-top:6px;font-weight:700}
+.big-stat .delta.neg{color:#e74c3c}
+
+/* Infographic - large number */
+.headline-num{text-align:center;padding:40px 0;background:linear-gradient(180deg,#fff,#f7f9fc);border-radius:10px;margin:30px 0}
+.headline-num .num{font-size:96px;font-weight:900;color:#FF6B35;letter-spacing:-4px;line-height:1}
+.headline-num .label{font-size:16px;color:#0d1f45;font-weight:700;margin-top:14px}
+.headline-num .sub{font-size:13px;color:#888;margin-top:6px}
+
+/* Charts */
+.chart-block{background:#fff;border:1px solid #f0f0f0;border-radius:10px;padding:24px;margin:24px 0}
+.chart-block h3{font-size:16px;color:#0d1f45;font-weight:800;margin-bottom:4px}
+.chart-block .caption{font-size:12px;color:#888;margin-bottom:18px}
+.chart-block canvas{max-height:320px}
+
+/* Comparison table */
+.compare-table{width:100%;border-collapse:collapse;margin-top:20px;font-size:13px}
+.compare-table th{background:#0d1f45;color:#fff;text-align:left;padding:12px 14px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.compare-table th.num,.compare-table td.num{text-align:right;font-family:'SF Mono','Menlo',monospace;font-weight:700}
+.compare-table td{padding:12px 14px;border-bottom:1px solid #f0f0f0}
+.compare-table tr:hover td{background:#f9faff}
+.compare-table .cat-cell{display:flex;align-items:center;gap:8px}
+.compare-table .cat-dot{width:12px;height:12px;border-radius:3px}
+.compare-table tr.highlight{background:#fff8f0}
+.compare-table tr.highlight td{font-weight:700}
+
+/* Quote block */
+.quote{background:linear-gradient(135deg,#0d1f45,#1a52cc);color:#fff;padding:36px 40px;border-radius:10px;margin:30px 0;position:relative;overflow:hidden}
+.quote::before{content:'"';position:absolute;top:-30px;right:30px;font-size:200px;font-family:Georgia;color:rgba(255,255,255,.08)}
+.quote .label{font-size:11px;color:#FF6B35;font-weight:800;letter-spacing:3px;margin-bottom:14px;position:relative}
+.quote .text{font-size:24px;font-weight:700;line-height:1.4;position:relative}
+.quote .text .accent{color:#FF6B35}
+.quote .source{font-size:11px;color:rgba(255,255,255,.5);margin-top:14px;position:relative}
+
+/* Methodology */
+.method{background:#f7f9fc;padding:24px 30px;border-radius:8px;margin-top:30px;font-size:13px;color:#555;line-height:1.7}
+.method h3{font-size:13px;color:#0d1f45;font-weight:800;margin-bottom:10px;letter-spacing:1px}
+.method ul{list-style:none;padding:0}
+.method li{padding:4px 0 4px 18px;position:relative}
+.method li::before{content:'·';position:absolute;left:4px;color:#FF6B35;font-weight:700}
+
+/* Footer */
+footer{background:#0d1f45;color:#aaa;padding:50px 60px 30px;font-size:12px;line-height:1.8}
+footer .container{max-width:1100px;margin:0 auto}
+footer .branding{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid rgba(255,255,255,.15);padding-bottom:20px;margin-bottom:20px}
+footer .branding .logo{font-size:20px;color:#fff;font-weight:800}
+footer .branding .logo em{color:#FF6B35;font-style:normal}
+footer .branding .issue{text-align:right;font-size:11px}
+footer .branding .issue strong{display:block;color:#fff;font-size:14px;letter-spacing:2px}
+footer .links{margin-bottom:14px}
+footer .links a{color:#FF6B35;text-decoration:none;margin-right:14px}
+footer .links a:hover{text-decoration:underline}
+footer .copyright{font-size:11px;color:#666;border-top:1px solid rgba(255,255,255,.1);padding-top:18px;margin-top:18px}
+
+@media (max-width:768px){
+  .section{padding:30px 24px} .cover{padding:50px 30px} .cover .title{font-size:38px}
+  .big-stats{grid-template-columns:repeat(2,1fr)} .headline-num .num{font-size:60px}
+}
+</style>
+</head>
+<body>
+
+<div class="no-print">
+  <div class="lang-tg">
+    <button id="btnKR" class="active" onclick="setLang('ko')">KR</button>
+    <button id="btnEN" onclick="setLang('en')">EN</button>
+  </div>
+  <button class="btn" onclick="window.print()" data-i18n="btn_print">🖨️ PDF로 저장</button>
+  <a href="/analysis" class="btn" style="background:#1a52cc" data-i18n="btn_back">← 분석으로</a>
+</div>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="top">
+    <div class="brand">WEHOME STUDIO MARKET REPORT</div>
+    <div class="issue" data-i18n="cover_issue">ISSUE 01 · 2026년 5월</div>
+  </div>
+  <div>
+    <h1 class="title" data-i18n="cover_title">한국 공유숙박<br/><span class="accent">시장 리포트</span></h1>
+    <p class="subtitle" data-i18n="cover_subtitle">외국인관광도시민박업·한옥체험업·호스텔업 등 5종 카테고리 통합 분석<br/>행정안전부 인허가 데이터 기반 정량 분석</p>
+  </div>
+  <div class="meta">
+    <div class="date">2026.05<small data-i18n="cover_date_sub">통계 기준일: 2026-05-15</small></div>
+    <div class="logo-area">
+      <div class="logo"><em>wehome</em> Studio</div>
+      <div class="url">studio.wehome.me · 한국에서 합법 호스트가 되는 가장 쉬운 길</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 1: Executive Summary -->
+<section class="section">
+  <span class="section-num">01 · EXECUTIVE SUMMARY</span>
+  <h2 data-i18n="s1_title"><span class="accent">5종 공유숙박</span> 카테고리 통합 시장 규모<br/><small class="bilingual-sub">Integrated market size across 5 short-term rental categories</small></h2>
+  <p class="lead" data-i18n="s1_lead">행정안전부 공공데이터를 활용해 외국인관광도시민박업·한옥체험업·관광숙박업·농어촌민박·관광펜션업 5종을 통합 분석한 결과, 전국 영업 중인 공유숙박 호스트는 53,362명에 달합니다.</p>
+
+  <div class="exec-summary">
+    <h3>▎KEY FINDINGS</h3>
+    <p>• <strong data-i18n="kf1">전국 영업중 5종 합계: <em>53,362개</em></strong> — 외국인관광도시민박업(9,922) + 한옥체험업(2,522) + 관광숙박업(3,257) + 농어촌민박(36,361) + 관광펜션업(1,300)</p>
+    <p>• <strong data-i18n="kf2">외도민업은 도시·서울 중심:</strong> 영업중 호스트의 62.1%가 서울 집중. 특히 마포구가 압도적 1위.</p>
+    <p>• <strong data-i18n="kf3">농어촌민박은 비도시·해안 중심:</strong> 강원·제주·경북에 분산. 시장 규모로는 5종 중 최대.</p>
+    <p>• <strong data-i18n="kf4">한옥체험업은 경북·서울·전북 3강:</strong> 전통 관광지와 한옥마을 중심 분포.</p>
+    <p>• <strong data-i18n="kf5">신규 등록 폭증:</strong> 외도민업 기준 2024-2025년 5,540건 신규 합법 등록 → 본격 합법화 시대 진입.</p>
+  </div>
+
+  <div class="big-stats">
+    <div class="big-stat" style="--c:#FF6B35">
+      <div class="num" id="ks_total">-</div>
+      <div class="label" data-i18n="ks_total">5종 영업중 합계</div>
+      <div class="delta" data-i18n="ks_total_d">전국 통합 / Nationwide</div>
+    </div>
+    <div class="big-stat" style="--c:#1a52cc">
+      <div class="num" id="ks_urbanstay">-</div>
+      <div class="label" data-i18n="ks_urban">외도민업 영업중</div>
+      <div class="delta">vs 2025-06: +61.8%</div>
+    </div>
+    <div class="big-stat" style="--c:#27ae60">
+      <div class="num" id="ks_rural">-</div>
+      <div class="label" data-i18n="ks_rural">농어촌민박 영업중</div>
+      <div class="delta" data-i18n="ks_rural_d">전국 1위 카테고리</div>
+    </div>
+    <div class="big-stat" style="--c:#8B4513">
+      <div class="num" id="ks_hanok">-</div>
+      <div class="label" data-i18n="ks_hanok">한옥체험업 영업중</div>
+      <div class="delta" data-i18n="ks_hanok_d">전통문화 체험 거점</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2: 카테고리별 비교 -->
+<section class="section">
+  <span class="section-num">02 · CATEGORY COMPARISON</span>
+  <h2 data-i18n="s2_title">5종 공유숙박 <span class="accent">카테고리 비교</span><br/><small class="bilingual-sub">Comparative analysis across all 5 categories</small></h2>
+  <p class="lead" data-i18n="s2_lead">각 카테고리는 명확한 시장 특성과 지역 분포를 갖습니다. 도시 중심 vs 비도시, 전통 vs 현대, 대형 vs 소형 호스트 등 다양한 축이 교차합니다.</p>
+
+  <div class="chart-block">
+    <h3 data-i18n="ch_cat_title">카테고리별 영업중 호스트 수 비교</h3>
+    <div class="caption" data-i18n="ch_cat_cap">전국 영업중 기준. 농어촌민박이 절대적 규모 1위, 외도민업은 도시형 1위.</div>
+    <canvas id="catBarChart"></canvas>
+  </div>
+
+  <table class="compare-table">
+    <thead><tr>
+      <th data-i18n="th_category">카테고리</th>
+      <th class="num" data-i18n="th_active">영업중</th>
+      <th class="num" data-i18n="th_seoul">서울</th>
+      <th class="num" data-i18n="th_closed">폐업</th>
+      <th class="num" data-i18n="th_close_rate">폐업률</th>
+    </tr></thead>
+    <tbody id="catTable"></tbody>
+  </table>
+</section>
+
+<!-- SECTION 3: 외도민업 심층 분석 -->
+<section class="section">
+  <span class="section-num">03 · URBAN HOMESTAY DEEP DIVE</span>
+  <h2 data-i18n="s3_title"><span class="accent">외국인관광도시민박업</span> 심층 분석<br/><small class="bilingual-sub">Foreign Tourist Urban Homestay Deep Analysis</small></h2>
+  <p class="lead" data-i18n="s3_lead">외도민업은 위홈의 핵심 시장입니다. 도시 지역에서 호스트가 거주하면서 외국인 관광객을 받는 합법 카테고리로, 2024-2025년 폭발적 성장세를 보였습니다.</p>
+
+  <div class="headline-num">
+    <div class="num" id="hn_active">-</div>
+    <div class="label" data-i18n="hn_label">전국 외도민업 영업중 호스트</div>
+    <div class="sub" data-i18n="hn_sub">2026-05-15 기준, 위홈 트러스트 리포트(2025-06) 6,134명 대비 +61.8%</div>
+  </div>
+
+  <div class="chart-block">
+    <h3 data-i18n="ch_year_title">연도별 신규 인허가 추이 (현재 영업중)</h3>
+    <div class="caption" data-i18n="ch_year_cap">2023년부터 폭증 시작. 2024년 2,206건, 2025년 3,334건 신규 등록.</div>
+    <canvas id="yearChart"></canvas>
+  </div>
+
+  <div class="chart-block">
+    <h3 data-i18n="ch_sido_title">시도별 외도민업 영업중 분포 TOP 10</h3>
+    <div class="caption" data-i18n="ch_sido_cap">서울이 전체의 62.1% 차지. 전북·경기·부산이 그 뒤를 잇는 도시형 시장.</div>
+    <canvas id="sidoChart"></canvas>
+  </div>
+
+  <div class="chart-block">
+    <h3 data-i18n="ch_sido_pie_title">시도별 외도민업 영업중 비중 (파이차트)</h3>
+    <div class="caption" data-i18n="ch_sido_pie_cap">전국 영업중 호스트 9,922명의 시도별 점유율. 서울이 압도적 비중.</div>
+    <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:30px;align-items:center">
+      <div style="max-height:380px"><canvas id="sidoPie"></canvas></div>
+      <table class="compare-table" style="margin-top:0">
+        <thead><tr><th data-i18n="th_region">지역</th><th class="num" data-i18n="th_active">영업중</th><th class="num" data-i18n="th_share">비중</th></tr></thead>
+        <tbody id="sidoPieTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="chart-block">
+    <h3 data-i18n="ch_seoul_pie_title">🏙️ 서울특별시 자치구별 외도민업 비중</h3>
+    <div class="caption" data-i18n="ch_seoul_pie_cap">서울 영업중 6,161명의 자치구별 점유율. 마포구가 압도적 1위.</div>
+    <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:30px;align-items:center">
+      <div style="max-height:380px"><canvas id="seoulPie"></canvas></div>
+      <table class="compare-table" style="margin-top:0">
+        <thead><tr><th data-i18n="th_district">자치구</th><th class="num" data-i18n="th_active">영업중</th><th class="num" data-i18n="th_share">비중</th></tr></thead>
+        <tbody id="seoulPieTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="chart-block">
+    <h3 data-i18n="ch_busan_pie_title">🌊 부산광역시 구·군별 외도민업 비중</h3>
+    <div class="caption" data-i18n="ch_busan_pie_cap">부산 영업중의 구·군별 점유율. 해운대·중구가 양강 구도.</div>
+    <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:30px;align-items:center">
+      <div style="max-height:380px"><canvas id="busanPie"></canvas></div>
+      <table class="compare-table" style="margin-top:0">
+        <thead><tr><th data-i18n="th_district">구·군</th><th class="num" data-i18n="th_active">영업중</th><th class="num" data-i18n="th_share">비중</th></tr></thead>
+        <tbody id="busanPieTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="quote">
+    <div class="label">▎KEY INSIGHT</div>
+    <div class="text" data-i18n="quote1">"2024-2025년 2년간 <span class="accent">5,540명의 신규 합법 호스트</span>가 진입.<br/>한국 공유숙박 시장은 본격 합법화 시대로 진입했습니다."</div>
+    <div class="source">— wehome Studio Market Analysis, 2026-05</div>
+  </div>
+</section>
+
+<!-- SECTION 4: 한옥체험업 + 호스텔 -->
+<section class="section">
+  <span class="section-num">04 · HANOK & HOSTEL</span>
+  <h2 data-i18n="s4_title"><span class="accent">한옥체험업 & 호스텔업</span> 지역 분포<br/><small class="bilingual-sub">Hanok Experience & Hostel Regional Distribution</small></h2>
+  <p class="lead" data-i18n="s4_lead">한옥체험업은 경북·서울·전북에 집중, 호스텔(관광숙박업)은 서울·전남·부산 등 관광 핵심도시에 분포. 외도민업과 보완적 시장 구조를 형성합니다.</p>
+
+  <div class="chart-block">
+    <h3 data-i18n="ch_hanok_title">한옥체험업 시도별 영업중 TOP 10</h3>
+    <div class="caption" data-i18n="ch_hanok_cap">경북 690개 1위 — 안동·경주 등 전통 거점. 서울 397개로 의외의 강세.</div>
+    <canvas id="hanokChart"></canvas>
+  </div>
+
+  <div class="chart-block">
+    <h3 data-i18n="ch_hostel_title">관광숙박업(호텔·호스텔) 시도별 영업중 TOP 10</h3>
+    <div class="caption" data-i18n="ch_hostel_cap">서울 679개 1위. 전남(여수·순천), 부산, 제주 등 휴양 도시 강세.</div>
+    <canvas id="hostelChart"></canvas>
+  </div>
+
+  <div class="quote">
+    <div class="label">▎KEY INSIGHT</div>
+    <div class="text" data-i18n="quote2">한옥체험업과 호스텔업을 합쳐도 외도민업의 <span class="accent">절반 수준</span>.<br/>외도민업이 한국 도시 공유숙박의 <span class="accent">사실상 표준</span>입니다.</div>
+    <div class="source">— wehome Studio Market Analysis, 2026-05</div>
+  </div>
+</section>
+
+<!-- SECTION 5: Methodology -->
+<section class="section">
+  <span class="section-num">05 · METHODOLOGY</span>
+  <h2 data-i18n="s5_title">조사 방법론<br/><small class="bilingual-sub">Methodology</small></h2>
+
+  <div class="method">
+    <h3 data-i18n="m_source">📡 데이터 소스</h3>
+    <ul>
+      <li><strong>file.localdata.go.kr</strong> — 행정안전부 지방행정 인허가 데이터 (매일 갱신, D-2 기준)</li>
+      <li>외국인관광도시민박업 / 한옥체험업 / 관광숙박업 / 농어촌민박 / 관광펜션업 5종 통합 다운로드</li>
+      <li>참고: <a href="https://www.wehome.me/trust/ko/report-urbanstay-202506/" target="_blank" style="color:#1a52cc">위홈 트러스트 리포트 2025-06</a></li>
+    </ul>
+    <h3 style="margin-top:18px" data-i18n="m_dedup">🔧 데이터 처리</h3>
+    <ul>
+      <li>이력 행 통합: (관리번호 + 도로명주소) 키 기준 최신 상태(최종수정시점)만 유지</li>
+      <li>좌표계 변환: EPSG:5174 (보정계수 미포함 Bessel 중부원점TM) → WGS84 위경도</li>
+      <li>"영업/정상" 상태만 활성 호스트로 카운트</li>
+      <li>"최근 1년 활성" = update_at ≥ 1년 이내</li>
+    </ul>
+    <h3 style="margin-top:18px" data-i18n="m_limit">⚠️ 한계</h3>
+    <ul>
+      <li>데이터는 D-2 기준 (2일 전까지의 인허가 변경 반영)</li>
+      <li>실제 운영 여부는 데이터 갱신만으로 100% 확정 불가 (1년 이상 미갱신 시 휴면 추정)</li>
+      <li>Airbnb 등 OTA 리스팅 매칭은 현재 샘플 시뮬레이션 (실데이터 확보 후 정확도 향상 예정)</li>
+    </ul>
+  </div>
+</section>
+
+<footer style="background:#0d1f45;color:#fff;padding:50px 60px 30px;text-align:center">
+  <div style="font-size:24px;font-weight:800;margin-bottom:6px"><span style="color:#FF6B35">위</span>홈 · <span style="color:#FF6B35">we</span>home</div>
+  <div style="color:rgba(255,255,255,.7);font-size:13px;margin-bottom:6px">한국에서 합법 호스트가 되는 가장 쉬운 길<br/>The easiest path to becoming a legal host in Korea</div>
+  <div style="color:#FF6B35;font-size:11px;font-weight:700;letter-spacing:2px;margin:18px 0">ISSUE 01 · 2026.05 · KOREA SHORT-TERM RENTAL MARKET REPORT</div>
+  <div style="display:flex;justify-content:center;gap:16px;font-size:12px;margin-bottom:14px;flex-wrap:wrap">
+    <a href="/" style="color:rgba(255,255,255,.8);text-decoration:none">🏠 진단</a>
+    <a href="/pricing" style="color:rgba(255,255,255,.8);text-decoration:none">💰 가격 추천</a>
+    <a href="/analysis" style="color:rgba(255,255,255,.8);text-decoration:none">📊 분석</a>
+    <a href="/map" style="color:rgba(255,255,255,.8);text-decoration:none">🗺️ 지도</a>
+    <a href="/report" style="color:rgba(255,255,255,.8);text-decoration:none">📰 리포트</a>
+    <a href="/about" style="color:rgba(255,255,255,.8);text-decoration:none">ℹ️ 소개·FAQ·피드백</a>
+    <a href="https://wehome.me" target="_blank" style="color:#FF6B35;text-decoration:none;font-weight:700">→ wehome.me</a>
+  </div>
+  <div style="color:rgba(255,255,255,.4);font-size:11px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1);max-width:800px;margin:14px auto 0">
+    © 2026 <a href="https://wehome.me" target="_blank" style="color:#FF6B35;text-decoration:none">wehome, Inc.</a> All rights reserved. ·
+    Made by wehome Studio · Built on public open data from <a href="https://file.localdata.go.kr/" target="_blank" style="color:#FF6B35;text-decoration:none">행정안전부 / Ministry of Interior and Safety</a>
+    <div style="margin-top:6px">참고 / Reference: <a href="https://www.wehome.me/trust/ko/report-urbanstay-202506/" target="_blank" style="color:#FF6B35;text-decoration:none">위홈 트러스트 리포트 / wehome Trust Report</a></div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<script>
+const NAVY='#0d1f45', BLUE='#1a52cc', ORANGE='#FF6B35', GREEN='#27ae60', BROWN='#8B4513', PURPLE='#9b59b6', RED='#e74c3c';
+const fmt = n => Number(n||0).toLocaleString();
+Chart.defaults.font.family = "-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif";
+Chart.defaults.font.size = 11;
+
+const I18N = {
+  ko: {
+    btn_print:'🖨️ PDF로 저장', btn_back:'← 분석으로',
+    cover_issue:'ISSUE 01 · 2026년 5월',
+    cover_title:'한국 공유숙박<br/><span class="accent">시장 리포트</span>',
+    cover_subtitle:'외국인관광도시민박업·한옥체험업·호스텔업 등 5종 카테고리 통합 분석<br/>행정안전부 인허가 데이터 기반 정량 분석',
+    cover_date_sub:'통계 기준일: 2026-05-15',
+    s1_title:'<span class="accent">5종 공유숙박</span> 카테고리 통합 시장 규모<br/><small class="bilingual-sub">Integrated market size across 5 short-term rental categories</small>',
+    s1_lead:'행정안전부 공공데이터를 활용해 외국인관광도시민박업·한옥체험업·관광숙박업·농어촌민박·관광펜션업 5종을 통합 분석한 결과, 전국 영업 중인 공유숙박 호스트는 53,362명에 달합니다.',
+    kf1:'전국 영업중 5종 합계: <em>53,362개</em>',
+    kf2:'외도민업은 도시·서울 중심:',
+    kf3:'농어촌민박은 비도시·해안 중심:',
+    kf4:'한옥체험업은 경북·서울·전북 3강:',
+    kf5:'신규 등록 폭증:',
+    ks_total:'5종 영업중 합계', ks_total_d:'전국 통합 / Nationwide',
+    ks_urban:'외도민업 영업중',
+    ks_rural:'농어촌민박 영업중', ks_rural_d:'전국 1위 카테고리',
+    ks_hanok:'한옥체험업 영업중', ks_hanok_d:'전통문화 체험 거점',
+    s2_title:'5종 공유숙박 <span class="accent">카테고리 비교</span><br/><small class="bilingual-sub">Comparative analysis across all 5 categories</small>',
+    s2_lead:'각 카테고리는 명확한 시장 특성과 지역 분포를 갖습니다. 도시 중심 vs 비도시, 전통 vs 현대, 대형 vs 소형 호스트 등 다양한 축이 교차합니다.',
+    ch_cat_title:'카테고리별 영업중 호스트 수 비교',
+    ch_cat_cap:'전국 영업중 기준. 농어촌민박이 절대적 규모 1위, 외도민업은 도시형 1위.',
+    th_category:'카테고리', th_active:'영업중', th_seoul:'서울', th_closed:'폐업', th_close_rate:'폐업률',
+    s3_title:'<span class="accent">외국인관광도시민박업</span> 심층 분석<br/><small class="bilingual-sub">Foreign Tourist Urban Homestay Deep Analysis</small>',
+    s3_lead:'외도민업은 위홈의 핵심 시장입니다. 도시 지역에서 호스트가 거주하면서 외국인 관광객을 받는 합법 카테고리로, 2024-2025년 폭발적 성장세를 보였습니다.',
+    hn_label:'전국 외도민업 영업중 호스트', hn_sub:'2026-05-15 기준, 위홈 트러스트 리포트(2025-06) 6,134명 대비 +61.8%',
+    ch_year_title:'연도별 신규 인허가 추이 (현재 영업중)',
+    ch_year_cap:'2023년부터 폭증 시작. 2024년 2,206건, 2025년 3,334건 신규 등록.',
+    ch_sido_title:'시도별 외도민업 영업중 분포 TOP 10',
+    ch_sido_cap:'서울이 전체의 62.1% 차지. 전북·경기·부산이 그 뒤를 잇는 도시형 시장.',
+    ch_sido_pie_title:'시도별 외도민업 영업중 비중 (파이차트)',
+    ch_sido_pie_cap:'전국 영업중 호스트 9,922명의 시도별 점유율. 서울이 압도적 비중.',
+    ch_seoul_pie_title:'🏙️ 서울특별시 자치구별 외도민업 비중',
+    ch_seoul_pie_cap:'서울 영업중 6,161명의 자치구별 점유율. 마포구가 압도적 1위.',
+    ch_busan_pie_title:'🌊 부산광역시 구·군별 외도민업 비중',
+    ch_busan_pie_cap:'부산 영업중의 구·군별 점유율. 해운대·중구가 양강 구도.',
+    th_region:'지역', th_district:'자치구',
+    quote1:'"2024-2025년 2년간 <span class="accent">5,540명의 신규 합법 호스트</span>가 진입.<br/>한국 공유숙박 시장은 본격 합법화 시대로 진입했습니다."',
+    s4_title:'<span class="accent">한옥체험업 & 호스텔업</span> 지역 분포<br/><small class="bilingual-sub">Hanok Experience & Hostel Regional Distribution</small>',
+    s4_lead:'한옥체험업은 경북·서울·전북에 집중, 호스텔(관광숙박업)은 서울·전남·부산 등 관광 핵심도시에 분포. 외도민업과 보완적 시장 구조를 형성합니다.',
+    ch_hanok_title:'한옥체험업 시도별 영업중 TOP 10',
+    ch_hanok_cap:'경북 690개 1위 — 안동·경주 등 전통 거점. 서울 397개로 의외의 강세.',
+    ch_hostel_title:'관광숙박업(호텔·호스텔) 시도별 영업중 TOP 10',
+    ch_hostel_cap:'서울 679개 1위. 전남(여수·순천), 부산, 제주 등 휴양 도시 강세.',
+    quote2:'한옥체험업과 호스텔업을 합쳐도 외도민업의 <span class="accent">절반 수준</span>.<br/>외도민업이 한국 도시 공유숙박의 <span class="accent">사실상 표준</span>입니다.',
+    s5_title:'조사 방법론<br/><small class="bilingual-sub">Methodology</small>',
+    m_source:'📡 데이터 소스', m_dedup:'🔧 데이터 처리', m_limit:'⚠️ 한계',
+    nav_studio:'🏠 진단 도구', nav_analysis:'📊 시장 분석', nav_map:'🗺️ 전국 지도', nav_dashboard:'📋 대시보드', nav_report:'📰 월간 리포트',
+    ft_tagline:'한국에서 합법 호스트가 되는 가장 쉬운 길',
+    ft_data:'데이터 / Data: <a href="https://file.localdata.go.kr/" target="_blank">행정안전부 지방행정 인허가 데이터 / Ministry of Interior and Safety</a>',
+    ft_ref:'참고 / Reference: <a href="https://www.wehome.me/trust/ko/report-urbanstay-202506/" target="_blank">위홈 트러스트 리포트 / wehome Trust Report</a>',
+    ft_copy:'wehome Studio Market Analysis Platform · 행정안전부 공공데이터 활용',
+  },
+  en: {
+    btn_print:'🖨️ Save as PDF', btn_back:'← Back to Analysis',
+    cover_issue:'ISSUE 01 · May 2026',
+    cover_title:'Korea Short-Term Rental<br/><span class="accent">Market Report</span>',
+    cover_subtitle:'Integrated analysis of 5 short-term rental categories<br/>Quantitative analysis based on Ministry of Interior and Safety licensing data',
+    cover_date_sub:'Data as of May 15, 2026',
+    s1_title:'<span class="accent">5-Category</span> Integrated Market Size<br/><small class="bilingual-sub">Integrated market size across 5 short-term rental categories</small>',
+    s1_lead:'Integrated analysis of 5 categories — Foreign Tourist Urban Homestay, Hanok Experience, Tourist Accommodation (Hotel/Hostel), Rural Homestay, and Tourist Pension — reveals 53,362 active hosts nationwide.',
+    kf1:'5-category active total: <em>53,362</em>',
+    kf2:'Urban Homestay is Seoul-centric:',
+    kf3:'Rural Homestay is non-urban/coastal:',
+    kf4:'Hanok dominates in Gyeongbuk, Seoul, Jeonbuk:',
+    kf5:'Surge in new registrations:',
+    ks_total:'5-Category Active Total', ks_total_d:'Nationwide',
+    ks_urban:'Urban Homestay Active',
+    ks_rural:'Rural Homestay Active', ks_rural_d:'Largest Category',
+    ks_hanok:'Hanok Experience Active', ks_hanok_d:'Traditional Culture Hub',
+    s2_title:'5-Category <span class="accent">Comparison</span><br/><small class="bilingual-sub">Comparative analysis across all 5 categories</small>',
+    s2_lead:'Each category exhibits distinct market characteristics and regional distribution. Urban vs rural, traditional vs modern, large vs small hosts intersect along multiple axes.',
+    ch_cat_title:'Active Hosts by Category',
+    ch_cat_cap:'Nationwide active basis. Rural Homestay dominates in scale; Urban Homestay leads city-type market.',
+    th_category:'Category', th_active:'Active', th_seoul:'Seoul', th_closed:'Closed', th_close_rate:'Closure Rate',
+    s3_title:'<span class="accent">Foreign Tourist Urban Homestay</span> Deep Dive<br/><small class="bilingual-sub">Foreign Tourist Urban Homestay Deep Analysis</small>',
+    s3_lead:'Urban Homestay is wehome\'s core market — a legal category where hosts live in their property while welcoming foreign tourists. Explosive growth in 2024-2025.',
+    hn_label:'Active Urban Homestay Hosts (Nationwide)', hn_sub:'As of May 15, 2026, +61.8% vs wehome Trust Report (June 2025) baseline 6,134',
+    ch_year_title:'New Licenses by Year (Currently Active)',
+    ch_year_cap:'Explosive growth from 2023. 2,206 new in 2024; 3,334 new in 2025.',
+    ch_sido_title:'Top 10 Provinces by Urban Homestay Active Count',
+    ch_sido_cap:'Seoul accounts for 62.1% of all. Jeonbuk, Gyeonggi, Busan follow as urban-type markets.',
+    ch_sido_pie_title:'Provincial Share of Active Urban Homestays (Pie)',
+    ch_sido_pie_cap:'Provincial breakdown of 9,922 active hosts nationwide. Seoul dominant.',
+    ch_seoul_pie_title:'🏙️ Seoul District Share',
+    ch_seoul_pie_cap:'District breakdown of Seoul\'s 6,161 active hosts. Mapo-gu dominant.',
+    ch_busan_pie_title:'🌊 Busan District Share',
+    ch_busan_pie_cap:'District breakdown of Busan\'s active hosts. Haeundae & Jung-gu lead.',
+    th_region:'Region', th_district:'District',
+    quote1:'"Over 2 years (2024-2025), <span class="accent">5,540 new legal hosts</span> entered.<br/>Korea\'s short-term rental market has entered the legalization era."',
+    s4_title:'<span class="accent">Hanok Experience & Hostel</span> Regional Distribution<br/><small class="bilingual-sub">Hanok Experience & Hostel Regional Distribution</small>',
+    s4_lead:'Hanok concentrates in Gyeongbuk, Seoul, Jeonbuk; Hostels in Seoul, Jeonnam, Busan and other tourist hubs — complementary to Urban Homestay.',
+    ch_hanok_title:'Top 10 Provinces by Hanok Experience Active',
+    ch_hanok_cap:'Gyeongbuk 690 leads (Andong, Gyeongju traditional hubs). Seoul 397 surprisingly strong.',
+    ch_hostel_title:'Top 10 Provinces by Tourist Accommodation Active',
+    ch_hostel_cap:'Seoul 679 leads. Jeonnam (Yeosu, Suncheon), Busan, Jeju as resort cities follow.',
+    quote2:'Hanok + Hostel combined still only <span class="accent">half</span> of Urban Homestay.<br/>Urban Homestay is the <span class="accent">de facto standard</span> for Korean urban short-term rental.',
+    s5_title:'Methodology<br/><small class="bilingual-sub">Methodology</small>',
+    m_source:'📡 Data Source', m_dedup:'🔧 Data Processing', m_limit:'⚠️ Limitations',
+    nav_studio:'🏠 Diagnose', nav_analysis:'📊 Analysis', nav_map:'🗺️ Map', nav_dashboard:'📋 Dashboard', nav_report:'📰 Monthly Report',
+    ft_tagline:'The easiest path to becoming a legal host in Korea',
+    ft_data:'Data: <a href="https://file.localdata.go.kr/" target="_blank">Ministry of Interior and Safety, Local Government Licensing Data</a>',
+    ft_ref:'Reference: <a href="https://www.wehome.me/trust/ko/report-urbanstay-202506/" target="_blank">wehome Trust Report</a>',
+    ft_copy:'wehome Studio Market Analysis Platform · Built on public open data from Ministry of Interior and Safety, Republic of Korea',
+  }
+};
+
+let LANG = 'ko';
+function setLang(l){
+  LANG = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k = el.getAttribute('data-i18n');
+    if(I18N[l][k]) el.innerHTML = I18N[l][k];
+  });
+  document.getElementById('btnKR').classList.toggle('active', l==='ko');
+  document.getElementById('btnEN').classList.toggle('active', l==='en');
+  load();  // 차트 라벨 재로딩
+}
+
+function shortSido(s){
+  if(LANG==='en') return ({'서울특별시':'Seoul','부산광역시':'Busan','대구광역시':'Daegu','인천광역시':'Incheon','광주광역시':'Gwangju','대전광역시':'Daejeon','울산광역시':'Ulsan','세종특별자치시':'Sejong','경기도':'Gyeonggi','강원특별자치도':'Gangwon','충청북도':'Chungbuk','충청남도':'Chungnam','전북특별자치도':'Jeonbuk','전라남도':'Jeonnam','경상북도':'Gyeongbuk','경상남도':'Gyeongnam','제주특별자치도':'Jeju'})[s] || s;
+  return s.replace(/특별시|광역시|특별자치도|특별자치시/g,'').replace(/도$/,'');
+}
+
+const charts = {};
+function destroyCharts(){ Object.keys(charts).forEach(k=>{ if(charts[k]) charts[k].destroy(); }); }
+
+// 파이차트 팔레트
+const PIE_COLORS = ['#FF6B35','#1a52cc','#27ae60','#9b59b6','#e74c3c','#f39c12','#16a085','#8B4513','#34495e','#e91e63','#7f8c8d'];
+
+function buildPieData(items, labelKey, valueKey, topN=8){
+  // items 정렬 + Top N + 나머지 '기타'
+  const sorted = [...items].sort((a,b)=>b[valueKey]-a[valueKey]);
+  const top = sorted.slice(0, topN);
+  const rest = sorted.slice(topN);
+  const restSum = rest.reduce((s,r)=>s+r[valueKey],0);
+  const labels = top.map(r=>r[labelKey]);
+  const data = top.map(r=>r[valueKey]);
+  if(restSum > 0){
+    labels.push(LANG==='ko'?'기타':'Others');
+    data.push(restSum);
+  }
+  return {labels, data, total: data.reduce((s,n)=>s+n,0)};
+}
+
+function renderPie(canvasId, pieData, tableId, formatLabel){
+  if(charts[canvasId]) charts[canvasId].destroy();
+  charts[canvasId] = new Chart(document.getElementById(canvasId), {
+    type:'doughnut',
+    data:{
+      labels: pieData.labels.map(formatLabel||(s=>s)),
+      datasets:[{
+        data: pieData.data,
+        backgroundColor: PIE_COLORS,
+        borderColor:'#fff', borderWidth:2
+      }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{position:'right', labels:{font:{size:11}, padding:8, boxWidth:12}},
+        tooltip:{callbacks:{label: ctx => {
+          const pct = (ctx.raw/pieData.total*100).toFixed(1);
+          return ` ${ctx.label}: ${fmt(ctx.raw)} (${pct}%)`;
+        }}}
+      },
+      cutout: '50%'
+    }
+  });
+  // 테이블
+  if(tableId){
+    const tbody = document.getElementById(tableId);
+    tbody.innerHTML = pieData.labels.map((lab, i)=>{
+      const v = pieData.data[i];
+      const pct = (v/pieData.total*100).toFixed(1);
+      const dotColor = PIE_COLORS[i % PIE_COLORS.length];
+      return `<tr>
+        <td><div class="cat-cell"><span class="cat-dot" style="background:${dotColor}"></span>${formatLabel?formatLabel(lab):lab}</div></td>
+        <td class="num">${fmt(v)}</td>
+        <td class="num">${pct}%</td>
+      </tr>`;
+    }).join('');
+  }
+}
+
+async function load(){
+  destroyCharts();
+  const [cats, analysis, urbanNational, hanokNational, hostelNational, seoulDist, busanDist] = await Promise.all([
+    fetch('/api/categories').then(r=>r.json()),
+    fetch('/api/analysis').then(r=>r.json()),
+    fetch('/api/national?category=foreigner_city_homestays').then(r=>r.json()).catch(()=>[]),
+    fetch('/api/national?category=hanok_experience').then(r=>r.json()).catch(()=>[]),
+    fetch('/api/national?category=tourist_accommodations').then(r=>r.json()).catch(()=>[]),
+    fetch('/api/districts?sido=' + encodeURIComponent('서울특별시') + '&category=foreigner_city_homestays').then(r=>r.json()).catch(()=>[]),
+    fetch('/api/districts?sido=' + encodeURIComponent('부산광역시') + '&category=foreigner_city_homestays').then(r=>r.json()).catch(()=>[]),
+  ]);
+
+  // urban national fallback (기본 /api/national은 외도민업)
+  const urban = urbanNational.length > 0 ? urbanNational : await fetch('/api/national').then(r=>r.json());
+
+  const totalActive = cats.reduce((s,c)=>s+c.active,0);
+  document.getElementById('ks_total').textContent = fmt(totalActive);
+  document.getElementById('ks_urbanstay').textContent = fmt(cats.find(c=>c.category==='foreigner_city_homestays')?.active||0);
+  document.getElementById('ks_rural').textContent = fmt(cats.find(c=>c.category==='rural_homestays')?.active||0);
+  document.getElementById('ks_hanok').textContent = fmt(cats.find(c=>c.category==='hanok_experience')?.active||0);
+  document.getElementById('hn_active').textContent = fmt(cats.find(c=>c.category==='foreigner_city_homestays')?.active||0);
+
+  // 카테고리 비교 차트
+  charts.cat = new Chart(document.getElementById('catBarChart'), {
+    type:'bar',
+    data:{
+      labels: cats.map(c => LANG==='ko'?c.name_ko:c.name_en),
+      datasets:[{
+        label: LANG==='ko'?'영업중':'Active',
+        data: cats.map(c=>c.active),
+        backgroundColor: cats.map(c=>c.color),
+        borderRadius:6
+      }]
+    },
+    options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'#f0f0f0'}},y:{grid:{display:false}}}}
+  });
+
+  // 카테고리 테이블
+  document.getElementById('catTable').innerHTML = cats.map(c=>{
+    const closeRate = c.total ? (c.closed/(c.active+c.closed)*100).toFixed(1) : 0;
+    return `<tr>
+      <td><div class="cat-cell"><span class="cat-dot" style="background:${c.color}"></span>${LANG==='ko'?c.name_ko:c.name_en}</div></td>
+      <td class="num">${fmt(c.active)}</td>
+      <td class="num">${fmt(c.seoul_active)}</td>
+      <td class="num">${fmt(c.closed)}</td>
+      <td class="num">${closeRate}%</td>
+    </tr>`;
+  }).join('');
+
+  // 연도별
+  charts.year = new Chart(document.getElementById('yearChart'), {
+    type:'bar',
+    data:{labels:analysis.by_year.map(d=>d.year),
+      datasets:[{label:LANG==='ko'?'신규 인허가':'New Licenses', data:analysis.by_year.map(d=>d.count),
+        backgroundColor: analysis.by_year.map(d=> parseInt(d.year)>=2023?ORANGE:BLUE), borderRadius:5}]},
+    options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'#f0f0f0'}},x:{grid:{display:false}}}}
+  });
+
+  // 시도별 외도민업
+  const sidoTop = urban.slice(0,10);
+  charts.sido = new Chart(document.getElementById('sidoChart'), {
+    type:'bar',
+    data:{labels: sidoTop.map(d=>shortSido(d.sido)),
+      datasets:[{data: sidoTop.map(d=>d.active),
+        backgroundColor: sidoTop.map((d,i)=>i===0?ORANGE:BLUE), borderRadius:5}]},
+    options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'#f0f0f0'}},y:{grid:{display:false}}}}
+  });
+
+  // 시도별 파이차트 (영업중 비중)
+  const sidoActive = urban.filter(d=>d.active>0).map(d=>({sido: d.sido, active: d.active}));
+  const sidoPieData = buildPieData(sidoActive, 'sido', 'active', 8);
+  renderPie('sidoPie', sidoPieData, 'sidoPieTable', shortSido);
+
+  // 서울 자치구 파이차트
+  const seoulActive = seoulDist.filter(d=>d.active>0).map(d=>({sigungu: d.sigungu, active: d.active}));
+  const seoulPieData = buildPieData(seoulActive, 'sigungu', 'active', 8);
+  renderPie('seoulPie', seoulPieData, 'seoulPieTable');
+
+  // 부산 자치구 파이차트
+  const busanActive = busanDist.filter(d=>d.active>0).map(d=>({sigungu: d.sigungu, active: d.active}));
+  const busanPieData = buildPieData(busanActive, 'sigungu', 'active', 8);
+  renderPie('busanPie', busanPieData, 'busanPieTable');
+
+  // 한옥체험업 시도별
+  const hanokTop = hanokNational.slice(0,10);
+  charts.hanok = new Chart(document.getElementById('hanokChart'), {
+    type:'bar',
+    data:{labels: hanokTop.map(d=>shortSido(d.sido)),
+      datasets:[{data: hanokTop.map(d=>d.active),
+        backgroundColor: hanokTop.map((d,i)=>i===0?BROWN:'#c19a6b'), borderRadius:5}]},
+    options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'#f0f0f0'}},y:{grid:{display:false}}}}
+  });
+
+  // 호스텔 시도별
+  const hostelTop = hostelNational.slice(0,10);
+  charts.hostel = new Chart(document.getElementById('hostelChart'), {
+    type:'bar',
+    data:{labels: hostelTop.map(d=>shortSido(d.sido)),
+      datasets:[{data: hostelTop.map(d=>d.active),
+        backgroundColor: hostelTop.map((d,i)=>i===0?BLUE:'#5a8fd6'), borderRadius:5}]},
+    options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'#f0f0f0'}},y:{grid:{display:false}}}}
+  });
+}
+
+load();
+</script>
+</body>
+</html>

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>wehome Studio · 한국에서 합법 호스트가 되는 가장 쉬운 길</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fafbfd;color:#1a2b4a;line-height:1.5}
+
+header{background:#fff;border-bottom:1px solid #ececec;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:2000;backdrop-filter:blur(10px);background:rgba(255,255,255,.95)}
+.logo{font-size:20px;font-weight:800;letter-spacing:-.5px;color:#0d1f45}
+.logo em{color:#FF6B35;font-style:normal}
+.logo small{font-size:12px;font-weight:400;color:#888;margin-left:6px}
+.nav{display:flex;gap:24px;align-items:center;font-size:13px;color:#555}
+.nav a{color:#555;text-decoration:none}.nav a:hover{color:#1a52cc}
+.cta-btn{background:#FF6B35;color:#fff;padding:8px 18px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600}
+.cta-btn:hover{background:#e55a25}
+
+.hero{padding:70px 32px 50px;text-align:center;background:linear-gradient(180deg,#fff 0%,#f5f8ff 100%)}
+.hero h1{font-size:40px;font-weight:800;letter-spacing:-1.5px;color:#0d1f45;margin-bottom:12px;line-height:1.2}
+.hero h1 em{color:#FF6B35;font-style:normal}
+.hero p{font-size:16px;color:#666;margin-bottom:28px;max-width:600px;margin-left:auto;margin-right:auto}
+
+.search-box{max-width:640px;margin:0 auto;background:#fff;border-radius:16px;box-shadow:0 8px 32px rgba(13,31,69,.1);padding:8px;display:flex;gap:8px;align-items:center}
+.search-box input{flex:1;padding:14px 18px;border:none;outline:none;font-size:15px;background:transparent}
+.search-box input::placeholder{color:#aaa}
+.search-box button{padding:12px 24px;background:#0d1f45;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer}
+.search-box button:hover{background:#1a52cc}
+
+.action-row{margin-top:14px;display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap}
+.btn-locate{padding:8px 16px;background:#fff;border:1px solid #1a52cc;color:#1a52cc;border-radius:20px;font-size:12px;cursor:pointer;font-weight:600;display:inline-flex;align-items:center;gap:6px}
+.btn-locate:hover{background:#1a52cc;color:#fff}
+.btn-locate.loading{background:#f0f5ff;border-color:#aaa;color:#aaa;cursor:wait}
+
+.samples{margin-top:12px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap;font-size:12px;color:#888}
+.samples a{padding:5px 12px;background:#fff;border:1px solid #e0e6f0;border-radius:18px;font-size:12px;color:#555;text-decoration:none;cursor:pointer}
+.samples a:hover{border-color:#1a52cc;color:#1a52cc}
+
+.result{display:none;padding:24px 32px 50px;max-width:1200px;margin:0 auto}
+.result.show{display:block;animation:fadeIn .5s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.card{background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.05);padding:22px}
+.card h3{font-size:13px;color:#888;font-weight:600;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px;display:flex;align-items:center;gap:8px}
+
+.status-ok{color:#27ae60;font-weight:700;font-size:18px}
+.status-warn{color:#FF6B35;font-weight:700;font-size:18px}
+.status-no{color:#e74c3c;font-weight:700;font-size:18px}
+
+.metric-big{font-size:34px;font-weight:800;color:#0d1f45;letter-spacing:-1px}
+.metric-sub{font-size:12px;color:#888;margin-top:4px}
+.metric-row{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px solid #f5f5f5}
+.metric-row:last-child{border:none}
+.metric-row span:first-child{color:#888;font-size:13px}
+.metric-row span:last-child{font-weight:700;color:#0d1f45;font-size:13px}
+
+#map{height:420px;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.05);background:#eee}
+.map-row{margin-top:16px}
+
+.revenue-card{background:linear-gradient(135deg,#0d1f45 0%,#1a52cc 100%);color:#fff;padding:28px;border-radius:14px;box-shadow:0 4px 20px rgba(13,31,69,.2)}
+.revenue-card h3{color:rgba(255,255,255,.7)}
+.revenue-card .metric-big{color:#fff;font-size:38px}
+.revenue-card .metric-sub{color:rgba(255,255,255,.7)}
+.rev-detail{margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.2)}
+.rev-detail .metric-row span:first-child{color:rgba(255,255,255,.7)}
+.rev-detail .metric-row span:last-child{color:#fff}
+.rev-detail .metric-row{border-color:rgba(255,255,255,.1)}
+
+.nearby-list{max-height:280px;overflow-y:auto;margin-top:6px}
+.nearby-item{padding:9px 0;border-bottom:1px solid #f5f5f5;display:flex;align-items:center;gap:10px;cursor:pointer}
+.nearby-item:hover{background:#f8faff;margin:0 -10px;padding:9px 10px;border-radius:6px}
+.nearby-item:last-child{border:none}
+.nearby-dist{font-size:11px;color:#FF6B35;font-weight:700;width:58px;flex-shrink:0}
+.nearby-info{flex:1;min-width:0}
+.nearby-name{font-size:13px;font-weight:600;color:#0d1f45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nearby-addr{font-size:11px;color:#999;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nearby-meta{font-size:11px;color:#888;flex-shrink:0;text-align:right}
+
+.legal-list{list-style:none}
+.legal-list li{padding:7px 0;font-size:13px;color:#555;padding-left:22px;position:relative}
+.legal-list li::before{content:'✓';position:absolute;left:0;color:#27ae60;font-weight:700}
+
+.cta-section{margin-top:28px;background:#0d1f45;color:#fff;border-radius:16px;padding:36px;text-align:center}
+.cta-section h2{font-size:22px;margin-bottom:8px}
+.cta-section p{color:rgba(255,255,255,.7);margin-bottom:20px}
+.cta-buttons{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:#FF6B35;color:#fff;padding:13px 28px;border-radius:10px;text-decoration:none;font-weight:700}
+.btn-secondary{background:rgba(255,255,255,.15);color:#fff;padding:13px 28px;border-radius:10px;text-decoration:none;font-weight:700;border:1px solid rgba(255,255,255,.3)}
+
+.loading{text-align:center;padding:50px;color:#aaa}
+.spinner{display:inline-block;width:32px;height:32px;border:3px solid #eee;border-top-color:#1a52cc;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.section-title{font-size:20px;font-weight:800;color:#0d1f45;margin:24px 0 6px;display:flex;align-items:center;gap:8px}
+.section-sub{color:#888;font-size:13px;margin-bottom:14px}
+
+footer{text-align:center;padding:28px;color:#aaa;font-size:12px;border-top:1px solid #eee;background:#fff;margin-top:50px}
+footer a{color:#1a52cc;text-decoration:none}
+
+@media (max-width:768px){
+  .hero h1{font-size:28px}.result-grid{grid-template-columns:1fr}.nav{display:none}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><em>wehome</em> Studio <small>예비 호스트의 첫 동반자</small></div>
+  <nav class="nav">
+    <a href="/pricing">💰 가격 추천</a>
+    <a href="/analysis">📊 시장 분석</a>
+    <a href="/map">🗺️ 전국 지도</a>
+    <a href="/report" style="background:#FF6B35;color:#fff;padding:6px 14px;border-radius:8px;font-weight:600">📰 월간 리포트</a>
+    <a href="https://wehome.me" target="_blank" class="cta-btn">위홈 가입하기</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>내 집에서 <em>외국인 민박</em>,<br/>시작할 수 있을까?</h1>
+  <p>주소만 입력하거나 현재 위치를 사용하면<br/>합법 등록 가능성·주변 시장·예상 수익을 30초 안에 알려드립니다.</p>
+
+  <form class="search-box" id="searchForm">
+    <input id="addrInput" type="text" placeholder="우리집 주소 입력 (예: 서울 마포구 연남동)" autofocus/>
+    <button type="submit">진단</button>
+  </form>
+
+  <div class="action-row">
+    <button id="locateBtn" class="btn-locate" type="button">
+      <span>📍</span> 내 현재 위치로 진단
+    </button>
+    <span style="font-size:12px;color:#aaa">또는</span>
+    <span style="font-size:12px;color:#888">예시:</span>
+    <div class="samples">
+      <a onclick="setAddr('서울 마포구 연남동')">연남동</a>
+      <a onclick="setAddr('서울 종로구 가회동')">가회동</a>
+      <a onclick="setAddr('부산 해운대구 우동')">해운대</a>
+      <a onclick="setAddr('서울 강남구 역삼동')">역삼동</a>
+    </div>
+  </div>
+
+  <div style="margin-top:36px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:880px;margin-left:auto;margin-right:auto">
+    <a href="/report" style="background:linear-gradient(135deg,#0d1f45,#1a52cc);color:#fff;padding:18px 20px;border-radius:12px;text-decoration:none;display:block;text-align:left;box-shadow:0 4px 16px rgba(13,31,69,.15)">
+      <div style="font-size:11px;color:#FF6B35;font-weight:700;letter-spacing:1.5px">📰 ISSUE 01 · 2026.05</div>
+      <div style="font-size:14px;font-weight:700;margin-top:6px">한국 공유숙박 시장 리포트</div>
+      <div style="font-size:11px;opacity:.8;margin-top:4px">5종 카테고리 통합 분석 · 인포그래픽</div>
+    </a>
+    <a href="/analysis" style="background:#fff;border:1px solid #e0e6f0;padding:18px 20px;border-radius:12px;text-decoration:none;display:block;text-align:left;color:#0d1f45">
+      <div style="font-size:11px;color:#1a52cc;font-weight:700;letter-spacing:1.5px">📊 MARKET ANALYSIS</div>
+      <div style="font-size:14px;font-weight:700;margin-top:6px">시장 분석 대시보드</div>
+      <div style="font-size:11px;color:#888;margin-top:4px">서울/부산 자치구 상세 + 카테고리 비교</div>
+    </a>
+    <a href="/map" style="background:#fff;border:1px solid #e0e6f0;padding:18px 20px;border-radius:12px;text-decoration:none;display:block;text-align:left;color:#0d1f45">
+      <div style="font-size:11px;color:#27ae60;font-weight:700;letter-spacing:1.5px">🗺️ NATIONWIDE MAP</div>
+      <div style="font-size:14px;font-weight:700;margin-top:6px">전국 호스트 지도</div>
+      <div style="font-size:11px;color:#888;margin-top:4px">9,898개 영업중 호스트 전수 위치</div>
+    </a>
+  </div>
+</section>
+
+<section class="result" id="resultSection">
+  <div class="loading" id="loading"><div class="spinner"></div><div style="margin-top:10px">진단 중...</div></div>
+
+  <div id="resultContent" style="display:none">
+    <div class="section-title">🎯 진단 결과</div>
+    <div class="section-sub" id="resultAddr"></div>
+
+    <div class="result-grid">
+      <div class="card">
+        <h3>⚖️ 합법 등록 진단</h3>
+        <div id="legalStatus" class="status-ok">— 확인 중</div>
+        <div style="margin-top:12px">
+          <div class="metric-row"><span>동일 동네 영업중</span><span id="legalCompCount">-</span></div>
+          <div class="metric-row"><span>경쟁도</span><span id="legalCompLevel">-</span></div>
+          <div class="metric-row"><span>주거지역 여부</span><span style="color:#27ae60">✓ 추정 가능</span></div>
+        </div>
+        <h3 style="margin-top:18px;font-size:11px">📋 외도민업 주의사항</h3>
+        <ul class="legal-list" id="legalNotes"></ul>
+      </div>
+
+      <div class="revenue-card">
+        <h3>💰 예상 월 수익</h3>
+        <div class="metric-big" id="revMonthly">-</div>
+        <div class="metric-sub">평균 객실 <span id="revRooms"></span>실 × 점유율 55% 가정</div>
+        <div class="rev-detail">
+          <div class="metric-row"><span>1박 평균 단가</span><span id="revNightly">-</span></div>
+          <div class="metric-row"><span>월 운영일</span><span>30일 (호스트 거주 의무)</span></div>
+          <div class="metric-row"><span>연 예상 수익</span><span id="revYearly">-</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="result-grid">
+      <div class="card">
+        <h3>📊 이 동네 시장</h3>
+        <div class="metric-row"><span>전체 등록</span><span id="statTotal">-</span></div>
+        <div class="metric-row"><span style="color:#27ae60">영업중</span><span id="statActive" style="color:#27ae60">-</span></div>
+        <div class="metric-row"><span style="color:#e74c3c">폐업</span><span id="statClosed" style="color:#e74c3c">-</span></div>
+        <div class="metric-row"><span>2025년 신규</span><span id="statNew">-</span></div>
+        <div class="metric-row"><span>평균 객실 수</span><span id="statRooms">-</span></div>
+      </div>
+
+      <div class="card">
+        <h3>📍 가까운 영업중 업소 (클릭 → 지도 이동)</h3>
+        <div class="nearby-list" id="nearbyList"></div>
+      </div>
+    </div>
+
+    <div class="map-row">
+      <div class="section-title">🗺️ 카카오맵</div>
+      <div class="section-sub">파란 마커 = 내 집 (또는 입력 주소), 주황 마커 = 영업중 외도민업</div>
+      <div id="map"></div>
+    </div>
+
+    <div class="cta-section">
+      <h2>합법 호스트, 위홈에서 바로 시작하세요</h2>
+      <p>한국 최초의 합법 공유숙박 플랫폼 · 호스트 등록 완전 무료</p>
+      <div class="cta-buttons">
+        <a href="https://wehome.me/host?utm_source=studio&utm_medium=cta" target="_blank" class="btn-primary">호스트 가입하기 →</a>
+        <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'})" class="btn-secondary">다른 위치 진단</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer style="background:#0d1f45;color:#fff;padding:36px 32px;text-align:center;margin-top:0">
+  <div style="font-size:24px;font-weight:800;margin-bottom:6px"><span style="color:#FF6B35">위</span>홈 · <span style="color:#FF6B35">we</span>home</div>
+  <div style="color:rgba(255,255,255,.7);font-size:13px;margin-bottom:18px">한국에서 합법 호스트가 되는 가장 쉬운 길<br/>The easiest path to becoming a legal host in Korea</div>
+  <div style="display:flex;justify-content:center;gap:16px;font-size:12px;margin-bottom:14px;flex-wrap:wrap">
+    <a href="/" style="color:rgba(255,255,255,.8);text-decoration:none">🏠 진단</a>
+    <a href="/pricing" style="color:rgba(255,255,255,.8);text-decoration:none">💰 가격 추천</a>
+    <a href="/analysis" style="color:rgba(255,255,255,.8);text-decoration:none">📊 분석</a>
+    <a href="/map" style="color:rgba(255,255,255,.8);text-decoration:none">🗺️ 지도</a>
+    <a href="/report" style="color:rgba(255,255,255,.8);text-decoration:none">📰 리포트</a>
+    <a href="/about" style="color:rgba(255,255,255,.8);text-decoration:none">ℹ️ 소개·FAQ·피드백</a>
+    <a href="https://wehome.me" target="_blank" style="color:#FF6B35;text-decoration:none;font-weight:700">→ wehome.me</a>
+  </div>
+  <div style="color:rgba(255,255,255,.4);font-size:11px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1);max-width:800px;margin:14px auto 0">
+    © 2026 <a href="https://wehome.me" target="_blank" style="color:#FF6B35;text-decoration:none">wehome, Inc.</a> All rights reserved. ·
+    Made by wehome Studio · Built on public open data from <a href="https://file.localdata.go.kr/" target="_blank" style="color:#FF6B35;text-decoration:none">행정안전부 / Ministry of Interior and Safety</a>
+  </div>
+</footer>
+
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d57298b5648cef7e88c9f7bec9b24e74&autoload=false&libraries=services,clusterer" onerror="window.__kakaoLoadFailed=true"></script>
+<script>
+let kakaoMap = null, markers = [], infowindow = null, myMarker = null;
+const nearbyCache = new Map();
+let kakaoReady = false;
+
+function loadKakao(){
+  return new Promise((resolve, reject) => {
+    if(kakaoReady) return resolve();
+    if(window.__kakaoLoadFailed || typeof kakao === 'undefined'){
+      return reject(new Error('Kakao SDK 로드 실패 (도메인 미등록 가능성)'));
+    }
+    try {
+      kakao.maps.load(() => { kakaoReady = true; resolve(); });
+    } catch(e){ reject(e); }
+  });
+}
+
+function setAddr(addr){
+  document.getElementById('addrInput').value = addr;
+  document.getElementById('searchForm').requestSubmit();
+}
+
+function fmt(n){ return Number(n||0).toLocaleString(); }
+function won(n){ return Number(n||0).toLocaleString() + '원'; }
+
+// ── 진단 호출 ────────────────────────────────────────────────────────────
+async function diagnoseByAddress(address){
+  await callDiagnose(`address=${encodeURIComponent(address)}`);
+}
+async function diagnoseByCoords(lat, lng){
+  await callDiagnose(`lat=${lat}&lng=${lng}`);
+}
+
+async function callDiagnose(query){
+  document.getElementById('resultSection').classList.add('show');
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('resultContent').style.display = 'none';
+  document.getElementById('resultSection').scrollIntoView({behavior:'smooth', block:'start'});
+
+  try {
+    const d = await fetch(`/api/diagnose?${query}`).then(r=>r.json());
+    if(d.error){ alert(d.error); document.getElementById('loading').style.display='none'; return; }
+    renderResult(d);
+  } catch(e){
+    alert('진단 중 오류: ' + e.message);
+    document.getElementById('loading').style.display='none';
+  }
+}
+
+async function renderResult(d){
+  // 주소 표시
+  document.getElementById('resultAddr').textContent =
+    `📍 ${d.address} · ${d.parsed.sido} ${d.parsed.sigungu} ${d.parsed.dong||''}`;
+  document.getElementById('addrInput').value = d.address;
+
+  // 합법성 진단
+  const legal = d.legal;
+  const statusEl = document.getElementById('legalStatus');
+  statusEl.textContent = legal.경쟁도 === '높음' ? '⚠️ 경쟁 치열 · 신중 검토' :
+                         legal.경쟁도 === '보통' ? '✓ 등록 가능 · 보통 경쟁' :
+                         '✓ 등록 가능 · 진입 기회';
+  statusEl.className = legal.경쟁도 === '높음' ? 'status-warn' : 'status-ok';
+  document.getElementById('legalCompCount').textContent = legal.동일_동_경쟁자수 + '개';
+  document.getElementById('legalCompLevel').textContent = legal.경쟁도;
+  document.getElementById('legalNotes').innerHTML =
+    legal.주의사항.map(n=>`<li>${n}</li>`).join('');
+
+  // 수익 예측
+  const r = d.revenue_estimate;
+  document.getElementById('revMonthly').textContent = won(r.monthly_krw);
+  document.getElementById('revRooms').textContent = r.avg_rooms;
+  document.getElementById('revNightly').textContent = won(r.avg_nightly_krw);
+  document.getElementById('revYearly').textContent = won(r.yearly_krw);
+
+  // 동네 시장
+  document.getElementById('statTotal').textContent  = fmt(d.stats.total) + '개';
+  document.getElementById('statActive').textContent = fmt(d.stats.active) + '개';
+  document.getElementById('statClosed').textContent = fmt(d.stats.closed) + '개';
+  document.getElementById('statNew').textContent    = fmt(d.stats.new_year) + '개';
+  document.getElementById('statRooms').textContent  = (d.stats.avg_rooms||0).toFixed(1) + '실';
+
+  // 가까운 영업중 업소
+  const nearby = d.nearby.slice(0, 15);
+  document.getElementById('nearbyList').innerHTML = nearby.map((n,i) => {
+    const dist = n.distance_m ? (n.distance_m < 1000 ? Math.round(n.distance_m)+'m' : (n.distance_m/1000).toFixed(1)+'km') : '-';
+    return `<div class="nearby-item" onclick="focusMarker('${n.mgt_no}')">
+      <div class="nearby-dist">${dist}</div>
+      <div class="nearby-info">
+        <div class="nearby-name">${n.biz_name||'-'}</div>
+        <div class="nearby-addr">${(n.road_address||'').replace(d.parsed.sido,'').replace(d.parsed.sigungu,'').trim()}</div>
+      </div>
+      <div class="nearby-meta">${n.rooms||'?'}실</div>
+    </div>`;
+  }).join('') || '<div style="text-align:center;padding:20px;color:#aaa">주변 영업중 업소 없음</div>';
+
+  // 카카오맵 렌더 (실패해도 나머지 결과는 표시)
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('resultContent').style.display = 'block';
+
+  try {
+    await loadKakao();
+    renderKakaoMap(d, nearby);
+  } catch(e){
+    console.error('Kakao Maps:', e);
+    document.getElementById('map').innerHTML = `
+      <div style="padding:50px 20px;text-align:center;color:#888;background:#fff8f0;border:1px dashed #FF6B35;border-radius:14px">
+        <div style="font-size:24px;margin-bottom:10px">🗺️</div>
+        <div style="font-weight:700;color:#FF6B35;margin-bottom:6px">카카오맵을 표시할 수 없습니다</div>
+        <div style="font-size:12px;line-height:1.6">
+          <a href="https://developers.kakao.com/console/app" target="_blank" style="color:#1a52cc">Kakao Developers</a> →
+          내 애플리케이션 → 플랫폼 → <b>Web 플랫폼</b>에<br/>
+          <code style="background:#fff;padding:2px 8px;border-radius:4px">http://localhost:5001</code> 사이트 도메인 등록 필요
+        </div>
+      </div>`;
+  }
+}
+
+// ── 카카오맵 ──────────────────────────────────────────────────────────────
+function renderKakaoMap(d, nearby){
+  const container = document.getElementById('map');
+  const center = (d.center && d.center.lat) ? new kakao.maps.LatLng(d.center.lat, d.center.lng) : new kakao.maps.LatLng(37.5665, 126.9780);
+
+  // 새로 생성 (재사용시 setCenter)
+  if(!kakaoMap){
+    kakaoMap = new kakao.maps.Map(container, { center, level: 4 });
+  } else {
+    kakaoMap.setCenter(center);
+    kakaoMap.setLevel(4);
+  }
+
+  // 기존 마커 제거
+  markers.forEach(m=>m.setMap(null));
+  markers = [];
+  nearbyCache.clear();
+  if(myMarker) myMarker.setMap(null);
+  if(infowindow) infowindow.close();
+
+  // 내 집 마커 (파란색 H)
+  const myContent = `<div style="background:#1a52cc;color:#fff;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,.3);transform:translate(-50%,-100%);position:relative">🏠<div style="position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid #1a52cc"></div></div>`;
+  myMarker = new kakao.maps.CustomOverlay({
+    position: center, content: myContent, yAnchor: 1, xAnchor: 0.5
+  });
+  myMarker.setMap(kakaoMap);
+
+  // 주변 영업중 업소 마커 (주황 점)
+  nearby.forEach(n=>{
+    if(!n.lat || !n.lng) return;
+    const pos = new kakao.maps.LatLng(n.lat, n.lng);
+    const content = `<div style="background:#FF6B35;width:16px;height:16px;border-radius:50%;border:2px solid #fff;box-shadow:0 2px 4px rgba(0,0,0,.3);cursor:pointer;transform:translate(-50%,-50%)"></div>`;
+    const ov = new kakao.maps.CustomOverlay({
+      position: pos, content, xAnchor: 0.5, yAnchor: 0.5, clickable: true
+    });
+    ov.setMap(kakaoMap);
+    markers.push(ov);
+    nearbyCache.set(n.mgt_no, {pos, info: n});
+
+    // CustomOverlay에 click 이벤트가 직접 안 붙으므로 별도 처리
+    setTimeout(()=>{
+      const el = ov.getContent();
+      if(typeof el === 'string') return;
+      el.addEventListener?.('click', ()=>openInfo(n));
+    }, 100);
+  });
+
+  // 영업중 업소들이 다 보이도록 bounds 조정 (선택적)
+  if(nearby.length > 0){
+    const bounds = new kakao.maps.LatLngBounds();
+    bounds.extend(center);
+    nearby.slice(0,5).forEach(n=>{
+      if(n.lat && n.lng) bounds.extend(new kakao.maps.LatLng(n.lat, n.lng));
+    });
+    kakaoMap.setBounds(bounds);
+  }
+}
+
+function focusMarker(mgtNo){
+  const entry = nearbyCache.get(mgtNo);
+  if(!entry || !kakaoMap) return;
+  kakaoMap.setLevel(2);
+  kakaoMap.panTo(entry.pos);
+  openInfo(entry.info);
+}
+
+function openInfo(n){
+  if(infowindow) infowindow.close();
+  infowindow = new kakao.maps.InfoWindow({
+    position: new kakao.maps.LatLng(n.lat, n.lng),
+    content: `<div style="padding:10px;font-size:12px;min-width:180px">
+      <div style="font-weight:700;font-size:13px;margin-bottom:4px">${n.biz_name}</div>
+      <div style="color:#888;font-size:11px">${n.road_address||''}</div>
+      <div style="margin-top:6px">객실 ${n.rooms||'?'}실 · 등록 ${n.license_date||''}</div>
+    </div>`
+  });
+  infowindow.open(kakaoMap);
+}
+
+// ── 위치 자동 감지 ─────────────────────────────────────────────────────────
+function detectLocation(){
+  const btn = document.getElementById('locateBtn');
+  if(!navigator.geolocation){
+    alert('이 브라우저는 위치 정보를 지원하지 않습니다.');
+    return;
+  }
+  btn.classList.add('loading');
+  btn.innerHTML = '<span>📡</span> 위치 확인 중...';
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      btn.classList.remove('loading');
+      btn.innerHTML = '<span>📍</span> 내 현재 위치로 진단';
+      diagnoseByCoords(pos.coords.latitude, pos.coords.longitude);
+    },
+    err => {
+      btn.classList.remove('loading');
+      btn.innerHTML = '<span>📍</span> 내 현재 위치로 진단';
+      alert('위치 확인 실패: ' + (err.code === 1 ? '권한이 거부됨' : '위치를 가져올 수 없음') + '\n주소를 직접 입력해 주세요.');
+    },
+    { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 }
+  );
+}
+
+// ── 이벤트 ─────────────────────────────────────────────────────────────────
+document.getElementById('searchForm').addEventListener('submit', e=>{
+  e.preventDefault();
+  const addr = document.getElementById('addrInput').value.trim();
+  if(!addr){ alert('주소를 입력하세요'); return; }
+  diagnoseByAddress(addr);
+});
+
+document.getElementById('locateBtn').addEventListener('click', detectLocation);
+
+// ── 첫 진입 시 자동 위치 권한 요청 (선택) ────────────────────────────────────
+window.addEventListener('load', ()=>{
+  // 자동 요청 너무 공격적이면 주석 처리
+  // setTimeout(detectLocation, 1200);
+});
+</script>
+</body>
+</html>

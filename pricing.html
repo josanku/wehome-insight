@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>내 숙소 가격 진단 · Price Optimizer | wehome Studio</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;background:#fafbfd;color:#0d1f45;line-height:1.6}
+
+header{background:#fff;border-bottom:1px solid #ececec;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:2000}
+.logo{font-size:20px;font-weight:800}.logo em{color:#FF6B35;font-style:normal}
+.logo small{font-size:12px;font-weight:400;color:#888;margin-left:6px}
+.nav{display:flex;gap:14px;font-size:13px;align-items:center}
+.nav a{color:#555;text-decoration:none;padding:5px 10px;border-radius:6px}
+.nav a:hover{background:#f0f5ff;color:#1a52cc}
+.nav a.active{background:#1a52cc;color:#fff}
+
+.hero{padding:60px 32px 40px;text-align:center;background:linear-gradient(180deg,#fff,#fff8f0)}
+.hero .label{display:inline-block;background:#FF6B35;color:#fff;padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1px;margin-bottom:14px}
+.hero h1{font-size:38px;font-weight:800;letter-spacing:-1.5px;margin-bottom:10px}
+.hero h1 em{color:#FF6B35;font-style:normal}
+.hero p{color:#666;font-size:15px;max-width:680px;margin:0 auto}
+
+.form-wrap{max-width:760px;margin:24px auto 0;background:#fff;border-radius:16px;padding:28px;box-shadow:0 4px 20px rgba(13,31,69,.08)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.form-row.full{grid-template-columns:1fr}
+.form-row label{font-size:11px;color:#888;font-weight:700;letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:5px}
+.form-row input,.form-row select{width:100%;padding:11px 13px;border:1px solid #ddd;border-radius:8px;font-size:14px;outline:none}
+.form-row input:focus,.form-row select:focus{border-color:#1a52cc}
+.form-row .with-suffix{position:relative}
+.form-row .with-suffix input{padding-right:42px}
+.form-row .with-suffix .suffix{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:#888;font-size:13px}
+.submit-btn{width:100%;padding:14px;background:#0d1f45;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px;transition:.2s}
+.submit-btn:hover{background:#1a52cc}
+.submit-btn:disabled{background:#aaa;cursor:wait}
+
+.examples{margin-top:14px;text-align:center;font-size:12px;color:#888}
+.examples a{display:inline-block;padding:5px 12px;margin:3px;background:#fff;border:1px solid #e0e6f0;border-radius:16px;font-size:11px;color:#555;text-decoration:none;cursor:pointer}
+.examples a:hover{border-color:#1a52cc;color:#1a52cc}
+
+.result{display:none;padding:30px 32px;max-width:1100px;margin:0 auto}
+.result.show{display:block;animation:fadeIn .5s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* 추천 가격 빅 카드 */
+.recommend-card{background:linear-gradient(135deg,#FF6B35,#e74c3c);color:#fff;padding:40px;border-radius:16px;margin-bottom:20px;box-shadow:0 6px 24px rgba(231,76,60,.25);position:relative;overflow:hidden}
+.recommend-card::before{content:'₩';position:absolute;top:-20px;right:20px;font-size:200px;font-weight:900;color:rgba(255,255,255,.08)}
+.recommend-card .label{font-size:11px;color:rgba(255,255,255,.85);font-weight:700;letter-spacing:2px;margin-bottom:8px}
+.recommend-card .price{font-size:72px;font-weight:900;letter-spacing:-2px;line-height:1}
+.recommend-card .price small{font-size:18px;font-weight:600;opacity:.8;margin-left:6px}
+.recommend-card .range{margin-top:14px;font-size:14px;opacity:.92}
+.recommend-card .reasoning{margin-top:14px;font-size:12px;opacity:.85;padding-top:14px;border-top:1px solid rgba(255,255,255,.2)}
+
+/* 현재 가격 평가 */
+.current-card{background:#fff;border-radius:14px;padding:24px;margin-bottom:18px;box-shadow:0 2px 10px rgba(0,0,0,.05);display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
+.current-card .left .label{font-size:11px;color:#888;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.current-card .left .price-row{font-size:28px;font-weight:800;color:#0d1f45;margin-top:4px}
+.current-card .left .delta{font-size:13px;margin-top:6px}
+.current-card .verdict{padding:12px 24px;border-radius:10px;font-size:15px;font-weight:800;text-align:center}
+.current-card .verdict.good{background:#d4edda;color:#155724}
+.current-card .verdict.warn{background:#fff3cd;color:#856404}
+.current-card .verdict.bad{background:#f8d7da;color:#721c24}
+
+/* Stats grid */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.stat-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.stat-card .label{font-size:11px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.stat-card .value{font-size:24px;font-weight:800;color:#0d1f45;letter-spacing:-1px;line-height:1}
+.stat-card .unit{font-size:12px;color:#888;font-weight:500;margin-left:3px}
+
+/* Chart */
+.chart-block{background:#fff;border-radius:14px;padding:22px;margin-bottom:18px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.chart-block h3{font-size:15px;color:#0d1f45;font-weight:800;margin-bottom:4px}
+.chart-block .desc{font-size:11px;color:#888;margin-bottom:14px}
+.chart-block canvas{max-height:320px}
+
+/* Comparables table */
+.compare-list{background:#fff;border-radius:14px;padding:0;box-shadow:0 2px 10px rgba(0,0,0,.05);overflow:hidden;margin-bottom:18px}
+.compare-list .head{padding:18px 24px;border-bottom:1px solid #f0f0f0}
+.compare-list .head h3{font-size:15px;font-weight:800}
+.compare-list .head .desc{font-size:11px;color:#888;margin-top:3px}
+.compare-list table{width:100%;border-collapse:collapse}
+.compare-list th{text-align:left;padding:10px 18px;font-size:10px;color:#888;font-weight:700;background:#fafafa;letter-spacing:.5px;text-transform:uppercase}
+.compare-list td{padding:10px 18px;font-size:12px;border-bottom:1px solid #f5f5f5}
+.compare-list tr:hover td{background:#f8faff}
+.compare-list .num{text-align:right;font-weight:700;font-family:'SF Mono',monospace}
+.compare-list .reg-tag{display:inline-block;padding:2px 7px;border-radius:8px;font-size:10px;font-weight:700}
+.compare-list .reg-tag.reg{background:#d4edda;color:#155724}
+.compare-list .reg-tag.unreg{background:#f8d7da;color:#721c24}
+
+.notice{padding:14px 18px;background:#fff8f0;border-left:4px solid #FF6B35;border-radius:6px;font-size:12px;color:#555;line-height:1.6;margin:14px 0}
+
+.loader{text-align:center;padding:40px;color:#aaa}
+.spinner{display:inline-block;width:30px;height:30px;border:3px solid #eee;border-top-color:#FF6B35;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+footer{text-align:center;padding:24px;color:#aaa;font-size:11px;border-top:1px solid #eee;background:#fff;margin-top:40px}
+footer a{color:#1a52cc;text-decoration:none}
+
+@media (max-width:768px){
+  .form-row{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .current-card{grid-template-columns:1fr}
+  .recommend-card .price{font-size:54px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><em>wehome</em> Studio <small>가격 추천</small></div>
+  <nav class="nav">
+    <a href="/">🏠 진단</a>
+    <a href="/pricing" class="active">💰 가격 추천</a>
+    <a href="/analysis">📊 분석</a>
+    <a href="/map">🗺️ 지도</a>
+    <a href="/report">📰 리포트</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="label">SMART PRICING · 베타</div>
+  <h1>내 숙소 <em>최적 가격</em>,<br/>주변 시장 데이터로 추천</h1>
+  <p>위홈 호스트의 주소·방 타입·현재 가격을 입력하면<br/>주변 500m 반경 유사 숙소 시세와 비교해 최적 가격을 추천합니다.</p>
+
+  <form class="form-wrap" id="priceForm">
+    <div class="form-row full">
+      <div>
+        <label>📍 내 숙소 주소 (위홈 등록 주소)</label>
+        <input type="text" id="addr" placeholder="예: 서울 마포구 연남동 384-1 (또는 정확한 도로명주소)" required/>
+      </div>
+    </div>
+    <div class="form-row">
+      <div>
+        <label>🏠 방 타입</label>
+        <select id="roomType">
+          <option value="Entire home/apt">전체 (Entire home/apt)</option>
+          <option value="Private room">개인실 (Private room)</option>
+          <option value="Shared room">다인실 (Shared room)</option>
+          <option value="Hotel room">호텔 룸 (Hotel room)</option>
+        </select>
+      </div>
+      <div>
+        <label>🛏️ 객실 수</label>
+        <input type="number" id="rooms" placeholder="예: 2" min="1" value="2"/>
+      </div>
+    </div>
+    <div class="form-row">
+      <div>
+        <label>💵 현재 가격 (선택)</label>
+        <div class="with-suffix">
+          <input type="number" id="currentPrice" placeholder="예: 100000" min="0"/>
+          <span class="suffix">원/박</span>
+        </div>
+      </div>
+      <div>
+        <label>📏 검색 반경</label>
+        <select id="radius">
+          <option value="300">300m (도보 5분)</option>
+          <option value="500" selected>500m (도보 10분)</option>
+          <option value="1000">1km</option>
+          <option value="2000">2km</option>
+        </select>
+      </div>
+    </div>
+    <button type="submit" class="submit-btn" id="submitBtn">💰 최적 가격 추천받기</button>
+  </form>
+
+  <div class="examples">
+    <span style="margin-right:4px">예시 →</span>
+    <a onclick="fillExample('서울 마포구 연남동 384-1','Entire home/apt',2,120000)">홍대 연남동 전체</a>
+    <a onclick="fillExample('서울 종로구 가회동 31-12','Private room',1,80000)">북촌 한옥 개인실</a>
+    <a onclick="fillExample('부산 해운대구 우동 1411','Entire home/apt',3,150000)">해운대 풀하우스</a>
+    <a onclick="fillExample('서울 강남구 역삼동 727','Entire home/apt',2,140000)">강남 비즈니스</a>
+  </div>
+</section>
+
+<section class="result" id="result">
+  <div class="loader" id="loader"><div class="spinner"></div><div style="margin-top:10px">시세 분석 중...</div></div>
+  <div id="content" style="display:none"></div>
+</section>
+
+<footer style="background:#0d1f45;color:#fff;padding:36px 32px;text-align:center;margin-top:40px">
+  <div style="font-size:24px;font-weight:800;margin-bottom:6px"><span style="color:#FF6B35">위</span>홈 · <span style="color:#FF6B35">we</span>home</div>
+  <div style="color:rgba(255,255,255,.7);font-size:13px;margin-bottom:18px">한국에서 합법 호스트가 되는 가장 쉬운 길<br/>The easiest path to becoming a legal host in Korea</div>
+  <div style="display:flex;justify-content:center;gap:16px;font-size:12px;margin-bottom:14px;flex-wrap:wrap">
+    <a href="/" style="color:rgba(255,255,255,.8);text-decoration:none">🏠 진단</a>
+    <a href="/pricing" style="color:rgba(255,255,255,.8);text-decoration:none">💰 가격 추천</a>
+    <a href="/analysis" style="color:rgba(255,255,255,.8);text-decoration:none">📊 분석</a>
+    <a href="/map" style="color:rgba(255,255,255,.8);text-decoration:none">🗺️ 지도</a>
+    <a href="/report" style="color:rgba(255,255,255,.8);text-decoration:none">📰 리포트</a>
+    <a href="/about" style="color:rgba(255,255,255,.8);text-decoration:none">ℹ️ 소개·FAQ·피드백</a>
+    <a href="https://wehome.me" target="_blank" style="color:#FF6B35;text-decoration:none;font-weight:700">→ wehome.me</a>
+  </div>
+  <div style="color:rgba(255,255,255,.4);font-size:11px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1);max-width:800px;margin:14px auto 0">
+    © 2026 <a href="https://wehome.me" target="_blank" style="color:#FF6B35;text-decoration:none">wehome, Inc.</a> All rights reserved. ·
+    Made by wehome Studio · Built on public open data from <a href="https://file.localdata.go.kr/" target="_blank" style="color:#FF6B35;text-decoration:none">행정안전부 / Ministry of Interior and Safety</a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<script>
+const fmt = n => Number(n||0).toLocaleString();
+const won = n => '₩' + fmt(n);
+
+function fillExample(addr, type, rooms, price){
+  document.getElementById('addr').value = addr;
+  document.getElementById('roomType').value = type;
+  document.getElementById('rooms').value = rooms;
+  document.getElementById('currentPrice').value = price;
+  document.getElementById('priceForm').requestSubmit();
+}
+
+document.getElementById('priceForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const params = new URLSearchParams({
+    address: document.getElementById('addr').value.trim(),
+    room_type: document.getElementById('roomType').value,
+    rooms: document.getElementById('rooms').value || '0',
+    current_price: document.getElementById('currentPrice').value || '0',
+    radius_m: document.getElementById('radius').value,
+  });
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true; btn.textContent = '분석 중...';
+  document.getElementById('result').classList.add('show');
+  document.getElementById('loader').style.display = 'block';
+  document.getElementById('content').style.display = 'none';
+  document.getElementById('result').scrollIntoView({behavior:'smooth', block:'start'});
+
+  try {
+    const d = await fetch('/api/pricing-suggest?'+params).then(r=>r.json());
+    if(d.error){ alert(d.error); return; }
+    render(d);
+  } catch(e){
+    alert('오류: '+e.message);
+  } finally {
+    btn.disabled = false; btn.textContent = '💰 최적 가격 추천받기';
+    document.getElementById('loader').style.display = 'none';
+  }
+});
+
+function render(d){
+  const c = document.getElementById('content');
+  c.style.display = 'block';
+
+  const rec = d.recommend;
+  const cur = d.current_assessment;
+  const ts = d.type_stats;
+
+  let html = '';
+
+  // 추천 가격 빅 카드
+  if(rec){
+    html += `<div class="recommend-card">
+      <div class="label">▎AI RECOMMENDED PRICE</div>
+      <div class="price">${won(rec.recommended)}<small>/박</small></div>
+      <div class="range">📊 안전 범위: ${won(rec.safe_low)} ~ ${won(rec.safe_high)} (시장 25~75 분위)</div>
+      <div class="reasoning">💡 ${rec.reasoning} · 반경 ${d.radius_m}m 내 동일 방 타입 ${d.same_type_count}건 분석</div>
+    </div>`;
+  } else {
+    html += `<div class="notice">⚠️ 입력 반경 내 동일 방 타입 비교 데이터가 부족합니다. 반경을 1km 이상으로 늘려보세요.</div>`;
+  }
+
+  // 현재 가격 평가
+  if(cur){
+    const arrow = cur.diff_pct > 0 ? '▲' : '▼';
+    const color = cur.tone === 'good' ? '#27ae60' : (cur.tone === 'warn' ? '#FF6B35' : '#e74c3c');
+    html += `<div class="current-card">
+      <div class="left">
+        <div class="label">현재 가격 평가</div>
+        <div class="price-row">${won(cur.current_price)}<small style="font-size:14px;color:#888">/박</small></div>
+        <div class="delta" style="color:${color}">추천 대비 ${arrow} ${Math.abs(cur.diff_pct).toFixed(1)}%</div>
+      </div>
+      <div class="verdict ${cur.tone}">${cur.verdict}</div>
+    </div>`;
+  }
+
+  // 시장 통계
+  if(ts){
+    html += `<div class="stats-grid">
+      <div class="stat-card"><div class="label">시장 최저</div><div class="value">${won(ts.min)}</div></div>
+      <div class="stat-card"><div class="label">하위 25%</div><div class="value">${won(ts.p25)}</div></div>
+      <div class="stat-card"><div class="label">중간값</div><div class="value" style="color:#FF6B35">${won(ts.median)}</div></div>
+      <div class="stat-card"><div class="label">상위 25%</div><div class="value">${won(ts.p75)}</div></div>
+    </div>`;
+  }
+
+  // 가격 분포 히스토그램
+  if(d.histogram && d.histogram.length > 0){
+    html += `<div class="chart-block">
+      <h3>주변 ${d.same_type_count}건 가격 분포</h3>
+      <div class="desc">반경 ${d.radius_m}m 내 ${d.room_type} 타입 가격 히스토그램</div>
+      <canvas id="histChart"></canvas>
+    </div>`;
+  }
+
+  // 비교 가능 숙소 리스트
+  if(d.comparables && d.comparables.length > 0){
+    html += `<div class="compare-list">
+      <div class="head">
+        <h3>가까운 비교 가능 숙소 TOP ${Math.min(20, d.comparables.length)}</h3>
+        <div class="desc">거리순 정렬 · ${d.room_type} 타입</div>
+      </div>
+      <table>
+        <thead><tr>
+          <th>숙소명</th><th>지역</th>
+          <th class="num">거리</th><th class="num">가격/박</th>
+          <th class="num">리뷰</th><th>등록</th>
+        </tr></thead>
+        <tbody>
+        ${d.comparables.map(n=>{
+          const dist = n.distance_m < 1000 ? n.distance_m+'m' : (n.distance_m/1000).toFixed(1)+'km';
+          const tag = n.data_source==='registered' ?
+            '<span class="reg-tag reg">합법</span>' :
+            '<span class="reg-tag unreg">미등록</span>';
+          return `<tr>
+            <td><strong>${n.name||'-'}</strong></td>
+            <td style="color:#888">${n.neighbourhood||''}</td>
+            <td class="num">${dist}</td>
+            <td class="num">${won(n.price)}</td>
+            <td class="num">${n.number_of_reviews||0}</td>
+            <td>${tag}</td>
+          </tr>`;
+        }).join('')}
+        </tbody>
+      </table>
+    </div>`;
+  }
+
+  html += `<div class="notice">💡 <strong>참고:</strong> ${d.note}</div>`;
+
+  c.innerHTML = html;
+
+  // 히스토그램 차트 그리기
+  if(d.histogram && d.histogram.length > 0){
+    new Chart(document.getElementById('histChart'), {
+      type:'bar',
+      data:{
+        labels: d.histogram.map(h => won(h.low)+'~'),
+        datasets:[{
+          data: d.histogram.map(h => h.count),
+          backgroundColor: d.histogram.map((h,i) => {
+            // 추천 가격이 속한 bin은 강조
+            if(rec && rec.recommended >= h.low && rec.recommended < h.high) return '#FF6B35';
+            return '#1a52cc';
+          }),
+          borderRadius: 5
+        }]
+      },
+      options:{
+        responsive:true,
+        plugins:{legend:{display:false},
+          tooltip:{callbacks:{
+            title: ctx => won(d.histogram[ctx[0].dataIndex].low) + ' ~ ' + won(d.histogram[ctx[0].dataIndex].high),
+            label: ctx => `${ctx.raw}건`
+          }}
+        },
+        scales:{
+          y:{beginAtZero:true, ticks:{stepSize:1}, grid:{color:'#f0f0f0'}},
+          x:{grid:{display:false}, ticks:{font:{size:10}}}
+        }
+      }
+    });
+  }
+}
+</script>
+</body>
+</html>

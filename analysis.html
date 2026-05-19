@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>외국인관광도시민박업 시장 분석 · Foreign Tourist Urban Homestay Market Analysis | wehome Studio</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fafbfd;color:#0d1f45;line-height:1.6}
+
+header{background:#fff;border-bottom:1px solid #ececec;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:2000}
+.logo{font-size:20px;font-weight:800}.logo em{color:#FF6B35;font-style:normal}
+.logo small{font-size:12px;font-weight:400;color:#888;margin-left:6px}
+.nav{display:flex;gap:14px;font-size:13px;align-items:center}
+.nav a{color:#555;text-decoration:none;padding:5px 10px;border-radius:6px}
+.nav a:hover{background:#f0f5ff;color:#1a52cc}
+.nav a.active{background:#1a52cc;color:#fff}
+.lang-toggle{display:flex;background:#f0f0f0;border-radius:18px;padding:3px;margin-left:6px}
+.lang-toggle button{padding:5px 12px;border:none;background:transparent;font-size:11px;font-weight:700;cursor:pointer;border-radius:14px;color:#888}
+.lang-toggle button.active{background:#0d1f45;color:#fff}
+
+.hero{padding:50px 32px 30px;text-align:center;background:linear-gradient(180deg,#fff,#f0f5ff)}
+.hero .label{display:inline-block;background:#FF6B35;color:#fff;padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1px;margin-bottom:14px}
+.hero h1{font-size:36px;font-weight:800;letter-spacing:-1.5px;margin-bottom:10px}
+.hero h1 em{color:#FF6B35;font-style:normal}
+.hero p{color:#666;font-size:15px;max-width:680px;margin:0 auto}
+.update-info{margin-top:16px;font-size:11px;color:#999}
+
+.section{padding:40px 32px;max-width:1200px;margin:0 auto}
+.section-title{font-size:24px;font-weight:800;color:#0d1f45;margin-bottom:6px}
+.section-sub{color:#888;font-size:13px;margin-bottom:24px}
+.bilingual{display:block;margin-top:3px;color:#aaa;font-size:11px;font-style:italic;font-weight:400}
+
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:30px}
+.kpi{background:#fff;border-radius:14px;padding:24px;box-shadow:0 2px 10px rgba(0,0,0,.05);position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--c,#1a52cc)}
+.kpi .num{font-size:38px;font-weight:800;letter-spacing:-1.5px;color:#0d1f45;line-height:1}
+.kpi .label{font-size:12px;color:#888;margin-top:6px}
+.kpi .sub{font-size:11px;color:#27ae60;font-weight:600;margin-top:6px}
+.kpi .sub.neg{color:#e74c3c}
+
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:30px}
+.chart-card{background:#fff;border-radius:14px;padding:24px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.chart-card.full{grid-column:1/-1}
+.chart-card h3{font-size:15px;color:#0d1f45;font-weight:700;margin-bottom:4px}
+.chart-card .desc{font-size:11px;color:#888;margin-bottom:16px}
+.chart-card canvas{max-height:300px}
+
+.quote-card{background:linear-gradient(135deg,#0d1f45,#1a52cc);color:#fff;padding:40px;border-radius:16px;margin:30px 0}
+.quote-card .label{color:#FF6B35;font-size:11px;font-weight:700;letter-spacing:2px;margin-bottom:10px}
+.quote-card .text{font-size:22px;font-weight:700;line-height:1.4;margin-bottom:14px}
+.quote-card .text em{color:#FF6B35;font-style:normal}
+.quote-card .src{font-size:11px;color:rgba(255,255,255,.5)}
+
+/* Regional sections */
+.region-block{display:grid;grid-template-columns:1fr 1.1fr;gap:18px;background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.05);padding:24px;margin-bottom:24px}
+.region-map{height:380px;border-radius:10px;background:#eee;overflow:hidden}
+.region-table{overflow-y:auto;max-height:380px}
+.region-table table{width:100%;border-collapse:collapse;font-size:12px}
+.region-table th{text-align:left;padding:8px 10px;background:#fafafa;font-size:10px;color:#888;font-weight:700;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid #eee;position:sticky;top:0}
+.region-table td{padding:7px 10px;border-bottom:1px solid #f5f5f5}
+.region-table tr:hover td{background:#f8faff;cursor:pointer}
+.region-table td.num{text-align:right;font-weight:700;font-family:'SF Mono',monospace}
+.region-table .bar{display:inline-block;height:6px;background:#1a52cc;border-radius:3px;vertical-align:middle;margin-right:6px}
+.region-table .rank{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;background:#1a52cc;color:#fff;border-radius:50%;font-size:10px;font-weight:700;margin-right:6px}
+.region-table .rank.top3{background:#FF6B35}
+
+.region-title{padding:18px 24px;background:linear-gradient(135deg,#0d1f45,#1a52cc);color:#fff;border-radius:14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+.region-title h3{font-size:18px;font-weight:800}
+.region-title h3 small{font-size:11px;font-weight:400;opacity:.7;margin-left:8px}
+.region-title .total{text-align:right}
+.region-title .total .num{font-size:28px;font-weight:800;color:#FF6B35;line-height:1}
+.region-title .total .label{font-size:11px;opacity:.8}
+
+.region-selector{background:#fff;border-radius:14px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.05);margin-bottom:14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.region-selector label{font-size:13px;font-weight:700;color:#0d1f45}
+.region-selector select{padding:9px 14px;border:1px solid #ddd;border-radius:8px;font-size:13px;background:#fff;cursor:pointer;outline:none;min-width:220px}
+.region-selector select:focus{border-color:#1a52cc}
+
+.compare{background:#fff;border-radius:14px;padding:24px;box-shadow:0 2px 10px rgba(0,0,0,.05);margin-top:20px}
+.compare table{width:100%;border-collapse:collapse}
+.compare th,.compare td{padding:11px 14px;text-align:left;border-bottom:1px solid #f0f0f0;font-size:13px}
+.compare th{background:#fafafa;color:#888;font-weight:600;font-size:11px;text-transform:uppercase}
+.compare td.num{text-align:right;font-weight:700;font-family:'SF Mono',monospace}
+.compare tr.highlight{background:#fff8f0}
+.compare tr.highlight td{color:#FF6B35;font-weight:700}
+
+.insight{display:grid;grid-template-columns:auto 1fr;gap:14px;background:#f0f8ff;border-left:4px solid #1a52cc;padding:18px 22px;border-radius:8px;margin:14px 0}
+.insight .ico{font-size:24px}
+.insight h4{font-size:14px;color:#0d1f45;font-weight:700;margin-bottom:4px}
+.insight p{font-size:13px;color:#555;line-height:1.5}
+
+footer{background:#0d1f45;color:#aaa;padding:32px 32px 24px;text-align:center;font-size:12px;margin-top:60px}
+footer a{color:#FF6B35;text-decoration:none}
+footer .links{margin-bottom:14px}
+footer .links a{margin:0 8px}
+footer .copyright{font-size:11px;color:#666;margin-top:14px;border-top:1px solid rgba(255,255,255,.1);padding-top:14px}
+footer .copyright a{color:#888}
+
+@media (max-width:768px){
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .chart-grid,.region-block{grid-template-columns:1fr}
+  .hero h1{font-size:26px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><em>wehome</em> Studio <small data-i18n="market_analysis">시장 분석</small></div>
+  <nav class="nav">
+    <a href="/" data-i18n="nav_studio">🏠 진단</a>
+    <a href="/analysis" class="active" data-i18n="nav_analysis">📊 분석</a>
+    <a href="/map" data-i18n="nav_map">🗺️ 지도</a>
+    <a href="/insights" data-i18n="nav_dashboard">📋 대시보드</a>
+    <div class="lang-toggle">
+      <button id="btnKR" class="active" onclick="setLang('ko')">KR</button>
+      <button id="btnEN" onclick="setLang('en')">EN</button>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="label" data-i18n="hero_label">2026년 5월 시장 분석</div>
+  <h1 data-i18n="hero_title">한국 <em>외국인관광도시민박업</em><br/>시장 깊이 보기</h1>
+  <p data-i18n="hero_desc">행정안전부 인허가 데이터를 기반으로 한국 공유숙박 시장의<br/>실질 활성 호스트, 지역 분포, 성장 추이를 분석합니다.</p>
+  <div class="update-info">📡 <span data-i18n="data_basis">데이터 기준</span> <strong id="updateAt">-</strong> · <span data-i18n="data_source">출처</span>: file.localdata.go.kr</div>
+</section>
+
+<!-- KPI -->
+<section class="section">
+  <div class="section-title" data-i18n="sec_kpi">📊 핵심 지표</div>
+  <div class="section-sub" data-i18n="sec_kpi_sub">2026-05-15 기준 · 도로명주소+사업장명 단위로 집계</div>
+
+  <div class="kpi-grid">
+    <div class="kpi" style="--c:#1a52cc">
+      <div class="num" id="kpiActiveRecent">-</div>
+      <div class="label" data-i18n="kpi_recent">최근 1년 활성 호스트</div>
+      <div class="sub" data-i18n="kpi_recent_sub">실질 영업 중</div>
+    </div>
+    <div class="kpi" style="--c:#FF6B35">
+      <div class="num" id="kpiActiveTotal">-</div>
+      <div class="label" data-i18n="kpi_total">전체 등록 영업/정상</div>
+      <div class="sub" data-i18n="kpi_total_sub">누적 기준</div>
+    </div>
+    <div class="kpi" style="--c:#27ae60">
+      <div class="num" id="kpiSeoul">-</div>
+      <div class="label" data-i18n="kpi_seoul">서울 영업중 호스트</div>
+      <div class="sub" id="kpiSeoulPct">- %</div>
+    </div>
+    <div class="kpi" style="--c:#9b59b6">
+      <div class="num" id="kpiClosed">-</div>
+      <div class="label" data-i18n="kpi_closed">누적 폐업</div>
+      <div class="sub neg" id="kpiClosedPct">- %</div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <div class="ico">💡</div>
+    <div>
+      <h4 data-i18n="insight1_h">활성 호스트 vs 누적 호스트</h4>
+      <p data-i18n="insight1_p">등록된 영업/정상 9,921개 중 <strong>실제 최근 1년 이내 갱신된 호스트는 6,445명</strong>입니다. 나머지 3,476개는 등록 후 1년 이상 변경/갱신 기록이 없어 실질 휴면 상태일 가능성이 있습니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 시장 성장 -->
+<section class="section">
+  <div class="section-title" data-i18n="sec_growth">📈 시장 폭발적 성장</div>
+  <div class="section-sub" data-i18n="sec_growth_sub">2023-2025년 외도민업 인허가 폭증</div>
+
+  <div class="chart-grid">
+    <div class="chart-card full">
+      <h3 data-i18n="growth_chart_title">연도별 신규 인허가 추이 (현재 영업중 호스트)</h3>
+      <div class="desc" data-i18n="growth_chart_desc">2023년부터 시장이 폭발적으로 성장. 2024년 2,206건, 2025년 3,334건이 신규 등록.</div>
+      <canvas id="yearChart"></canvas>
+    </div>
+  </div>
+
+  <div class="quote-card">
+    <div class="label">▎KEY INSIGHT</div>
+    <div class="text" data-i18n="quote_text">"2024-2025년 2년간 <em>5,540명의 신규 합법 호스트</em>가 진입.<br/>한국 공유숙박 시장은 본격 합법화 시대로 진입했습니다."</div>
+    <div class="src">— wehome Studio Market Analysis, 2026-05</div>
+  </div>
+</section>
+
+<!-- 지역 집중 -->
+<section class="section">
+  <div class="section-title" data-i18n="sec_region">🗺️ 지역 집중도</div>
+  <div class="section-sub" data-i18n="sec_region_sub">서울 62%, 마포구가 서울 안에서도 압도적</div>
+
+  <div class="chart-card full">
+    <h3 data-i18n="region_chart_title">시도별 영업중 분포 TOP 10</h3>
+    <div class="desc" data-i18n="region_chart_desc">서울이 전체의 62.1%로 절대적 1위. 부산·경기·전북 순.</div>
+    <canvas id="sidoChart"></canvas>
+  </div>
+</section>
+
+<!-- 서울 자치구 분포 -->
+<section class="section">
+  <div class="region-title">
+    <h3>🏙️ 서울특별시 자치구 분포 <small>· Seoul Metropolitan City District Distribution</small></h3>
+    <div class="total"><div class="num" id="seoulTotalNum">-</div><div class="label" data-i18n="active_hosts">영업중 호스트</div></div>
+  </div>
+  <div class="region-block">
+    <div id="seoulMap" class="region-map"></div>
+    <div class="region-table">
+      <table>
+        <thead><tr>
+          <th data-i18n="th_rank">순위</th>
+          <th data-i18n="th_district">자치구</th>
+          <th data-i18n="th_count">영업중</th>
+          <th data-i18n="th_share">비중</th>
+        </tr></thead>
+        <tbody id="seoulTable"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 부산 구/군 분포 -->
+<section class="section">
+  <div class="region-title">
+    <h3>🌊 부산광역시 구·군 분포 <small>· Busan Metropolitan City District Distribution</small></h3>
+    <div class="total"><div class="num" id="busanTotalNum">-</div><div class="label" data-i18n="active_hosts">영업중 호스트</div></div>
+  </div>
+  <div class="region-block">
+    <div id="busanMap" class="region-map"></div>
+    <div class="region-table">
+      <table>
+        <thead><tr>
+          <th data-i18n="th_rank">순위</th>
+          <th data-i18n="th_district">구·군</th>
+          <th data-i18n="th_count">영업중</th>
+          <th data-i18n="th_share">비중</th>
+        </tr></thead>
+        <tbody id="busanTable"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 기타 지역 선택 -->
+<section class="section">
+  <div class="section-title" data-i18n="sec_other">📍 기타 지역 자세히 보기</div>
+  <div class="section-sub" data-i18n="sec_other_sub">시·도를 선택하면 시·군·구별 분포를 확인할 수 있습니다.</div>
+
+  <div class="region-selector">
+    <label data-i18n="select_region">지역 선택:</label>
+    <select id="otherSidoSelect">
+      <option value="" data-i18n="opt_choose">— 선택 —</option>
+    </select>
+    <span id="otherTotalLabel" style="margin-left:auto;font-size:12px;color:#888"></span>
+  </div>
+
+  <div id="otherWrap" style="display:none">
+    <div class="region-title">
+      <h3 id="otherTitle">-</h3>
+      <div class="total"><div class="num" id="otherTotalNum">-</div><div class="label" data-i18n="active_hosts">영업중 호스트</div></div>
+    </div>
+    <div class="region-block">
+      <div id="otherMap" class="region-map"></div>
+      <div class="region-table">
+        <table>
+          <thead><tr>
+            <th data-i18n="th_rank">순위</th>
+            <th data-i18n="th_district">시·군·구</th>
+            <th data-i18n="th_count">영업중</th>
+            <th data-i18n="th_share">비중</th>
+          </tr></thead>
+          <tbody id="otherTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 월별 추이 -->
+<section class="section">
+  <div class="section-title" data-i18n="sec_monthly">📅 최근 신규 등록</div>
+  <div class="section-sub" data-i18n="sec_monthly_sub">월별 신규 인허가 흐름</div>
+  <div class="chart-card full">
+    <h3 data-i18n="monthly_chart_title">월별 신규 호스트 등록 추이 (영업중 기준)</h3>
+    <div class="desc" data-i18n="monthly_chart_desc">2026년 4월 신규 등록 폭발적 증가.</div>
+    <canvas id="monthChart"></canvas>
+  </div>
+</section>
+
+<!-- Airbnb 비교 (합법 vs 미등록) -->
+<section class="section">
+  <div class="section-title" data-i18n="sec_airbnb">🏠 Airbnb 매칭 분석 <span style="font-size:12px;color:#FF6B35;font-weight:600">· DEMO DATA</span></div>
+  <div class="section-sub" data-i18n="sec_airbnb_sub">Airbnb 리스팅과 외도민업 등록을 좌표 기반으로 매칭하여 합법/미등록 비율 분석 (현재 샘플, 추후 실데이터 교체 가능)</div>
+
+  <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr)">
+    <div class="kpi" style="--c:#FF6B35">
+      <div class="num" id="abTotal">-</div>
+      <div class="label" data-i18n="ab_total">Airbnb 리스팅 (서울)</div>
+      <div class="sub" data-i18n="ab_total_sub">샘플 데이터</div>
+    </div>
+    <div class="kpi" style="--c:#27ae60">
+      <div class="num" id="abRegistered">-</div>
+      <div class="label" data-i18n="ab_registered">합법 등록 (외도민업 매칭)</div>
+      <div class="sub" id="abComplianceRate">- %</div>
+    </div>
+    <div class="kpi" style="--c:#e74c3c">
+      <div class="num" id="abUnlicensed">-</div>
+      <div class="label" data-i18n="ab_unlicensed">미등록 (불법 의심)</div>
+      <div class="sub neg" data-i18n="ab_unlicensed_sub">단속·과태료 리스크</div>
+    </div>
+    <div class="kpi" style="--c:#1a52cc">
+      <div class="num" id="abAvgPrice">-</div>
+      <div class="label" data-i18n="ab_avg_price">평균 가격/박</div>
+      <div class="sub" data-i18n="ab_avg_price_sub">샘플 평균치</div>
+    </div>
+  </div>
+
+  <div class="chart-grid">
+    <div class="chart-card">
+      <h3 data-i18n="ab_room_chart">방 타입별 합법 vs 미등록</h3>
+      <div class="desc" data-i18n="ab_room_desc">Entire home/apt 비중이 가장 높지만 합법 등록률은 자치구별로 차이</div>
+      <canvas id="airbnbRoomChart"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3 data-i18n="ab_neigh_chart">서울 자치구별 합법 등록률 TOP 10</h3>
+      <div class="desc" data-i18n="ab_neigh_desc">자치구별 Airbnb 리스팅 중 외도민업 매칭 비율</div>
+      <canvas id="airbnbNeighChart"></canvas>
+    </div>
+  </div>
+
+  <div class="quote-card" style="background:linear-gradient(135deg,#e74c3c,#FF6B35)">
+    <div class="label">▎KEY INSIGHT</div>
+    <div class="text" data-i18n="ab_quote">"Airbnb 서울 리스팅 5,969개 중 <em>약 50%만 외도민업 등록</em>.<br/>나머지 절반은 단속·과태료 리스크에 노출된 상태입니다."</div>
+    <div class="src">— wehome Studio · 외도민업 인허가 데이터 + Airbnb 매칭 분석 (샘플)</div>
+  </div>
+
+  <div class="insight">
+    <div class="ico">⚠️</div>
+    <div>
+      <h4 data-i18n="ab_warn_h">샘플 데이터 면책</h4>
+      <p data-i18n="ab_warn_p">현재 표시된 Airbnb 수치는 외도민업 데이터를 기반으로 시뮬레이션한 <strong>데모용 샘플</strong>입니다. Inside Airbnb의 한국 데이터 공개 중단으로 실시간 매칭 불가. 추후 자체 크롤링 또는 AirROI API 연동 시 매칭 인프라가 그대로 작동합니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 위홈 리포트 비교 -->
+<section class="section">
+  <div class="section-title" data-i18n="sec_compare">📋 위홈 트러스트 리포트와 비교</div>
+  <div class="section-sub" data-i18n="sec_compare_sub">2025년 6월 vs 2026년 5월 — 11개월간 변화</div>
+
+  <div class="compare">
+    <table>
+      <thead><tr>
+        <th data-i18n="th_metric">지표</th>
+        <th style="text-align:right">2025-06<br/><span data-i18n="th_report">(위홈 리포트)</span></th>
+        <th style="text-align:right">2026-05<br/><span data-i18n="th_now">(wehome Studio)</span></th>
+        <th style="text-align:right" data-i18n="th_change">변화</th>
+      </tr></thead>
+      <tbody>
+        <tr class="highlight">
+          <td data-i18n="cmp_active">전국 영업 호스트</td>
+          <td class="num">6,134</td><td class="num" id="cmpTotalActive">-</td><td class="num" id="cmpTotalDiff">-</td>
+        </tr>
+        <tr>
+          <td data-i18n="cmp_seoul">서울 영업 호스트</td>
+          <td class="num">3,869</td><td class="num" id="cmpSeoulActive">-</td><td class="num" id="cmpSeoulDiff">-</td>
+        </tr>
+        <tr>
+          <td data-i18n="cmp_share">서울 비중</td>
+          <td class="num">63.1%</td><td class="num" id="cmpSeoulPct">-</td><td class="num">-</td>
+        </tr>
+        <tr>
+          <td data-i18n="cmp_mapo">마포구 영업 호스트</td>
+          <td class="num">1,293</td><td class="num" id="cmpMapo">-</td><td class="num" id="cmpMapoDiff">-</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer style="background:#0d1f45;color:#fff;padding:36px 32px;text-align:center;margin-top:40px">
+  <div style="font-size:24px;font-weight:800;margin-bottom:6px"><span style="color:#FF6B35">위</span>홈 · <span style="color:#FF6B35">we</span>home</div>
+  <div style="color:rgba(255,255,255,.7);font-size:13px;margin-bottom:18px">한국에서 합법 호스트가 되는 가장 쉬운 길<br/>The easiest path to becoming a legal host in Korea</div>
+  <div style="display:flex;justify-content:center;gap:16px;font-size:12px;margin-bottom:14px;flex-wrap:wrap">
+    <a href="/" style="color:rgba(255,255,255,.8);text-decoration:none">🏠 진단</a>
+    <a href="/pricing" style="color:rgba(255,255,255,.8);text-decoration:none">💰 가격 추천</a>
+    <a href="/analysis" style="color:rgba(255,255,255,.8);text-decoration:none">📊 분석</a>
+    <a href="/map" style="color:rgba(255,255,255,.8);text-decoration:none">🗺️ 지도</a>
+    <a href="/report" style="color:rgba(255,255,255,.8);text-decoration:none">📰 리포트</a>
+    <a href="/about" style="color:rgba(255,255,255,.8);text-decoration:none">ℹ️ 소개·FAQ·피드백</a>
+    <a href="https://wehome.me" target="_blank" style="color:#FF6B35;text-decoration:none;font-weight:700">→ wehome.me</a>
+  </div>
+  <div style="color:rgba(255,255,255,.4);font-size:11px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1);max-width:800px;margin:14px auto 0">
+    © 2026 <a href="https://wehome.me" target="_blank" style="color:#FF6B35;text-decoration:none">wehome, Inc.</a> All rights reserved. ·
+    Made by wehome Studio · Built on public open data from <a href="https://file.localdata.go.kr/" target="_blank" style="color:#FF6B35;text-decoration:none">행정안전부 / Ministry of Interior and Safety</a>
+  </div>
+</footer>
+
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d57298b5648cef7e88c9f7bec9b24e74&autoload=false"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<script>
+const NAVY='#0d1f45', BLUE='#1a52cc', ORANGE='#FF6B35', GREEN='#27ae60', RED='#e74c3c', GRAY='#ddd';
+const fmt = n => Number(n||0).toLocaleString();
+Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+Chart.defaults.font.size = 11;
+
+// ── 다국어 ────────────────────────────────────────────────────────
+const I18N = {
+  ko: {
+    market_analysis:'시장 분석', nav_studio:'🏠 진단', nav_analysis:'📊 분석', nav_map:'🗺️ 지도', nav_dashboard:'📋 대시보드',
+    hero_label:'2026년 5월 시장 분석',
+    hero_title:'한국 <em>외국인관광도시민박업</em><br/>시장 깊이 보기',
+    hero_desc:'행정안전부 인허가 데이터를 기반으로 한국 공유숙박 시장의<br/>실질 활성 호스트, 지역 분포, 성장 추이를 분석합니다.',
+    data_basis:'데이터 기준', data_source:'출처',
+    sec_kpi:'📊 핵심 지표', sec_kpi_sub:'2026-05-15 기준 · 도로명주소+사업장명 단위로 집계',
+    kpi_recent:'최근 1년 활성 호스트', kpi_recent_sub:'실질 영업 중',
+    kpi_total:'전체 등록 영업/정상', kpi_total_sub:'누적 기준',
+    kpi_seoul:'서울 영업중 호스트',
+    kpi_closed:'누적 폐업',
+    insight1_h:'활성 호스트 vs 누적 호스트',
+    insight1_p:'등록된 영업/정상 9,921개 중 <strong>실제 최근 1년 이내 갱신된 호스트는 6,445명</strong>입니다. 나머지 3,476개는 등록 후 1년 이상 변경/갱신 기록이 없어 실질 휴면 상태일 가능성이 있습니다.',
+    sec_growth:'📈 시장 폭발적 성장', sec_growth_sub:'2023-2025년 외도민업 인허가 폭증',
+    growth_chart_title:'연도별 신규 인허가 추이 (현재 영업중 호스트)',
+    growth_chart_desc:'2023년부터 시장이 폭발적으로 성장. 2024년 2,206건, 2025년 3,334건이 신규 등록.',
+    quote_text:'"2024-2025년 2년간 <em>5,540명의 신규 합법 호스트</em>가 진입.<br/>한국 공유숙박 시장은 본격 합법화 시대로 진입했습니다."',
+    sec_region:'🗺️ 지역 집중도', sec_region_sub:'서울 62%, 마포구가 서울 안에서도 압도적',
+    region_chart_title:'시도별 영업중 분포 TOP 10', region_chart_desc:'서울이 전체의 62.1%로 절대적 1위.',
+    active_hosts:'영업중 호스트',
+    th_rank:'순위', th_district:'자치구', th_count:'영업중', th_share:'비중',
+    sec_other:'📍 기타 지역 자세히 보기', sec_other_sub:'시·도를 선택하면 시·군·구별 분포를 확인할 수 있습니다.',
+    select_region:'지역 선택:', opt_choose:'— 선택 —',
+    sec_monthly:'📅 최근 신규 등록', sec_monthly_sub:'월별 신규 인허가 흐름',
+    monthly_chart_title:'월별 신규 호스트 등록 추이 (영업중 기준)',
+    monthly_chart_desc:'2026년 4월 신규 등록 폭발적 증가.',
+    sec_compare:'📋 위홈 트러스트 리포트와 비교', sec_compare_sub:'2025년 6월 vs 2026년 5월 — 11개월간 변화',
+    th_metric:'지표', th_report:'(위홈 리포트)', th_now:'(wehome Studio)', th_change:'변화',
+    cmp_active:'전국 영업 호스트', cmp_seoul:'서울 영업 호스트', cmp_share:'서울 비중', cmp_mapo:'마포구 영업 호스트',
+    footer_sub:'한국 공유숙박 시장 인사이트 · 2026년 5월',
+    footer_data:'데이터',
+    copy_made:'wehome Studio Market Analysis Platform · 행정안전부 공공데이터 활용',
+    sec_airbnb:'🏠 Airbnb 매칭 분석 <span style="font-size:12px;color:#FF6B35;font-weight:600">· DEMO DATA</span>',
+    sec_airbnb_sub:'Airbnb 리스팅과 외도민업 등록을 좌표 기반으로 매칭하여 합법/미등록 비율 분석 (현재 샘플, 추후 실데이터 교체 가능)',
+    ab_total:'Airbnb 리스팅 (전국)', ab_total_sub:'샘플 데이터',
+    ab_registered:'합법 등록 (외도민업 매칭)',
+    ab_unlicensed:'미등록 (불법 의심)', ab_unlicensed_sub:'단속·과태료 리스크',
+    ab_avg_price:'평균 가격/박', ab_avg_price_sub:'샘플 평균치',
+    ab_room_chart:'방 타입별 합법 vs 미등록',
+    ab_room_desc:'Entire home/apt 비중이 가장 높지만 합법 등록률은 자치구별로 차이',
+    ab_neigh_chart:'서울 자치구별 합법 등록률 TOP 10',
+    ab_neigh_desc:'자치구별 Airbnb 리스팅 중 외도민업 매칭 비율',
+    ab_quote:'"Airbnb 서울 리스팅 5,969개 중 <em>약 50%만 외도민업 등록</em>.<br/>나머지 절반은 단속·과태료 리스크에 노출된 상태입니다."',
+    ab_warn_h:'샘플 데이터 면책',
+    ab_warn_p:'현재 표시된 Airbnb 수치는 외도민업 데이터를 기반으로 시뮬레이션한 <strong>데모용 샘플</strong>입니다. Inside Airbnb의 한국 데이터 공개 중단으로 실시간 매칭 불가. 추후 자체 크롤링 또는 AirROI API 연동 시 매칭 인프라가 그대로 작동합니다.',
+  },
+  en: {
+    market_analysis:'Market Analysis', nav_studio:'🏠 Diagnose', nav_analysis:'📊 Analysis', nav_map:'🗺️ Map', nav_dashboard:'📋 Dashboard',
+    hero_label:'Market Analysis · May 2026',
+    hero_title:'Korea <em>Foreign Tourist Urban Homestay</em><br/>Market Deep Dive',
+    hero_desc:'Comprehensive analysis of active hosts, regional distribution, and growth trends<br/>in Korea\'s short-term rental market based on official licensing data.',
+    data_basis:'Data as of', data_source:'Source',
+    sec_kpi:'📊 Key Indicators', sec_kpi_sub:'As of May 15, 2026 · Aggregated by address + business name',
+    kpi_recent:'Active Hosts (Last 12mo)', kpi_recent_sub:'Truly operating',
+    kpi_total:'Total Active Registrations', kpi_total_sub:'Cumulative',
+    kpi_seoul:'Seoul Active Hosts',
+    kpi_closed:'Total Closed',
+    insight1_h:'Active vs Cumulative Hosts',
+    insight1_p:'Of 9,921 total active registrations, <strong>6,445 hosts have updated within the last 12 months</strong> — these are likely operating. The remaining 3,476 have no recent updates and may be effectively dormant.',
+    sec_growth:'📈 Market Explosion', sec_growth_sub:'Foreign tourist homestay licenses surged 2023–2025',
+    growth_chart_title:'New Licenses by Year (Currently Active Hosts)',
+    growth_chart_desc:'Market boomed from 2023. 2,206 new in 2024 and 3,334 new in 2025.',
+    quote_text:'"In just 2 years (2024–2025), <em>5,540 new legal hosts</em> entered the market.<br/>Korea\'s short-term rental market has fully entered the legalization era."',
+    sec_region:'🗺️ Regional Concentration', sec_region_sub:'Seoul holds 62%; Mapo-gu dominates Seoul',
+    region_chart_title:'Active Hosts by Province/City (Top 10)', region_chart_desc:'Seoul alone accounts for 62.1% of all hosts.',
+    active_hosts:'Active Hosts',
+    th_rank:'Rank', th_district:'District', th_count:'Active', th_share:'Share',
+    sec_other:'📍 Explore Other Regions', sec_other_sub:'Select a province to see district-level breakdown.',
+    select_region:'Select Region:', opt_choose:'— Select —',
+    sec_monthly:'📅 Recent Registrations', sec_monthly_sub:'Monthly new license trend',
+    monthly_chart_title:'Monthly New Host Registration Trend (Active Only)',
+    monthly_chart_desc:'Explosive growth in April 2026.',
+    sec_compare:'📋 Compared with wehome Trust Report', sec_compare_sub:'June 2025 vs May 2026 — 11 months of change',
+    th_metric:'Metric', th_report:'(wehome Trust Report)', th_now:'(wehome Studio)', th_change:'Change',
+    cmp_active:'Nationwide Active Hosts', cmp_seoul:'Seoul Active Hosts', cmp_share:'Seoul Share', cmp_mapo:'Mapo-gu Active Hosts',
+    footer_sub:'Korea Short-Term Rental Market Insight · May 2026',
+    footer_data:'Data',
+    copy_made:'wehome Studio Market Analysis Platform · Built on public open data from Ministry of Interior and Safety, Republic of Korea',
+    sec_airbnb:'🏠 Airbnb Matching Analysis <span style="font-size:12px;color:#FF6B35;font-weight:600">· DEMO DATA</span>',
+    sec_airbnb_sub:'Coordinate-based matching between Airbnb listings and Foreign Tourist Urban Homestay registrations to analyze legal vs unlicensed ratio (currently sample, ready for real data swap)',
+    ab_total:'Airbnb Listings (Nationwide)', ab_total_sub:'Sample data',
+    ab_registered:'Legal (matched to govt registry)',
+    ab_unlicensed:'Unlicensed (suspected illegal)', ab_unlicensed_sub:'Subject to enforcement & fines',
+    ab_avg_price:'Avg Price/Night', ab_avg_price_sub:'Sample average',
+    ab_room_chart:'Legal vs Unlicensed by Room Type',
+    ab_room_desc:'Entire home/apt dominates but legal registration rate varies by district',
+    ab_neigh_chart:'Seoul District Compliance Rate · Top 10',
+    ab_neigh_desc:'Share of Airbnb listings matched to legal registration',
+    ab_quote:'"Of 5,969 Seoul Airbnb listings, <em>only ~50% are legally registered</em>.<br/>The other half operates in violation of Korean law."',
+    ab_warn_h:'Sample Data Disclaimer',
+    ab_warn_p:'Airbnb figures shown are <strong>simulated demo data</strong> seeded from real homestay registrations. Inside Airbnb discontinued Korean data publication. The matching infrastructure is production-ready and will work with real crawled data or AirROI API integration in the future.',
+  }
+};
+
+let LANG = 'ko';
+function setLang(l){
+  LANG = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k = el.getAttribute('data-i18n');
+    if(I18N[l][k]) el.innerHTML = I18N[l][k];
+  });
+  document.getElementById('btnKR').classList.toggle('active', l==='ko');
+  document.getElementById('btnEN').classList.toggle('active', l==='en');
+  // 페이지 타이틀
+  document.title = l==='ko'
+    ? '외국인관광도시민박업 시장 분석 | wehome Studio'
+    : 'Foreign Tourist Urban Homestay Market Analysis | wehome Studio';
+  // 옵션 리프레시
+  refreshSidoOptions();
+}
+
+// ── 차트 ──────────────────────────────────────────────────────────
+let yearChart=null, sidoChart=null, monthChart=null;
+
+async function load(){
+  const [stats, national, analysis, monthly] = await Promise.all([
+    fetch('/api/stats').then(r=>r.json()),
+    fetch('/api/national').then(r=>r.json()),
+    fetch('/api/analysis').then(r=>r.json()),
+    fetch('/api/monthly').then(r=>r.json()),
+  ]);
+  window.__national = national;
+
+  // KPI
+  document.getElementById('kpiActiveRecent').textContent = fmt(analysis.recent_active);
+  document.getElementById('kpiActiveTotal').textContent = fmt(stats.active);
+  const seoul = national.find(s => s.sido === '서울특별시');
+  document.getElementById('kpiSeoul').textContent = fmt(seoul?.active || 0);
+  document.getElementById('kpiSeoulPct').textContent = ((seoul?.active||0)/stats.active*100).toFixed(1) + '%';
+  document.getElementById('kpiClosed').textContent = fmt(stats.closed);
+  document.getElementById('kpiClosedPct').textContent = (LANG==='ko'?'폐업률 ':'Closure rate ') + (stats.closed/(stats.active+stats.closed)*100).toFixed(1) + '%';
+  document.getElementById('updateAt').textContent = (stats.last_update||'').substring(0,10);
+
+  document.getElementById('cmpTotalActive').textContent = fmt(stats.active);
+  document.getElementById('cmpTotalDiff').textContent = '+' + (((stats.active-6134)/6134*100).toFixed(1)) + '%';
+  document.getElementById('cmpSeoulActive').textContent = fmt(seoul?.active);
+  document.getElementById('cmpSeoulDiff').textContent = '+' + ((((seoul?.active||0)-3869)/3869*100).toFixed(1)) + '%';
+  document.getElementById('cmpSeoulPct').textContent = ((seoul?.active||0)/stats.active*100).toFixed(1) + '%';
+  document.getElementById('cmpMapo').textContent = fmt(analysis.mapo_active);
+  document.getElementById('cmpMapoDiff').textContent = '+' + (((analysis.mapo_active-1293)/1293*100).toFixed(1)) + '%';
+
+  // 연도별
+  yearChart = new Chart(document.getElementById('yearChart'), {
+    type:'bar',
+    data:{labels: analysis.by_year.map(d=>d.year),
+      datasets:[{label:'New', data: analysis.by_year.map(d=>d.count),
+        backgroundColor: analysis.by_year.map(d=> parseInt(d.year)>=2023?ORANGE:BLUE), borderRadius:6}]},
+    options:{responsive:true, plugins:{legend:{display:false}},
+      scales:{y:{beginAtZero:true, grid:{color:'#f0f0f0'}}, x:{grid:{display:false}}}}
+  });
+
+  // 시도별
+  const sidoTop = national.slice(0,10);
+  sidoChart = new Chart(document.getElementById('sidoChart'), {
+    type:'bar',
+    data:{labels: sidoTop.map(d=>shortSido(d.sido)),
+      datasets:[{data: sidoTop.map(d=>d.active),
+        backgroundColor: sidoTop.map((d,i)=>i===0?ORANGE:BLUE), borderRadius:6}]},
+    options:{indexAxis:'y', responsive:true, plugins:{legend:{display:false}},
+      scales:{x:{beginAtZero:true, grid:{color:'#f0f0f0'}}, y:{grid:{display:false}}}}
+  });
+
+  // 월별
+  const monthData = monthly.slice(0,24).reverse();
+  monthChart = new Chart(document.getElementById('monthChart'), {
+    type:'line',
+    data:{labels: monthData.map(d=>d.ym),
+      datasets:[{data: monthData.map(d=>d.cnt),
+        backgroundColor:'rgba(26,82,204,.1)', borderColor:BLUE, fill:true, tension:0.3,
+        pointRadius:4, pointBackgroundColor:BLUE}]},
+    options:{responsive:true, plugins:{legend:{display:false}},
+      scales:{y:{beginAtZero:true, grid:{color:'#f0f0f0'}}, x:{grid:{display:false}}}}
+  });
+
+  // 카카오맵 로드 후 지역별 렌더
+  try {
+    await new Promise((res,rej)=>{
+      if(typeof kakao==='undefined') return rej(new Error('Kakao SDK'));
+      kakao.maps.load(res);
+    });
+    await Promise.all([
+      renderRegion('서울특별시', 'seoulMap', 'seoulTable', 'seoulTotalNum'),
+      renderRegion('부산광역시', 'busanMap', 'busanTable', 'busanTotalNum'),
+    ]);
+  } catch(e){
+    ['seoulMap','busanMap','otherMap'].forEach(id=>{
+      const el = document.getElementById(id);
+      if(el) el.innerHTML='<div style="padding:50px;text-align:center;color:#888">지도 SDK 로드 실패 (Kakao Developers에서 localhost 도메인 등록 확인)</div>';
+    });
+  }
+
+  // 기타 지역 셀렉트 채우기
+  refreshSidoOptions();
+
+  // Airbnb 매칭 분석 로드
+  await loadAirbnbCompare();
+}
+
+async function loadAirbnbCompare(){
+  const d = await fetch('/api/airbnb-compare').then(r=>r.json());
+  document.getElementById('abTotal').textContent = fmt(d.total);
+  document.getElementById('abRegistered').textContent = fmt(d.registered);
+  document.getElementById('abUnlicensed').textContent = fmt(d.unlicensed);
+  document.getElementById('abAvgPrice').textContent = '₩' + fmt(d.avg_price_krw);
+  document.getElementById('abComplianceRate').textContent = (LANG==='ko'?'준법률 ':'Compliance ') + d.compliance_rate + '%';
+
+  // 방 타입별 차트
+  new Chart(document.getElementById('airbnbRoomChart'), {
+    type:'bar',
+    data:{
+      labels: d.room_types.map(r=>r.room_type),
+      datasets:[
+        {label: LANG==='ko'?'합법 등록':'Legal', data: d.room_types.map(r=>r.registered), backgroundColor: GREEN, borderRadius:6},
+        {label: LANG==='ko'?'미등록':'Unlicensed', data: d.room_types.map(r=>r.unlicensed), backgroundColor: RED, borderRadius:6}
+      ]
+    },
+    options:{responsive:true, plugins:{legend:{position:'bottom',labels:{font:{size:11}}}},
+      scales:{x:{stacked:true,grid:{display:false}}, y:{stacked:true,grid:{color:'#f0f0f0'}}}}
+  });
+
+  // 자치구별 컴플라이언스 차트
+  const top10 = d.by_neighbourhood.slice(0,10);
+  new Chart(document.getElementById('airbnbNeighChart'), {
+    type:'bar',
+    data:{
+      labels: top10.map(r=>r.neighbourhood),
+      datasets:[
+        {label: LANG==='ko'?'합법':'Legal', data: top10.map(r=>r.registered), backgroundColor: GREEN, borderRadius:4},
+        {label: LANG==='ko'?'미등록':'Unlicensed', data: top10.map(r=>r.unlicensed), backgroundColor: RED, borderRadius:4}
+      ]
+    },
+    options:{indexAxis:'y', responsive:true, plugins:{legend:{position:'bottom',labels:{font:{size:11}}}},
+      scales:{x:{stacked:true,grid:{color:'#f0f0f0'}}, y:{stacked:true,grid:{display:false}}}}
+  });
+}
+
+function shortSido(s){
+  if(LANG==='en') return ({'서울특별시':'Seoul','부산광역시':'Busan','대구광역시':'Daegu','인천광역시':'Incheon','광주광역시':'Gwangju','대전광역시':'Daejeon','울산광역시':'Ulsan','세종특별자치시':'Sejong','경기도':'Gyeonggi','강원특별자치도':'Gangwon','충청북도':'Chungbuk','충청남도':'Chungnam','전북특별자치도':'Jeonbuk','전라남도':'Jeonnam','경상북도':'Gyeongbuk','경상남도':'Gyeongnam','제주특별자치도':'Jeju'})[s] || s;
+  return s.replace(/특별시|광역시|특별자치도|특별자치시/g,'').replace(/도$/,'');
+}
+
+function refreshSidoOptions(){
+  const sel = document.getElementById('otherSidoSelect');
+  const opt0 = LANG==='ko'?'— 선택 —':'— Select —';
+  let html = `<option value="">${opt0}</option>`;
+  if(window.__national){
+    window.__national.forEach(d=>{
+      if(d.sido!=='서울특별시' && d.sido!=='부산광역시' && d.active>0){
+        html += `<option value="${d.sido}">${shortSido(d.sido)} (${fmt(d.active)})</option>`;
+      }
+    });
+  }
+  sel.innerHTML = html;
+}
+
+async function renderRegion(sido, mapId, tableId, totalId){
+  const dists = await fetch(`/api/districts?sido=${encodeURIComponent(sido)}`).then(r=>r.json());
+  const valid = dists.filter(d=>d.active>0 && d.lat && d.lng);
+  const totalActive = valid.reduce((s,d)=>s+d.active,0);
+  document.getElementById(totalId).textContent = fmt(totalActive);
+
+  // 지도
+  const mapDiv = document.getElementById(mapId);
+  mapDiv.innerHTML='';
+  if(valid.length === 0) return;
+
+  // 중심 좌표 계산
+  const center = new kakao.maps.LatLng(
+    valid.reduce((s,d)=>s+d.lat,0)/valid.length,
+    valid.reduce((s,d)=>s+d.lng,0)/valid.length
+  );
+  const map = new kakao.maps.Map(mapDiv, { center, level: sido.includes('서울')||sido.includes('부산')?9:11 });
+  const max = Math.max(...valid.map(d=>d.active));
+
+  valid.forEach(d=>{
+    const r = 12 + (d.active/max)*32;
+    const ov = new kakao.maps.CustomOverlay({
+      position: new kakao.maps.LatLng(d.lat, d.lng),
+      content: `<div style="background:rgba(26,82,204,.8);color:#fff;width:${r}px;height:${r}px;border-radius:50%;
+        display:flex;align-items:center;justify-content:center;font-size:${Math.max(9,r/4)}px;font-weight:700;
+        border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3);transform:translate(-50%,-50%);
+        cursor:pointer" title="${d.sigungu}: ${d.active}">${d.active>=100?d.active:''}</div>`,
+      xAnchor:0.5, yAnchor:0.5
+    });
+    ov.setMap(map);
+  });
+
+  // 테이블
+  const sorted = [...valid].sort((a,b)=>b.active-a.active);
+  const tbody = document.getElementById(tableId);
+  tbody.innerHTML = sorted.map((d,i)=>{
+    const pct = (d.active/totalActive*100).toFixed(1);
+    const barW = (d.active/sorted[0].active*60).toFixed(0);
+    return `<tr>
+      <td><span class="rank ${i<3?'top3':''}">${i+1}</span></td>
+      <td>${d.sigungu}</td>
+      <td class="num"><span class="bar" style="width:${barW}px"></span>${fmt(d.active)}</td>
+      <td class="num">${pct}%</td>
+    </tr>`;
+  }).join('');
+}
+
+document.getElementById('otherSidoSelect').addEventListener('change', async (e)=>{
+  const sido = e.target.value;
+  const wrap = document.getElementById('otherWrap');
+  if(!sido){ wrap.style.display='none'; return; }
+  wrap.style.display='block';
+  document.getElementById('otherTitle').innerHTML =
+    `${shortSido(sido)} ${LANG==='ko'?'시·군·구 분포':'Districts'} <small>· ${sido}</small>`;
+  await renderRegion(sido, 'otherMap', 'otherTable', 'otherTotalNum');
+});
+
+load();
+</script>
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>전국 외국인관광도시민박업 지도 | wehome Studio</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow-x:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#0d1f45}
+
+header{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid #ececec;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;z-index:100}
+.logo{font-size:18px;font-weight:800}.logo em{color:#FF6B35;font-style:normal}
+.logo small{font-size:11px;font-weight:400;color:#888;margin-left:6px}
+.nav{display:flex;gap:16px;font-size:13px}
+.nav a{color:#555;text-decoration:none;padding:5px 10px;border-radius:6px}
+.nav a:hover{background:#f0f5ff;color:#1a52cc}
+.nav a.active{background:#1a52cc;color:#fff}
+
+#mapWrap{position:absolute;top:54px;left:0;right:0;bottom:0;display:flex}
+#map{flex:1;height:100%}
+
+/* Sidebar (filters) */
+.sidebar{width:320px;background:#fff;border-right:1px solid #ececec;display:flex;flex-direction:column;overflow:hidden}
+.sb-head{padding:18px 20px;border-bottom:1px solid #f0f0f0;background:linear-gradient(135deg,#0d1f45,#1a52cc);color:#fff}
+.sb-head .label{font-size:11px;color:#FF6B35;font-weight:700;letter-spacing:2px}
+.sb-head h2{font-size:16px;margin-top:4px}
+.sb-head .stats{font-size:11px;color:rgba(255,255,255,.7);margin-top:6px}
+.sb-head .stats strong{color:#FF6B35;font-size:13px}
+
+.sb-filters{padding:14px 20px;border-bottom:1px solid #f0f0f0}
+.sb-filters label{font-size:11px;color:#888;font-weight:600;display:block;margin-bottom:4px;margin-top:8px}
+.sb-filters select,.sb-filters input{width:100%;padding:7px 10px;border:1px solid #ddd;border-radius:6px;font-size:13px;outline:none}
+.sb-filters select:focus,.sb-filters input:focus{border-color:#1a52cc}
+.toggle-row{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:12px;color:#555;cursor:pointer}
+.toggle-row input{width:auto}
+
+.sb-stats{padding:14px 20px;border-bottom:1px solid #f0f0f0;font-size:12px;color:#555;background:#fafafa}
+.sb-stats .visible{color:#1a52cc;font-weight:700;font-size:14px}
+
+.sb-list{flex:1;overflow-y:auto;padding:0}
+.host-item{padding:11px 18px;border-bottom:1px solid #f7f7f7;cursor:pointer}
+.host-item:hover{background:#f0f5ff}
+.host-item.selected{background:#fff8f0;border-left:3px solid #FF6B35;padding-left:15px}
+.host-name{font-size:13px;font-weight:700;color:#0d1f45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.host-addr{font-size:11px;color:#888;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.host-meta{font-size:10px;color:#aaa;margin-top:3px}
+
+/* Detail panel */
+.detail{position:absolute;top:74px;right:20px;width:340px;max-height:calc(100% - 100px);background:#fff;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.15);padding:0;display:none;flex-direction:column;overflow:hidden;z-index:90}
+.detail.show{display:flex;animation:slideIn .25s}
+@keyframes slideIn{from{transform:translateX(20px);opacity:0}to{transform:translateX(0);opacity:1}}
+.detail .head{padding:18px 20px;background:linear-gradient(135deg,#1a52cc,#0d1f45);color:#fff;position:relative}
+.detail .close{position:absolute;top:14px;right:14px;color:#fff;background:rgba(255,255,255,.15);border:none;width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:14px}
+.detail .close:hover{background:rgba(255,255,255,.25)}
+.detail .biz-name{font-size:18px;font-weight:800;margin-bottom:4px}
+.detail .biz-loc{font-size:12px;color:rgba(255,255,255,.8)}
+.detail .body{padding:16px 20px;overflow-y:auto}
+.detail .row{padding:8px 0;border-bottom:1px solid #f5f5f5;font-size:12px;display:grid;grid-template-columns:80px 1fr;gap:8px}
+.detail .row:last-child{border:none}
+.detail .row .k{color:#888;font-weight:600}
+.detail .row .v{color:#0d1f45;font-weight:600;word-break:break-all}
+.detail .badge{display:inline-block;padding:3px 9px;border-radius:12px;font-size:11px;font-weight:700;background:#d4edda;color:#155724;margin-top:4px}
+
+/* Map overlays */
+.legend{position:absolute;bottom:30px;left:20px;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);padding:12px 16px;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.1);font-size:11px;z-index:50}
+.legend .item{display:flex;align-items:center;gap:6px;margin:3px 0}
+.legend .dot{width:12px;height:12px;border-radius:50%;background:#FF6B35}
+.legend .dot.cluster{background:#1a52cc;width:14px;height:14px}
+
+.loader{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;padding:20px 30px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.15);z-index:200;display:none}
+.loader.show{display:block}
+.loader .spinner{display:inline-block;width:18px;height:18px;border:2px solid #eee;border-top-color:#1a52cc;border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><em>wehome</em> Studio <small>전국 외도민업 지도</small></div>
+  <nav class="nav">
+    <a href="/">🏠 진단</a>
+    <a href="/analysis">📊 분석</a>
+    <a href="/map" class="active">🗺️ 지도</a>
+    <a href="/insights">📋 대시보드</a>
+  </nav>
+</header>
+
+<div id="mapWrap">
+
+  <aside class="sidebar">
+    <div class="sb-head">
+      <div class="label">▎전국 영업중 호스트</div>
+      <h2>외국인관광도시민박업 위치 지도</h2>
+      <div class="stats" id="sbStats">전체 영업중 <strong>-</strong>명 · 최근 1년 활성 <strong>-</strong>명</div>
+    </div>
+
+    <div class="sb-filters">
+      <label>시 / 도</label>
+      <select id="fSido"><option value="">전체</option></select>
+
+      <label>구 / 군</label>
+      <select id="fSigungu"><option value="">전체</option></select>
+
+      <label>업소명·주소 검색</label>
+      <input type="text" id="fSearch" placeholder="검색어 입력"/>
+
+      <div class="toggle-row">
+        <input type="checkbox" id="fRecent" checked>
+        <label for="fRecent" style="margin:0;cursor:pointer">최근 1년 활성만 표시</label>
+      </div>
+    </div>
+
+    <div class="sb-stats">
+      현재 표시 중: <span class="visible" id="visibleCount">0</span>건
+      / <span id="filteredCount">0</span>건 (필터)
+    </div>
+
+    <div class="sb-list" id="hostList"></div>
+  </aside>
+
+  <div id="map"></div>
+
+  <div class="detail" id="detail">
+    <div class="head">
+      <button class="close" onclick="closeDetail()">×</button>
+      <div class="biz-name" id="dName">-</div>
+      <div class="biz-loc" id="dLoc">-</div>
+      <span class="badge">영업/정상</span>
+    </div>
+    <div class="body">
+      <div class="row"><span class="k">도로명주소</span><span class="v" id="dRoadAddr">-</span></div>
+      <div class="row"><span class="k">지번주소</span><span class="v" id="dParcelAddr">-</span></div>
+      <div class="row"><span class="k">관리번호</span><span class="v" id="dMgtNo">-</span></div>
+      <div class="row"><span class="k">인허가일자</span><span class="v" id="dLicense">-</span></div>
+      <div class="row"><span class="k">객실 수</span><span class="v" id="dRooms">-</span></div>
+      <div class="row"><span class="k">전화번호</span><span class="v" id="dPhone">-</span></div>
+      <div class="row"><span class="k">최종 갱신</span><span class="v" id="dUpdate">-</span></div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="item"><span class="dot cluster"></span> 클러스터 (확대하면 분산)</div>
+    <div class="item"><span class="dot"></span> 영업중 호스트</div>
+  </div>
+
+  <div class="loader" id="loader"><span class="spinner"></span>데이터 로드 중...</div>
+</div>
+
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d57298b5648cef7e88c9f7bec9b24e74&autoload=false&libraries=clusterer"></script>
+<script>
+let map=null, clusterer=null, allData=[], filteredData=[], markers=[], byMgt=new Map(), selectedMarker=null;
+
+function loadKakao(){
+  return new Promise((resolve,reject)=>{
+    if(typeof kakao === 'undefined') return reject(new Error('Kakao SDK 미로드'));
+    kakao.maps.load(resolve);
+  });
+}
+
+async function init(){
+  document.getElementById('loader').classList.add('show');
+  await loadKakao();
+  map = new kakao.maps.Map(document.getElementById('map'), {
+    center: new kakao.maps.LatLng(36.5, 127.8),
+    level: 13
+  });
+  clusterer = new kakao.maps.MarkerClusterer({
+    map, averageCenter: true, minLevel: 6, gridSize: 60,
+    styles:[{
+      width:'40px',height:'40px',background:'rgba(26,82,204,.85)',color:'#fff',
+      textAlign:'center',lineHeight:'40px',borderRadius:'50%',fontSize:'13px',fontWeight:'700',
+      border:'3px solid rgba(255,255,255,.6)'
+    },{
+      width:'50px',height:'50px',background:'rgba(13,31,69,.9)',color:'#fff',
+      textAlign:'center',lineHeight:'50px',borderRadius:'50%',fontSize:'14px',fontWeight:'700',
+      border:'3px solid rgba(255,255,255,.6)'
+    },{
+      width:'60px',height:'60px',background:'rgba(255,107,53,.9)',color:'#fff',
+      textAlign:'center',lineHeight:'60px',borderRadius:'50%',fontSize:'15px',fontWeight:'800',
+      border:'3px solid rgba(255,255,255,.6)'
+    }]
+  });
+
+  // 헤더 통계
+  const stats = await fetch('/api/stats').then(r=>r.json());
+  const analysis = await fetch('/api/analysis').then(r=>r.json());
+  document.getElementById('sbStats').innerHTML =
+    `전체 영업중 <strong>${stats.active.toLocaleString()}</strong>명 · 최근 1년 활성 <strong>${analysis.recent_active.toLocaleString()}</strong>명`;
+
+  // 시도 옵션 채우기
+  const national = await fetch('/api/national').then(r=>r.json());
+  const sidoSel = document.getElementById('fSido');
+  national.forEach(s=>{
+    if(s.sido && s.active>0) sidoSel.innerHTML += `<option value="${s.sido}">${s.sido} (${s.active.toLocaleString()})</option>`;
+  });
+
+  await loadData();
+  document.getElementById('loader').classList.remove('show');
+
+  // 이벤트
+  document.getElementById('fSido').addEventListener('change', onSidoChange);
+  document.getElementById('fSigungu').addEventListener('change', applyFilter);
+  document.getElementById('fSearch').addEventListener('input', debounce(applyFilter, 300));
+  document.getElementById('fRecent').addEventListener('change', loadData);
+}
+
+async function loadData(){
+  document.getElementById('loader').classList.add('show');
+  const recent = document.getElementById('fRecent').checked;
+  const res = await fetch(`/api/all-locations?recent_only=${recent}`).then(r=>r.json());
+  allData = res.data;
+  byMgt.clear();
+  applyFilter();
+  document.getElementById('loader').classList.remove('show');
+}
+
+async function onSidoChange(){
+  const sido = document.getElementById('fSido').value;
+  const sigunguSel = document.getElementById('fSigungu');
+  sigunguSel.innerHTML = '<option value="">전체</option>';
+  if(sido){
+    const dists = await fetch(`/api/districts?sido=${encodeURIComponent(sido)}`).then(r=>r.json());
+    dists.forEach(d=>{
+      if(d.active>0) sigunguSel.innerHTML += `<option value="${d.sigungu}">${d.sigungu} (${d.active})</option>`;
+    });
+  }
+  applyFilter();
+}
+
+function applyFilter(){
+  const sido = document.getElementById('fSido').value;
+  const sigungu = document.getElementById('fSigungu').value;
+  const q = document.getElementById('fSearch').value.trim().toLowerCase();
+
+  filteredData = allData.filter(h=>{
+    if(sido && h.sido !== sido) return false;
+    if(sigungu && h.sigungu !== sigungu) return false;
+    if(q && !(h.biz_name||'').toLowerCase().includes(q) && !(h.road_address||'').toLowerCase().includes(q)) return false;
+    return true;
+  });
+
+  document.getElementById('filteredCount').textContent = filteredData.length.toLocaleString();
+  document.getElementById('visibleCount').textContent = filteredData.length.toLocaleString();
+
+  renderMarkers();
+  renderList();
+
+  // bounds 자동 조정
+  if(filteredData.length > 0 && (sido || sigungu || q)){
+    const bounds = new kakao.maps.LatLngBounds();
+    filteredData.forEach(h => bounds.extend(new kakao.maps.LatLng(h.lat, h.lng)));
+    map.setBounds(bounds);
+  }
+}
+
+function renderMarkers(){
+  if(clusterer) clusterer.clear();
+  markers = [];
+  byMgt.clear();
+
+  // 너무 많으면 샘플링 (10000개 이상)
+  const data = filteredData.length > 15000 ? filteredData.slice(0, 15000) : filteredData;
+
+  data.forEach(h=>{
+    const marker = new kakao.maps.Marker({
+      position: new kakao.maps.LatLng(h.lat, h.lng),
+      image: new kakao.maps.MarkerImage(
+        'data:image/svg+xml;base64,' + btoa(`<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="7" fill="#FF6B35" stroke="#fff" stroke-width="2"/></svg>`),
+        new kakao.maps.Size(20,20), {offset: new kakao.maps.Point(10,10)}
+      )
+    });
+    kakao.maps.event.addListener(marker, 'click', ()=>showDetail(h, marker));
+    markers.push(marker);
+    byMgt.set(h.id, marker);
+  });
+  clusterer.addMarkers(markers);
+}
+
+function renderList(){
+  const list = document.getElementById('hostList');
+  // 최대 200개만 사이드바에 표시
+  const show = filteredData.slice(0, 200);
+  list.innerHTML = show.map(h=>{
+    return `<div class="host-item" data-id="${h.id}" onclick='focusHost(${JSON.stringify(h).replace(/'/g,"&apos;")})'>
+      <div class="host-name">${h.biz_name||'-'}</div>
+      <div class="host-addr">${h.road_address||h.parcel_address||''}</div>
+      <div class="host-meta">${h.sido} ${h.sigungu} · 객실 ${h.rooms||'?'}실 · 등록 ${h.license_date||''}</div>
+    </div>`;
+  }).join('') + (filteredData.length > 200 ? `<div style="text-align:center;padding:14px;color:#aaa;font-size:11px">... 외 ${(filteredData.length-200).toLocaleString()}건 (지도에서 확인)</div>` : '');
+}
+
+function focusHost(h){
+  const pos = new kakao.maps.LatLng(h.lat, h.lng);
+  map.setLevel(2);
+  map.panTo(pos);
+  const marker = byMgt.get(h.id);
+  if(marker) showDetail(h, marker);
+}
+
+function showDetail(h, marker){
+  document.getElementById('detail').classList.add('show');
+  document.getElementById('dName').textContent = h.biz_name||'-';
+  document.getElementById('dLoc').textContent = `${h.sido||''} ${h.sigungu||''} ${h.dong||''}`;
+  document.getElementById('dRoadAddr').textContent = h.road_address||'-';
+  document.getElementById('dParcelAddr').textContent = h.parcel_address||'-';
+  document.getElementById('dMgtNo').textContent = h.mgt_no||'-';
+  document.getElementById('dLicense').textContent = h.license_date||'-';
+  document.getElementById('dRooms').textContent = (h.rooms||'?') + '실';
+  document.getElementById('dPhone').textContent = h.phone||'-';
+  document.getElementById('dUpdate').textContent = (h.update_at||'-').substring(0,16);
+
+  // 선택 마커 강조
+  if(selectedMarker !== marker){
+    selectedMarker = marker;
+  }
+
+  // 사이드바 리스트에서도 강조
+  document.querySelectorAll('.host-item').forEach(el => el.classList.remove('selected'));
+  const sel = document.querySelector(`.host-item[data-id="${h.id}"]`);
+  if(sel) {
+    sel.classList.add('selected');
+    sel.scrollIntoView({block:'nearest', behavior:'smooth'});
+  }
+}
+
+function closeDetail(){
+  document.getElementById('detail').classList.remove('show');
+}
+
+function debounce(fn, ms){
+  let t; return (...a) => { clearTimeout(t); t = setTimeout(()=>fn(...a), ms); };
+}
+
+init().catch(e=>{
+  alert('초기화 오류: '+e.message);
+  document.getElementById('loader').classList.remove('show');
+});
+</script>
+</body>
+</html>

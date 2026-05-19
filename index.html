@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>외국인관광도시민박업 현황 | 위홈 인사이트</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#EEF1F8;color:#1a2b4a}
+header{background:linear-gradient(135deg,#0d1f45 0%,#1a52cc 100%);color:#fff;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 16px rgba(0,0,0,.25);position:sticky;top:0;z-index:2000}
+.logo{font-size:20px;font-weight:800;letter-spacing:-.5px}.logo em{color:#FF6B35;font-style:normal}
+.logo small{font-size:12px;font-weight:400;opacity:.65;margin-left:8px}
+.hright{display:flex;align-items:center;gap:12px}
+.city-sel{padding:7px 28px 7px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 5 5-5z' fill='white'/%3E%3C/svg%3E") no-repeat right 10px center;color:#fff;font-size:13px;font-weight:600;cursor:pointer;outline:none;appearance:none}
+.city-sel option{color:#1a2b4a;background:#fff}
+.hbadge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:6px 12px;border-radius:16px;font-size:11px}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#27ae60;display:inline-block;margin-right:5px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* Stats */
+.stats-bar{display:grid;grid-template-columns:repeat(5,1fr);background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.sc{padding:16px 20px;border-right:1px solid #f0f0f0;position:relative}
+.sc:last-child{border-right:none}
+.sc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--a,#1a52cc);border-radius:0 2px 2px 0}
+.sn{font-size:28px;font-weight:800;color:#0d1f45;letter-spacing:-1px}
+.sl{font-size:11px;color:#888;margin-top:2px}
+.sg{font-size:11px;margin-top:4px;font-weight:600}
+.sg.up{color:#27ae60} .sg.dn{color:#e74c3c}
+
+/* Layout */
+.main{display:grid;grid-template-columns:1fr 350px;gap:16px;padding:16px 32px}
+.sidebar{display:flex;flex-direction:column;gap:16px}
+
+/* Panels */
+.panel{background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.06);overflow:hidden}
+.ph{padding:13px 18px;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between}
+.pt{font-size:14px;font-weight:700}
+.pi{font-size:11px;color:#aaa}
+
+/* Map */
+#map{height:450px}
+.mleg{padding:9px 18px;background:#fafafa;border-top:1px solid #f0f0f0;display:flex;gap:16px;align-items:center;font-size:11px;color:#777;flex-wrap:wrap}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:middle}
+
+/* Chart */
+#cw{padding:14px}
+
+/* List */
+.dlist{max-height:220px;overflow-y:auto}
+.di{display:flex;align-items:center;padding:8px 14px;border-bottom:1px solid #f7f7f7;cursor:pointer;transition:background .15s}
+.di:hover{background:#f0f5ff}
+.dr{width:20px;height:20px;border-radius:50%;background:#1a52cc;color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;margin-right:9px}
+.dr.g{background:#FF6B35}
+.dn_{flex:1;font-size:12px;font-weight:500}
+.dc_{font-size:12px;font-weight:700;color:#0d1f45}
+.db_{height:3px;background:#eee;border-radius:2px;margin-top:3px}
+.df_{height:100%;background:#1a52cc;border-radius:2px;transition:width .5s}
+
+/* Table */
+.tsec{padding:0 32px 24px}
+.fbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+input[type=text],select{padding:6px 10px;border:1px solid #ddd;border-radius:7px;font-size:12px;background:#fff;outline:none}
+input[type=text]{width:180px}
+input[type=text]:focus,select:focus{border-color:#1a52cc}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:10px 13px;font-size:11px;color:#999;font-weight:600;text-transform:uppercase;letter-spacing:.3px;background:#fafafa;border-bottom:1px solid #eee;white-space:nowrap}
+td{padding:10px 13px;font-size:12px;border-bottom:1px solid #f5f5f5;vertical-align:middle}
+tr:hover td{background:#f7faff}
+.bdg{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:10px;font-size:11px;font-weight:600}
+.ba{background:#d4edda;color:#155724} .bp{background:#fff3cd;color:#856404} .bc{background:#f8d7da;color:#721c24}
+.bw{background:#cce5ff;color:#004085} .bo{background:#f0f0f0;color:#888}
+
+.pager{display:flex;gap:8px;align-items:center;padding:12px 18px;border-top:1px solid #f0f0f0;font-size:12px;color:#888}
+.btn-page{padding:4px 10px;border:1px solid #ddd;border-radius:6px;cursor:pointer;font-size:12px;background:#fff}
+.btn-page:hover{background:#f0f5ff;border-color:#1a52cc}
+
+.datasrc{text-align:center;padding:14px;font-size:11px;color:#bbb}
+.datasrc a{color:#1a52cc;text-decoration:none}
+.note-bar{background:#fffbf0;border-top:1px solid #f5e6c0;padding:8px 18px;font-size:11px;color:#999}
+
+/* Loading */
+.loading{text-align:center;padding:40px;color:#aaa;font-size:13px}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo"><em>위홈</em> 인사이트 <small>Wehome Insight</small></div>
+  </div>
+  <div class="hright">
+    <select class="city-sel" id="citySelect">
+      <option value="전국">🇰🇷 전국</option>
+      <option value="서울특별시">📍 서울특별시</option>
+      <option value="부산광역시">📍 부산광역시</option>
+      <option value="대구광역시">📍 대구광역시</option>
+      <option value="인천광역시">📍 인천광역시</option>
+      <option value="광주광역시">📍 광주광역시</option>
+      <option value="대전광역시">📍 대전광역시</option>
+      <option value="울산광역시">📍 울산광역시</option>
+      <option value="세종특별자치시">📍 세종특별자치시</option>
+      <option value="경기도">📍 경기도</option>
+      <option value="강원특별자치도">📍 강원특별자치도</option>
+      <option value="충청북도">📍 충청북도</option>
+      <option value="충청남도">📍 충청남도</option>
+      <option value="전북특별자치도">📍 전북특별자치도</option>
+      <option value="전라남도">📍 전라남도</option>
+      <option value="경상북도">📍 경상북도</option>
+      <option value="경상남도">📍 경상남도</option>
+      <option value="제주특별자치도">📍 제주특별자치도</option>
+    </select>
+    <div class="hbadge"><span class="live-dot"></span>실시간 · localdata.go.kr</div>
+  </div>
+</header>
+
+<div class="stats-bar">
+  <div class="sc" style="--a:#1a52cc"><div class="sn" id="s1">-</div><div class="sl" id="l1">전국 등록 업소</div><div class="sg up" id="g1"></div></div>
+  <div class="sc" style="--a:#27ae60"><div class="sn" id="s2">-</div><div class="sl">현재 영업중</div><div class="sg up" id="g2"></div></div>
+  <div class="sc" style="--a:#FF6B35"><div class="sn" id="s3">-</div><div class="sl" id="l3">휴업</div><div class="sg" id="g3"></div></div>
+  <div class="sc" style="--a:#9b59b6"><div class="sn" id="s4">-</div><div class="sl" id="l4">자치구 분포</div><div class="sg" id="g4"></div></div>
+  <div class="sc" style="--a:#e74c3c"><div class="sn" id="s5">-</div><div class="sl">위홈 등록 (샘플)</div><div class="sg dn">실제 연동 예정</div></div>
+</div>
+
+<div class="main">
+  <div class="panel">
+    <div class="ph">
+      <span class="pt" id="mapTitle">🗺️ 전국 등록 현황</span>
+      <span class="pi">원 크기 = 업소 수 | 색상 = 영업중 비율 | 클릭 상세</span>
+    </div>
+    <div id="map"></div>
+    <div class="mleg">
+      <span><span class="dot" style="background:#27ae60"></span>영업중 80%+</span>
+      <span><span class="dot" style="background:#FF6B35"></span>영업중 50~80%</span>
+      <span><span class="dot" style="background:#e74c3c"></span>영업중 50% 미만</span>
+      <span style="margin-left:auto;color:#bbb">지도: © OpenStreetMap / CartoDB</span>
+    </div>
+  </div>
+
+  <div class="sidebar">
+    <div class="panel">
+      <div class="ph"><span class="pt" id="chartTitle">📊 지역별 TOP 8</span></div>
+      <div id="cw"><canvas id="barChart" height="200"></canvas></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><span class="pt" id="listTitle">🏆 순위</span><span class="pi">클릭 → 지도 이동</span></div>
+      <div class="dlist" id="dList"><div class="loading">데이터 로딩중...</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="tsec">
+  <div class="panel">
+    <div class="ph">
+      <span class="pt">📋 등록 업소 목록</span>
+      <div class="fbar">
+        <input type="text" id="q" placeholder="업소명·주소 검색"/>
+        <select id="fDistrict"><option value="">전체 구/군</option></select>
+        <select id="fStatus">
+          <option value="">전체 상태</option>
+          <option value="영업/정상">영업중</option>
+          <option value="휴업">휴업</option>
+          <option value="폐업">폐업</option>
+        </select>
+      </div>
+    </div>
+    <div class="note-bar">
+      📡 데이터: <strong>행정안전부 외국인관광도시민박업 인허가</strong> (file.localdata.go.kr, 매일 갱신 D-2 기준)
+      &nbsp;|&nbsp; 위홈·에어비앤비 ID: 향후 연동 예정 (현재 샘플)
+    </div>
+    <div id="tWrap">
+      <table>
+        <thead>
+          <tr><th>업소명</th><th>시도</th><th>구/군</th><th>주소</th><th>인허가일</th><th>객실</th><th>상태</th><th>에어비앤비</th><th>위홈</th></tr>
+        </thead>
+        <tbody id="tBody"><tr><td colspan="9" class="loading">데이터 로딩중...</td></tr></tbody>
+      </table>
+      <div class="pager" id="pager"></div>
+    </div>
+  </div>
+</div>
+
+<div class="datasrc">
+  📡 출처: <a href="https://file.localdata.go.kr/file/foreigner_city_homestays/info" target="_blank">행정안전부 외국인관광도시민박업 인허가 데이터</a>
+  &nbsp;|&nbsp; 위홈 인사이트 대시보드 &nbsp;|&nbsp; <span id="lastUpdated"></span>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<script>
+const API = '';  // 같은 서버에서 서비스
+let currentCity = '전국';
+let currentPage = 1;
+let totalRecords = 0;
+const PER_PAGE = 50;
+
+// 지도 초기화
+const map = L.map('map').setView([36.5,127.8],7);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{
+  attribution:'© OpenStreetMap © CARTO', maxZoom:19
+}).addTo(map);
+
+let markers=[], barChart=null;
+function clearMarkers(){ markers.forEach(m=>map.removeLayer(m)); markers=[]; }
+
+// 색상: 영업중 비율 기반
+function colorByRate(active, total){
+  const r = total > 0 ? active/total : 0;
+  return r >= 0.8 ? '#27ae60' : r >= 0.5 ? '#FF6B35' : '#e74c3c';
+}
+
+function animNum(id, target){
+  const el=document.getElementById(id);
+  let cur=0, step=Math.max(1,Math.floor(target/40));
+  const t=setInterval(()=>{ cur=Math.min(cur+step,target); el.textContent=cur.toLocaleString(); if(cur>=target)clearInterval(t); },20);
+}
+
+// ── 전국 뷰 ────────────────────────────────────────────────────────────────
+const SIDO_COORDS = {
+  '서울특별시':[37.5665,126.9780],'부산광역시':[35.1796,129.0756],
+  '대구광역시':[35.8714,128.6014],'인천광역시':[37.4563,126.7052],
+  '광주광역시':[35.1595,126.8526],'대전광역시':[36.3504,127.3845],
+  '울산광역시':[35.5384,129.3114],'세종특별자치시':[36.4800,127.2890],
+  '경기도':[37.4138,127.5183],'강원특별자치도':[37.8228,128.1555],
+  '충청북도':[36.6358,127.4913],'충청남도':[36.5184,126.8000],
+  '전북특별자치도':[35.7175,127.1530],'전라남도':[34.8679,126.9910],
+  '경상북도':[36.4919,128.8889],'경상남도':[35.2383,128.6922],
+  '제주특별자치도':[33.4996,126.5312],
+};
+
+// 구 좌표 (서울)
+const SEOUL_SGU_COORDS = {
+  '마포구':[37.5664,126.9018],'용산구':[37.5384,126.9654],'종로구':[37.5735,126.9790],
+  '강남구':[37.4979,127.0276],'중구':[37.5637,126.9975],'서대문구':[37.5791,126.9368],
+  '송파구':[37.5145,127.1059],'은평구':[37.6027,126.9291],'광진구':[37.5385,127.0823],
+  '성동구':[37.5633,127.0369],'서초구':[37.4837,127.0324],'동대문구':[37.5744,127.0098],
+  '성북구':[37.5894,127.0167],'영등포구':[37.5264,126.8963],'동작구':[37.5124,126.9393],
+  '강동구':[37.5301,127.1238],'노원구':[37.6542,127.0568],'강서구':[37.5509,126.8495],
+  '중랑구':[37.6063,127.0927],'관악구':[37.4784,126.9516],'구로구':[37.4954,126.8874],
+  '강북구':[37.6396,127.0255],'금천구':[37.4570,126.8954],'양천구':[37.5170,126.8666],
+  '도봉구':[37.6688,127.0471],
+};
+const BUSAN_SGU_COORDS = {
+  '해운대구':[35.1631,129.1639],'중구':[35.1040,129.0325],'부산진구':[35.1640,129.0536],
+  '남구':[35.1367,129.0838],'기장군':[35.2444,129.2224],'동래구':[35.2061,129.0848],
+  '수영구':[35.1456,129.1131],'서구':[35.0986,129.0246],'동구':[35.1331,129.0490],
+  '영도구':[35.0913,129.0620],'사하구':[35.1040,128.9745],'금정구':[35.2431,129.0916],
+  '연제구':[35.1755,129.0793],'사상구':[35.1546,128.9921],'북구':[35.1972,128.9919],'강서구':[35.1800,128.9320],
+};
+
+function getCoords(sido, sigungu){
+  if(sido==='서울특별시') return SEOUL_SGU_COORDS[sigungu];
+  if(sido==='부산광역시') return BUSAN_SGU_COORDS[sigungu];
+  return null;
+}
+
+async function loadNational(){
+  const data = await fetch('/api/national').then(r=>r.json());
+  clearMarkers();
+  const maxTotal = Math.max(...data.map(d=>d.total));
+
+  data.forEach(d=>{
+    const coords = SIDO_COORDS[d.sido];
+    if(!coords) return;
+    const r = 8 + (d.total/maxTotal)*30;
+    const c = colorByRate(d.active, d.total);
+    const m = L.circleMarker(coords,{radius:r,fillColor:c,color:'#fff',weight:2,opacity:.9,fillOpacity:.72}).addTo(map);
+    const pct = d.total>0?Math.round(d.active/d.total*100):0;
+    m.bindPopup(`<b style="font-size:14px">${d.sido}</b><br>
+      <table style="margin-top:6px;font-size:12px;width:100%">
+      <tr><td style="color:#888">전체</td><td style="font-weight:700;text-align:right">${d.total.toLocaleString()}개</td></tr>
+      <tr><td style="color:#888">영업중</td><td style="font-weight:700;text-align:right;color:#27ae60">${d.active.toLocaleString()}개 (${pct}%)</td></tr>
+      <tr><td style="color:#888">휴업</td><td style="font-weight:700;text-align:right;color:#FF6B35">${d.pause}개</td></tr>
+      <tr><td style="color:#888">폐업</td><td style="font-weight:700;text-align:right;color:#e74c3c">${d.closed.toLocaleString()}개</td></tr>
+      </table>`);
+    m.on('click',()=>{ document.getElementById('citySelect').value=d.sido; switchCity(d.sido); });
+    markers.push(m);
+  });
+
+  renderChart(data.slice(0,8).map(d=>({name:d.sido.replace(/특별시|광역시|특별자치도|특별자치시/g,'').replace('도',''), active:d.active, total:d.total})));
+  renderList(data, null);
+
+  const stats = await fetch('/api/stats').then(r=>r.json());
+  animNum('s1', stats.total); animNum('s2', stats.active);
+  animNum('s3', stats.pause); animNum('s4', data.length);
+  document.getElementById('s5').textContent = Math.round(stats.active*0.42).toLocaleString();
+  document.getElementById('l1').textContent = '전국 등록 업소';
+  document.getElementById('l4').textContent = '시/도 수';
+  map.flyTo([36.5,127.8],7,{duration:1.5});
+}
+
+async function loadCity(sido){
+  const dists = await fetch(`/api/districts?sido=${encodeURIComponent(sido)}`).then(r=>r.json());
+  clearMarkers();
+  const maxTotal = Math.max(...dists.map(d=>d.total),1);
+  const sguCoords = sido==='서울특별시'?SEOUL_SGU_COORDS: sido==='부산광역시'?BUSAN_SGU_COORDS:{};
+  const sidoCoord = SIDO_COORDS[sido]||[36.5,127.8];
+
+  dists.forEach(d=>{
+    const coords = sguCoords[d.sigungu] || (d.avg_y&&d.avg_x&&Math.abs(d.avg_y)>30&&Math.abs(d.avg_x)>120?[d.avg_y,d.avg_x]:null);
+    if(!coords) return;
+    const r = 8 + (d.total/maxTotal)*24;
+    const c = colorByRate(d.active, d.total);
+    const pct = d.total>0?Math.round(d.active/d.total*100):0;
+    const m = L.circleMarker(coords,{radius:r,fillColor:c,color:'#fff',weight:2,opacity:.9,fillOpacity:.75}).addTo(map);
+    m.bindPopup(`<b style="font-size:14px">${d.sigungu}</b><br>
+      <table style="margin-top:6px;font-size:12px;width:100%">
+      <tr><td style="color:#888">전체</td><td style="font-weight:700;text-align:right">${d.total}개</td></tr>
+      <tr><td style="color:#888">영업중</td><td style="font-weight:700;text-align:right;color:#27ae60">${d.active}개 (${pct}%)</td></tr>
+      <tr><td style="color:#888">휴업</td><td style="font-weight:700;text-align:right">${d.pause}개</td></tr>
+      <tr><td style="color:#888">폐업</td><td style="font-weight:700;text-align:right">${d.closed}개</td></tr>
+      </table>`);
+    markers.push(m);
+  });
+
+  renderChart(dists.slice(0,8).map(d=>({name:d.sigungu.replace(/[시군구]/,''), active:d.active, total:d.total})));
+  renderList(dists, sguCoords);
+
+  const stats = await fetch(`/api/stats?sido=${encodeURIComponent(sido)}`).then(r=>r.json());
+  animNum('s1', stats.total); animNum('s2', stats.active);
+  animNum('s3', stats.pause); animNum('s4', stats.district_count);
+  document.getElementById('s5').textContent = Math.round(stats.active*0.42).toLocaleString();
+  document.getElementById('l1').textContent = `${sido} 등록 업소`;
+  document.getElementById('l4').textContent = '구/군 수';
+
+  const zoom = sido==='서울특별시'?11:sido==='부산광역시'?12:10;
+  map.flyTo(sidoCoord, zoom, {duration:1.5});
+}
+
+function renderChart(items){
+  if(barChart) barChart.destroy();
+  barChart = new Chart(document.getElementById('barChart'),{
+    type:'bar',
+    data:{
+      labels: items.map(d=>d.name),
+      datasets:[
+        {label:'영업중', data:items.map(d=>d.active), backgroundColor:'#27ae60', borderRadius:4},
+        {label:'전체',   data:items.map(d=>d.total-d.active), backgroundColor:'#ddd', borderRadius:4},
+      ]
+    },
+    options:{
+      responsive:true, plugins:{legend:{display:true,position:'bottom',labels:{font:{size:10},boxWidth:10}}},
+      scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:10}}}, y:{stacked:true,grid:{color:'#f3f3f3'},ticks:{font:{size:10}}}},
+    }
+  });
+}
+
+function renderList(items, coordsMap){
+  const sorted = [...items].sort((a,b)=>b.active-a.active);
+  const el = document.getElementById('dList');
+  el.innerHTML='';
+  const maxActive = sorted[0]?.active || 1;
+  sorted.forEach((d,i)=>{
+    const pct = Math.round(d.active/maxActive*100);
+    const name = d.sido || d.sigungu || '-';
+    const div = document.createElement('div');
+    div.className='di';
+    div.innerHTML=`<div class="dr ${i<3?'g':''}">${i+1}</div>
+      <div style="flex:1">
+        <div style="display:flex;justify-content:space-between">
+          <span class="dn_">${name}</span>
+          <span class="dc_">${d.active.toLocaleString()}개</span>
+        </div>
+        <div class="db_"><div class="df_" style="width:${pct}%"></div></div>
+      </div>`;
+    if(coordsMap){
+      const coords = coordsMap[name];
+      if(coords) div.addEventListener('click',()=>map.flyTo(coords,14,{duration:1}));
+    } else {
+      const coords = SIDO_COORDS[name];
+      if(coords) div.addEventListener('click',()=>map.flyTo(coords,10,{duration:1}));
+    }
+    el.appendChild(div);
+  });
+}
+
+// ── 테이블 ─────────────────────────────────────────────────────────────────
+const SAMPLE_AIRBNB = {
+  'CDFI2262212019001234': '52341890',
+  'CDFI2262212020005678': '63201948',
+};
+const SAMPLE_WEHOME = {
+  'CDFI2262212019001234': 'WH-2031',
+  'CDFI2262212020005678': 'WH-2156',
+};
+
+function statusBadge(s){
+  if(s==='영업/정상') return '<span class="bdg ba">영업중</span>';
+  if(s==='휴업') return '<span class="bdg bp">휴업</span>';
+  if(s==='폐업') return '<span class="bdg bc">폐업</span>';
+  return `<span class="bdg bo">${s}</span>`;
+}
+
+async function loadTable(){
+  const sido = currentCity==='전국'?'':currentCity;
+  const sigungu = document.getElementById('fDistrict').value;
+  const status = document.getElementById('fStatus').value;
+  const q = document.getElementById('q').value;
+
+  const params = new URLSearchParams({
+    sido, sigungu, status, q,
+    page: currentPage, per_page: PER_PAGE
+  });
+  const res = await fetch(`/api/listings?${params}`).then(r=>r.json());
+  totalRecords = res.total;
+
+  // 구/군 드롭다운 업데이트
+  const distSel = document.getElementById('fDistrict');
+  if(sido && !sigungu){
+    const dists = await fetch(`/api/districts?sido=${encodeURIComponent(sido)}`).then(r=>r.json());
+    const cur = distSel.value;
+    distSel.innerHTML='<option value="">전체 구/군</option>';
+    dists.forEach(d=>{ distSel.innerHTML+=`<option ${d.sigungu===cur?'selected':''}>${d.sigungu}</option>`; });
+  }
+
+  document.getElementById('tBody').innerHTML = res.data.map(r=>{
+    const airbnb = SAMPLE_AIRBNB[r.mgt_no];
+    const wehome = SAMPLE_WEHOME[r.mgt_no];
+    return `<tr>
+      <td><strong>${r.biz_name||'-'}</strong></td>
+      <td>${r.sido||''}</td>
+      <td>${r.sigungu||''}</td>
+      <td style="color:#888;font-size:11px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${(r.road_address||r.parcel_address||'').replace(/서울특별시\s?|부산광역시\s?/g,'')}</td>
+      <td style="color:#888;font-size:11px;white-space:nowrap">${r.license_date||''}</td>
+      <td style="text-align:center">${r.rooms||'-'}</td>
+      <td>${statusBadge(r.status_name)}</td>
+      <td style="font-size:11px">${airbnb?`<a href="https://www.airbnb.co.kr/rooms/${airbnb}" target="_blank" style="color:#1a52cc">🔗 ${airbnb}</a>`:'<span style="color:#ccc">-</span>'}</td>
+      <td style="font-size:11px">${wehome?`<a href="https://www.wehome.me/rooms/${wehome.replace('WH-','')}" target="_blank" style="color:#FF6B35">🏠 ${wehome}</a>`:'<span style="color:#ccc">-</span>'}</td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="9" style="text-align:center;color:#aaa;padding:20px">데이터 없음</td></tr>';
+
+  // 페이저
+  const totalPages = Math.ceil(totalRecords/PER_PAGE);
+  document.getElementById('pager').innerHTML = `
+    <span>총 ${totalRecords.toLocaleString()}건 (${currentPage}/${totalPages} 페이지)</span>
+    <button class="btn-page" onclick="changePage(-1)" ${currentPage<=1?'disabled':''}>◀ 이전</button>
+    <button class="btn-page" onclick="changePage(1)"  ${currentPage>=totalPages?'disabled':''}>다음 ▶</button>`;
+}
+
+function changePage(dir){ currentPage += dir; loadTable(); }
+
+['q','fDistrict','fStatus'].forEach(id=>{
+  document.getElementById(id).addEventListener(id==='q'?'input':'change', ()=>{ currentPage=1; loadTable(); });
+});
+
+async function switchCity(city){
+  currentCity = city;
+  currentPage = 1;
+  document.getElementById('fDistrict').innerHTML='<option value="">전체 구/군</option>';
+  document.getElementById('mapTitle').textContent = city==='전국'?'🗺️ 전국 등록 현황':`🗺️ ${city} 등록 현황`;
+  document.getElementById('chartTitle').textContent = city==='전국'?'📊 시/도별 TOP 8':`📊 ${city.replace(/특별시|광역시|특별자치도|특별자치시/g,'').replace('도','')} 구/군별`;
+  document.getElementById('listTitle').textContent = city==='전국'?'🏆 전국 순위':'🏆 구/군 순위';
+
+  if(city==='전국') await loadNational();
+  else await loadCity(city);
+  await loadTable();
+}
+
+document.getElementById('citySelect').addEventListener('change', e=>switchCity(e.target.value));
+
+// 메타 정보 로드
+fetch('/api/meta').then(r=>r.json()).then(m=>{
+  if(m.last_updated){
+    const d = new Date(m.last_updated);
+    document.getElementById('lastUpdated').textContent = `최종 갱신: ${d.toLocaleDateString('ko-KR')} ${d.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}`;
+  }
+});
+
+// 초기 로드
+switchCity('전국');
+</script>
+</body>
+</html>
