@@ -1,0 +1,62 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'wehome Studio - AWS App Runner 자동 배포 (insight.wehome.me)'
+
+Parameters:
+  GitHubRepo:
+    Type: String
+    Default: 'https://github.com/josanku/wehome-insight'
+    Description: GitHub 저장소 URL
+  Branch:
+    Type: String
+    Default: 'main'
+  ConnectionArn:
+    Type: String
+    Description: '미리 생성한 App Runner GitHub Connection ARN (위홈 AWS 콘솔에서 발급)'
+  KakaoRestApiKey:
+    Type: String
+    NoEcho: true
+    Description: 'Kakao Developers REST API Key'
+
+Resources:
+  WehomeStudioService:
+    Type: AWS::AppRunner::Service
+    Properties:
+      ServiceName: wehome-insight
+      SourceConfiguration:
+        AutoDeploymentsEnabled: true
+        AuthenticationConfiguration:
+          ConnectionArn: !Ref ConnectionArn
+        CodeRepository:
+          RepositoryUrl: !Ref GitHubRepo
+          SourceCodeVersion:
+            Type: BRANCH
+            Value: !Ref Branch
+          CodeConfiguration:
+            ConfigurationSource: REPOSITORY
+      InstanceConfiguration:
+        Cpu: '1 vCPU'
+        Memory: '2 GB'
+        # 환경변수
+      HealthCheckConfiguration:
+        Protocol: HTTP
+        Path: /api/stats
+        Interval: 20
+        Timeout: 5
+        HealthyThreshold: 2
+        UnhealthyThreshold: 5
+
+  CustomDomain:
+    Type: AWS::AppRunner::CustomDomainAssociation
+    DependsOn: WehomeStudioService
+    Properties:
+      DomainName: insight.wehome.me
+      ServiceArn: !GetAtt WehomeStudioService.ServiceArn
+      EnableWWWSubdomain: false
+
+Outputs:
+  ServiceUrl:
+    Description: 'App Runner 자동 URL'
+    Value: !GetAtt WehomeStudioService.ServiceUrl
+  CustomDomain:
+    Description: '커스텀 도메인 인증을 위한 DNS 레코드 정보는 콘솔 확인'
+    Value: 'insight.wehome.me'
