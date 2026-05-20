@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>위홈 호스트 AI · 한국 공유숙박 대화형 어시스턴트 | wehome Studio</title>
+<meta name="description" content="외국인관광도시민박업·한옥체험업·관광숙박업 등 한국 공유숙박 모든 정보를 24/7 대화형으로. 위홈 Knowledge Base RAG 기반 정확한 답변 + 출처 인용."/>
+<meta name="keywords" content="위홈 AI, 호스트 챗봇, 외도민업 질문, 공유숙박 AI, 호스트 어시스턴트"/>
+<link rel="canonical" href="https://insight.wehome.me/ask"/>
+<meta property="og:title" content="위홈 호스트 AI · 한국 공유숙박 대화형 어시스턴트"/>
+<meta property="og:description" content="외도민업·한옥체험업 등 모든 정보를 AI에게 직접 질문. 출처 인용 정확한 답변."/>
+<meta property="og:image" content="https://insight.wehome.me/og-image.png"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;background:#f5f8fa;color:#0d1f45;line-height:1.6;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+header{background:#fff;border-bottom:1px solid #ececec;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.logo{font-size:20px;font-weight:800}.logo em{color:#FF6B35;font-style:normal}
+.logo small{font-size:12px;font-weight:400;color:#888;margin-left:6px}
+.nav{display:flex;gap:10px;font-size:13px;align-items:center;flex-wrap:wrap}
+.nav a{color:#555;text-decoration:none;padding:5px 10px;border-radius:6px}
+.nav a:hover{background:#f0f5ff}
+.nav a.active{background:linear-gradient(135deg,#0d1f45,#1a52cc);color:#fff}
+
+/* Chat container */
+.chat-wrap{flex:1;display:flex;flex-direction:column;max-width:880px;margin:0 auto;width:100%;padding:20px;min-height:0}
+
+/* Welcome */
+.welcome{text-align:center;padding:30px 20px}
+.welcome .badge{display:inline-block;background:linear-gradient(135deg,#0d1f45,#1a52cc);color:#fff;padding:6px 14px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:1.5px;margin-bottom:14px}
+.welcome h1{font-size:32px;font-weight:800;letter-spacing:-1px;margin-bottom:8px}
+.welcome h1 em{color:#FF6B35;font-style:normal}
+.welcome p{color:#666;font-size:14px;max-width:560px;margin:0 auto}
+.examples{margin-top:24px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-width:600px;margin-left:auto;margin-right:auto}
+.ex{background:#fff;border:1px solid #e8edf5;border-radius:10px;padding:14px;text-align:left;cursor:pointer;transition:.15s;font-size:13px;color:#555}
+.ex:hover{border-color:#1a52cc;background:#f0f5ff;transform:translateY(-1px)}
+.ex .ico{margin-right:6px}
+
+/* Messages */
+.messages{flex:1;overflow-y:auto;padding:14px 0}
+.msg{display:flex;gap:14px;margin-bottom:20px;animation:fadeIn .25s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.msg .avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.msg.user .avatar{background:#FF6B35;color:#fff}
+.msg.ai .avatar{background:linear-gradient(135deg,#0d1f45,#1a52cc);color:#fff}
+.msg .body{flex:1;min-width:0}
+.msg .name{font-size:11px;color:#888;font-weight:700;margin-bottom:4px}
+.msg .content{background:#fff;border-radius:12px;padding:14px 18px;box-shadow:0 1px 4px rgba(0,0,0,.04);font-size:14px;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+.msg.user .content{background:#fff8f0;border:1px solid #ffe4d5}
+.sources{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
+.src-pill{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:#f0f5ff;color:#1a52cc;border-radius:14px;font-size:11px;font-weight:600;text-decoration:none}
+.src-pill:hover{background:#1a52cc;color:#fff}
+.feedback-row{margin-top:10px;display:flex;gap:6px;font-size:12px;color:#888}
+.feedback-row button{background:transparent;border:1px solid #e8edf5;border-radius:14px;padding:3px 10px;cursor:pointer;font-size:11px;color:#666}
+.feedback-row button:hover{background:#f0f5ff;color:#1a52cc;border-color:#1a52cc}
+.feedback-row button.active{background:#27ae60;color:#fff;border-color:#27ae60}
+
+.loading-dots{display:inline-flex;gap:4px;padding:14px 18px}
+.loading-dots span{width:8px;height:8px;background:#aaa;border-radius:50%;animation:loadingPulse 1.2s infinite}
+.loading-dots span:nth-child(2){animation-delay:.2s}
+.loading-dots span:nth-child(3){animation-delay:.4s}
+@keyframes loadingPulse{0%,80%,100%{opacity:.3}40%{opacity:1}}
+
+/* Input area */
+.input-area{background:#fff;border-top:1px solid #ececec;padding:14px;display:flex;gap:10px;align-items:flex-end;border-radius:16px 16px 0 0;box-shadow:0 -4px 12px rgba(0,0,0,.04)}
+.input-area textarea{flex:1;border:1px solid #ddd;border-radius:12px;padding:12px 16px;font-size:14px;outline:none;resize:none;font-family:inherit;min-height:44px;max-height:160px}
+.input-area textarea:focus{border-color:#1a52cc}
+.input-area button{padding:0 22px;height:44px;background:linear-gradient(135deg,#0d1f45,#1a52cc);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;white-space:nowrap}
+.input-area button:disabled{background:#aaa;cursor:wait}
+.info-bar{text-align:center;padding:8px;color:#aaa;font-size:11px;background:#fff;border-top:1px solid #f5f5f5}
+
+@media (max-width:768px){
+  .examples{grid-template-columns:1fr} .welcome h1{font-size:24px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><em>wehome</em> Studio <small>AI 어시스턴트</small></div>
+  <nav class="nav">
+    <a href="/">🏠 진단</a><a href="/search">🔍 검색</a>
+    <a href="/ask" class="active">🤖 AI</a>
+    <a href="/board">📋 게시판</a><a href="/newsletter">📧 호스트레터</a>
+  </nav>
+</header>
+
+<div class="chat-wrap">
+  <!-- Welcome (초기) -->
+  <div class="welcome" id="welcome">
+    <div class="badge">▎ASK · POWERED BY WEHOME KNOWLEDGE BASE</div>
+    <h1>한국 공유숙박, <em>무엇이든 물어보세요</em></h1>
+    <p>외국인관광도시민박업·한옥체험업·관광숙박업·세금·금융·인테리어까지<br/>위홈이 정리한 모든 정보를 AI가 대신 찾아 답해드립니다.</p>
+
+    <div class="examples">
+      <div class="ex" onclick="askExample('마포구에서 아파트로 외도민업 등록 가능한가요?')">
+        <span class="ico">⚖️</span>마포구에서 아파트로 외도민업 등록 가능한가요?
+      </div>
+      <div class="ex" onclick="askExample('외도민업 등록 절차를 단계별로 알려주세요')">
+        <span class="ico">📝</span>외도민업 등록 절차를 단계별로 알려주세요
+      </div>
+      <div class="ex" onclick="askExample('홍대 근처 평균 객단가는 얼마인가요?')">
+        <span class="ico">💰</span>홍대 근처 평균 객단가는 얼마인가요?
+      </div>
+      <div class="ex" onclick="askExample('외도민업 세금 신고는 어떻게 하나요?')">
+        <span class="ico">📊</span>외도민업 세금 신고는 어떻게 하나요?
+      </div>
+      <div class="ex" onclick="askExample('한옥체험업과 외도민업 차이는?')">
+        <span class="ico">🏯</span>한옥체험업과 외도민업 차이는?
+      </div>
+      <div class="ex" onclick="askExample('미등록 운영 시 과태료가 얼마인가요?')">
+        <span class="ico">⚠️</span>미등록 운영 시 과태료가 얼마인가요?
+      </div>
+    </div>
+  </div>
+
+  <!-- 메시지 영역 -->
+  <div class="messages" id="messages" style="display:none"></div>
+
+  <!-- 입력 영역 -->
+  <div class="input-area">
+    <textarea id="input" placeholder="외도민업·세금·인테리어 등 무엇이든 질문하세요 (Enter 전송, Shift+Enter 줄바꿈)" rows="1"></textarea>
+    <button id="sendBtn" onclick="send()">💬 전송</button>
+  </div>
+  <div class="info-bar">
+    AI 응답은 위홈 Knowledge Base 기반이며 일부 부정확할 수 있습니다. 법률·세무 자문은 전문가와 상담하세요.
+  </div>
+</div>
+
+<script>
+const messagesEl = document.getElementById('messages');
+const welcomeEl = document.getElementById('welcome');
+const inputEl = document.getElementById('input');
+const sendBtn = document.getElementById('sendBtn');
+
+// 자동 높이 조정
+inputEl.addEventListener('input', () => {
+  inputEl.style.height = 'auto';
+  inputEl.style.height = Math.min(inputEl.scrollHeight, 160) + 'px';
+});
+inputEl.addEventListener('keydown', e => {
+  if(e.key === 'Enter' && !e.shiftKey){
+    e.preventDefault();
+    send();
+  }
+});
+
+function escapeHtml(s){ return (s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+function showMessages(){
+  welcomeEl.style.display = 'none';
+  messagesEl.style.display = 'block';
+}
+
+function addMessage(role, content, sources=null, msgId=null){
+  const msg = document.createElement('div');
+  msg.className = 'msg ' + role;
+  if(msgId) msg.dataset.id = msgId;
+
+  const avatar = role === 'user' ? '👤' : '🤖';
+  const name = role === 'user' ? '나' : '위홈 호스트 AI';
+
+  let html = `<div class="avatar">${avatar}</div>
+    <div class="body">
+      <div class="name">${name}</div>
+      <div class="content">${content === '__LOADING__' ?
+        '<div class="loading-dots"><span></span><span></span><span></span></div>' :
+        escapeHtml(content).replace(/\n/g, '<br/>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+      }</div>`;
+
+  if(sources && sources.length){
+    html += '<div class="sources">';
+    sources.forEach(s => {
+      html += `<a href="${s.url}" target="_blank" class="src-pill">📄 ${escapeHtml(s.title.substring(0, 40))}</a>`;
+    });
+    html += '</div>';
+  }
+  if(role === 'ai' && content !== '__LOADING__'){
+    html += `<div class="feedback-row">
+      <span>이 답변이 도움이 되었나요?</span>
+      <button onclick="rateAnswer(this, 'up')">👍 도움됨</button>
+      <button onclick="rateAnswer(this, 'down')">👎 부족함</button>
+    </div>`;
+  }
+  html += '</div>';
+  msg.innerHTML = html;
+  messagesEl.appendChild(msg);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+  return msg;
+}
+
+async function rateAnswer(btn, value){
+  btn.classList.add('active');
+  btn.parentElement.querySelectorAll('button').forEach(b => b.disabled = true);
+  try {
+    await fetch('/api/feedback', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        type: 'ai_answer_' + value,
+        title: '[AI 답변] ' + value,
+        body: btn.parentElement.parentElement.querySelector('.content').textContent.substring(0, 500),
+        path: '/ask',
+      })
+    });
+  } catch(e){}
+}
+
+async function send(){
+  const q = inputEl.value.trim();
+  if(!q) return;
+
+  showMessages();
+  addMessage('user', q);
+  inputEl.value = '';
+  inputEl.style.height = 'auto';
+  sendBtn.disabled = true;
+
+  const loadingMsg = addMessage('ai', '__LOADING__');
+
+  try {
+    const r = await fetch('/api/ask', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({question: q})
+    }).then(r=>r.json());
+
+    loadingMsg.remove();
+    if(r.ok){
+      addMessage('ai', r.answer, r.sources);
+    } else {
+      addMessage('ai', '오류: ' + (r.error || '응답 실패'));
+    }
+  } catch(e){
+    loadingMsg.remove();
+    addMessage('ai', '⚠️ 네트워크 오류: ' + e.message);
+  } finally {
+    sendBtn.disabled = false;
+    inputEl.focus();
+  }
+}
+
+function askExample(q){
+  inputEl.value = q;
+  send();
+}
+
+inputEl.focus();
+</script>
+</body>
+</html>

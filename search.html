@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>위홈 통합 검색 · 공유숙박 모든 정보 검색 | wehome Studio</title>
+<meta name="description" content="외도민업·한옥체험업·관광숙박업·세금·금융·인테리어·법령까지 위홈이 정리한 모든 정보를 한 번에 검색."/>
+<link rel="canonical" href="https://insight.wehome.me/search"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;background:#fafbfd;color:#0d1f45;line-height:1.6}
+header{background:#fff;border-bottom:1px solid #ececec;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:2000}
+.logo{font-size:20px;font-weight:800}.logo em{color:#FF6B35;font-style:normal}
+.logo small{font-size:12px;font-weight:400;color:#888;margin-left:6px}
+.nav{display:flex;gap:10px;font-size:13px;align-items:center;flex-wrap:wrap}
+.nav a{color:#555;text-decoration:none;padding:5px 10px;border-radius:6px}
+.nav a:hover{background:#f0f5ff}
+.nav a.active{background:#1a52cc;color:#fff}
+
+.hero{padding:40px 32px 20px;text-align:center}
+.hero h1{font-size:30px;font-weight:800;margin-bottom:8px}
+.hero h1 em{color:#1a52cc;font-style:normal}
+.search-form{max-width:680px;margin:20px auto;display:flex;gap:8px}
+.search-form input{flex:1;padding:14px 18px;border:1px solid #ddd;border-radius:10px;font-size:15px;outline:none}
+.search-form input:focus{border-color:#1a52cc}
+.search-form button{padding:0 26px;background:#1a52cc;color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer}
+
+.section{padding:20px 32px;max-width:1000px;margin:0 auto}
+.filter-row{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.filter{padding:6px 14px;background:#fff;border:1px solid #e0e6f0;border-radius:18px;font-size:12px;font-weight:700;cursor:pointer;color:#555}
+.filter:hover{border-color:#1a52cc;color:#1a52cc}
+.filter.active{background:#1a52cc;color:#fff;border-color:#1a52cc}
+
+.result{background:#fff;border-radius:12px;padding:18px 20px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.04);cursor:pointer;transition:.1s;display:block;text-decoration:none;color:inherit}
+.result:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);transform:translateY(-1px)}
+.result .meta{display:flex;gap:8px;font-size:11px;color:#888;margin-bottom:5px}
+.result .cat-tag{padding:2px 8px;background:#f0f5ff;color:#1a52cc;border-radius:5px;font-weight:700}
+.result h3{font-size:15px;font-weight:700;color:#0d1f45;margin-bottom:5px}
+.result .excerpt{font-size:13px;color:#555;line-height:1.6}
+.result .excerpt mark{background:#fff3cd;color:#856404;padding:1px 3px;border-radius:3px}
+.result .url{font-size:11px;color:#888;margin-top:6px}
+
+.empty{text-align:center;padding:60px;color:#999}
+.ask-cta{background:linear-gradient(135deg,#0d1f45,#1a52cc);color:#fff;padding:20px;border-radius:12px;text-align:center;margin-bottom:20px}
+.ask-cta a{color:#FF6B35;font-weight:700;text-decoration:none}
+
+footer{background:#0d1f45;color:#fff;padding:36px 32px;text-align:center;margin-top:40px}
+footer .brand{font-size:24px;font-weight:800;margin-bottom:6px}
+footer .brand em{color:#FF6B35;font-style:normal}
+footer .tagline{color:rgba(255,255,255,.7);font-size:13px;margin-bottom:14px}
+footer .copy{color:rgba(255,255,255,.4);font-size:11px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1);margin-top:14px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><em>wehome</em> Studio <small>통합 검색</small></div>
+  <nav class="nav">
+    <a href="/">🏠 진단</a><a href="/search" class="active">🔍 검색</a>
+    <a href="/ask">🤖 AI</a><a href="/board">📋 게시판</a><a href="/newsletter">📧 호스트레터</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>위홈 <em>통합 검색</em></h1>
+  <form class="search-form" id="searchForm">
+    <input type="text" id="q" placeholder="외도민업 등록, 마포구 시세, 세금 신고..." autofocus/>
+    <button>🔍 검색</button>
+  </form>
+</section>
+
+<section class="section">
+  <div class="ask-cta" id="askCta" style="display:none">
+    💬 자세한 답변이 필요하면 <a href="/ask?q=" id="askLink">🤖 위홈 호스트 AI에게 물어보세요</a>
+  </div>
+
+  <div class="filter-row" id="filters">
+    <button class="filter active" data-cat="">전체</button>
+    <button class="filter" data-cat="law">⚖️ 법령·규제</button>
+    <button class="filter" data-cat="guide">💡 가이드·꿀팁</button>
+    <button class="filter" data-cat="data">📊 데이터·통계</button>
+    <button class="filter" data-cat="tool">🏠 진단·도구</button>
+    <button class="filter" data-cat="community">💬 커뮤니티</button>
+    <button class="filter" data-cat="property">🏘️ 부동산</button>
+    <button class="filter" data-cat="service">🤝 서비스</button>
+  </div>
+
+  <div id="resultsContainer"></div>
+</section>
+
+<footer>
+  <div class="brand"><em>위</em>홈 · <em>we</em>home</div>
+  <div class="tagline">한국에서 합법 호스트가 되는 가장 쉬운 길</div>
+  <div class="copy">© 2026 wehome, Inc. · 위홈 Knowledge Base 검색</div>
+</footer>
+
+<script>
+let currentCat = '';
+function escapeHtml(s){ return (s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+async function search(){
+  const q = document.getElementById('q').value.trim();
+  if(!q){
+    document.getElementById('resultsContainer').innerHTML = '';
+    document.getElementById('askCta').style.display = 'none';
+    return;
+  }
+  const params = new URLSearchParams({q, category: currentCat});
+  const r = await fetch('/api/search?'+params).then(r=>r.json());
+  const data = r.data || [];
+
+  document.getElementById('askCta').style.display = 'block';
+  document.getElementById('askLink').href = '/ask?q=' + encodeURIComponent(q);
+
+  if(data.length === 0){
+    document.getElementById('resultsContainer').innerHTML = `
+      <div class="empty">
+        '<strong>${escapeHtml(q)}</strong>'에 대한 검색 결과가 없습니다.<br/>
+        💬 <a href="/ask?q=${encodeURIComponent(q)}" style="color:#1a52cc;font-weight:700">AI에게 직접 물어보기</a>
+      </div>`;
+    return;
+  }
+
+  document.getElementById('resultsContainer').innerHTML = data.map(r => `
+    <a class="result" href="${r.source_url}">
+      <div class="meta">
+        <span class="cat-tag">${r.category||'기타'}</span>
+        <span>${r.source_type||''}</span>
+      </div>
+      <h3>${escapeHtml(r.title)}</h3>
+      <div class="excerpt">${r.excerpt || escapeHtml((r.body||'').substring(0, 200))}</div>
+      <div class="url">${r.source_url}</div>
+    </a>
+  `).join('');
+}
+
+document.getElementById('searchForm').addEventListener('submit', e=>{
+  e.preventDefault(); search();
+});
+document.getElementById('filters').addEventListener('click', e=>{
+  if(e.target.classList.contains('filter')){
+    currentCat = e.target.dataset.cat;
+    document.querySelectorAll('.filter').forEach(b => b.classList.toggle('active', b===e.target));
+    search();
+  }
+});
+
+// URL ?q= 자동 검색
+const urlQ = new URLSearchParams(window.location.search).get('q');
+if(urlQ){
+  document.getElementById('q').value = urlQ;
+  search();
+}
+</script>
+</body>
+</html>

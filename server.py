@@ -369,6 +369,194 @@ def academy_page():
 def board_page(pid=None):
     return send_from_directory('.', 'board.html')
 
+@app.route('/search')
+def search_page():
+    return send_from_directory('.', 'search.html')
+
+@app.route('/ask')
+def ask_page():
+    return send_from_directory('.', 'ask.html')
+
+# ── Knowledge Base 검색 & Ask ────────────────────────────────────────────
+@app.route('/api/search')
+def api_search():
+    """전문 검색 (FTS5)
+    Query:
+      q: 검색어
+      category: tool|data|guide|law|community|...
+      limit: default 20
+    """
+    q = (request.args.get('q') or '').strip()
+    category = (request.args.get('category') or '').strip()
+    limit = min(50, int(request.args.get('limit', 20)))
+
+    if not q:
+        return jsonify({'count': 0, 'data': [], 'query': ''})
+
+    conn = get_db()
+    # FTS5 쿼리 안전화 (특수문자 제거)
+    safe_q = re.sub(r'[^\w\s가-힣]', ' ', q).strip()
+    if not safe_q:
+        return jsonify({'count': 0, 'data': [], 'query': q})
+    fts_q = ' OR '.join(safe_q.split())
+
+    try:
+        cond, params = ["kb MATCH ?"], [fts_q]
+        if category:
+            cond.append("category=?"); params.append(category)
+        where = " AND ".join(cond)
+        rows = conn.execute(f"""
+            SELECT title, body, source_url, category, source_type,
+                   snippet(kb, 1, '<mark>', '</mark>', '…', 30) as excerpt,
+                   rank
+            FROM kb WHERE {where}
+            ORDER BY rank LIMIT ?
+        """, params + [limit]).fetchall()
+        conn.close()
+        return jsonify({
+            'count': len(rows),
+            'query': q,
+            'data': [dict(r) for r in rows],
+        })
+    except sqlite3.OperationalError as e:
+        conn.close()
+        return jsonify({'count': 0, 'data': [], 'query': q, 'error': str(e)})
+
+import re
+
+@app.route('/api/ask', methods=['POST'])
+def api_ask():
+    """RAG 기반 질문 응답
+    - KB에서 관련 청크 검색
+    - 답변 생성 (LLM 옵셔널, 없으면 추출형 응답)
+    Body: {"question": "...", "history": [...] (옵셔널)}
+    """
+    data = request.get_json(silent=True) or {}
+    q = (data.get('question') or '').strip()[:500]
+    if not q:
+        return jsonify({'ok': False, 'error': '질문을 입력하세요'}), 400
+
+    conn = get_db()
+    # KB 검색
+    safe_q = re.sub(r'[^\w\s가-힣]', ' ', q).strip()
+    if not safe_q:
+        return jsonify({
+            'ok': True, 'answer': '죄송합니다. 질문을 이해할 수 없습니다.',
+            'sources': []
+        })
+    fts_q = ' OR '.join(safe_q.split())
+
+    try:
+        rows = conn.execute("""
+            SELECT title, body, source_url, category,
+                   snippet(kb, 1, '', '', '…', 50) as excerpt
+            FROM kb WHERE kb MATCH ?
+            ORDER BY rank LIMIT 6
+        """, (fts_q,)).fetchall()
+    except sqlite3.OperationalError:
+        rows = []
+    conn.close()
+
+    sources = [dict(r) for r in rows]
+
+    # 답변 생성 (LLM 키 있으면 LLM 사용, 없으면 추출형)
+    answer = generate_answer(q, sources)
+
+    return jsonify({
+        'ok': True,
+        'question': q,
+        'answer': answer['text'],
+        'mode': answer['mode'],
+        'sources': [{
+            'title': s['title'], 'url': s['source_url'],
+            'category': s['category'], 'excerpt': s['excerpt'],
+        } for s in sources],
+    })
+
+def generate_answer(question, sources):
+    """답변 생성 — LLM API 키 있으면 사용, 없으면 추출형"""
+    if not sources:
+        return {
+            'text': '관련 정보를 찾지 못했습니다. 질문을 더 구체적으로 해주시거나 다음 페이지들을 직접 확인해 주세요: /regulation (규제), /tips (꿀팁), /tax-finance (세금·금융).',
+            'mode': 'no_match'
+        }
+
+    # OpenAI / Anthropic API 키 확인
+    openai_key = os.environ.get('OPENAI_API_KEY')
+    anthropic_key = os.environ.get('ANTHROPIC_API_KEY')
+
+    if openai_key or anthropic_key:
+        try:
+            return generate_llm_answer(question, sources, openai_key, anthropic_key)
+        except Exception as e:
+            print(f"[ask] LLM 호출 실패, fallback: {e}")
+
+    # Fallback: 추출형 답변
+    text = f"📚 관련 정보 {len(sources)}건 찾았습니다.\n\n"
+    for i, s in enumerate(sources[:3], 1):
+        excerpt = (s['excerpt'] or '').replace('\n', ' ')[:200]
+        text += f"**{i}. {s['title']}**\n{excerpt}\n→ {s['source_url']}\n\n"
+    text += "더 자세한 내용은 위 출처에서 확인하세요. 위홈 호스트레터를 구독하시면 매주 핵심 정보를 받아보실 수 있습니다."
+    return {'text': text, 'mode': 'extractive'}
+
+def generate_llm_answer(question, sources, openai_key, anthropic_key):
+    """LLM API 호출 (Claude 또는 OpenAI)"""
+    context = "\n\n".join(f"[출처 {i+1}] {s['title']}\nURL: {s['source_url']}\n{s['body'][:1000]}"
+                          for i, s in enumerate(sources))
+
+    system_prompt = """당신은 한국 공유숙박(외국인관광도시민박업) 전문 AI 어시스턴트 '위홈 호스트 AI'입니다.
+
+답변 원칙:
+1. 제공된 [출처] 정보만 활용해 사실 기반으로 답변
+2. 출처에 없는 정보는 추측하지 말 것
+3. 출처 번호([출처 1], [출처 2])를 답변에 명시
+4. 한국어로 간결하게 (200~400자)
+5. 법률 자문이 아니라 정보 제공임을 명시 (필요 시)
+6. 마지막에 "관련 페이지" 링크 권장"""
+
+    user_prompt = f"""질문: {question}
+
+다음 출처들을 참고하여 답변하세요:
+
+{context}
+
+답변:"""
+
+    if anthropic_key:
+        import json as _json
+        r = requests.post('https://api.anthropic.com/v1/messages',
+            headers={
+                'x-api-key': anthropic_key,
+                'anthropic-version': '2023-06-01',
+                'content-type': 'application/json',
+            },
+            json={
+                'model': 'claude-3-5-sonnet-20241022',
+                'max_tokens': 800,
+                'system': system_prompt,
+                'messages': [{'role': 'user', 'content': user_prompt}],
+            }, timeout=30)
+        if r.status_code == 200:
+            d = r.json()
+            return {'text': d['content'][0]['text'], 'mode': 'claude'}
+
+    if openai_key:
+        r = requests.post('https://api.openai.com/v1/chat/completions',
+            headers={'Authorization': f'Bearer {openai_key}', 'Content-Type': 'application/json'},
+            json={
+                'model': 'gpt-4o-mini',
+                'max_tokens': 800,
+                'messages': [
+                    {'role': 'system', 'content': system_prompt},
+                    {'role': 'user', 'content': user_prompt},
+                ],
+            }, timeout=30)
+        if r.status_code == 200:
+            d = r.json()
+            return {'text': d['choices'][0]['message']['content'], 'mode': 'openai'}
+
+    raise Exception("LLM API 호출 실패")
+
 @app.route('/static/<path:fname>')
 def static_files(fname):
     return send_from_directory('static', fname)
