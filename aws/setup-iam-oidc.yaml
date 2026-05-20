@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'GitHub Actions OIDC IAM Role for wehome-insight deployment (1회 실행)'
+
+Parameters:
+  GitHubOrg:
+    Type: String
+    Default: josanku
+  GitHubRepo:
+    Type: String
+    Default: wehome-insight
+
+Resources:
+  # GitHub OIDC Provider (계정당 1개만 필요 — 이미 있다면 import)
+  GitHubOidcProvider:
+    Type: AWS::IAM::OIDCProvider
+    Properties:
+      Url: https://token.actions.githubusercontent.com
+      ClientIdList: [sts.amazonaws.com]
+      ThumbprintList: [6938fd4d98bab03faadb97b34396831e3780aea1]
+
+  # GitHub Actions가 assume할 Role
+  GitHubActionsDeployRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: wehome-insight-github-deploy
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: !GetAtt GitHubOidcProvider.Arn
+            Action: sts:AssumeRoleWithWebIdentity
+            Condition:
+              StringEquals:
+                token.actions.githubusercontent.com:aud: sts.amazonaws.com
+              StringLike:
+                token.actions.githubusercontent.com:sub: !Sub 'repo:${GitHubOrg}/${GitHubRepo}:*'
+      Policies:
+        - PolicyName: AppRunnerDeploy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - apprunner:ListServices
+                  - apprunner:DescribeService
+                  - apprunner:StartDeployment
+                  - apprunner:UpdateService
+                Resource: '*'
+
+Outputs:
+  RoleArn:
+    Description: 'GitHub Secrets → AWS_DEPLOY_ROLE_ARN 에 등록할 값'
+    Value: !GetAtt GitHubActionsDeployRole.Arn

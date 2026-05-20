@@ -1,0 +1,69 @@
+name: Deploy to AWS App Runner
+
+# main 브랜치 push 시 자동 배포
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:  # 수동 실행도 가능
+
+permissions:
+  id-token: write   # OIDC 토큰 발급
+  contents: read
+
+env:
+  AWS_REGION: ap-northeast-2
+  APP_NAME: wehome-insight
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          # 위홈 AWS Console에서 IAM Role 생성 후 ARN 등록
+          # GitHub Settings → Secrets → AWS_DEPLOY_ROLE_ARN
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Trigger App Runner deployment
+        run: |
+          SERVICE_ARN=$(aws apprunner list-services \
+            --query "ServiceSummaryList[?ServiceName=='${{ env.APP_NAME }}'].ServiceArn" \
+            --output text)
+
+          if [ -z "$SERVICE_ARN" ]; then
+            echo "❌ App Runner 서비스 '${{ env.APP_NAME }}' 없음. 초기 배포는 aws/deploy.sh 또는 콘솔에서."
+            exit 1
+          fi
+
+          echo "▸ App Runner 자동 배포 트리거: $SERVICE_ARN"
+          OP_ID=$(aws apprunner start-deployment \
+            --service-arn "$SERVICE_ARN" \
+            --query 'OperationId' --output text)
+          echo "  Operation ID: $OP_ID"
+
+      - name: Wait for deployment
+        run: |
+          SERVICE_ARN=$(aws apprunner list-services \
+            --query "ServiceSummaryList[?ServiceName=='${{ env.APP_NAME }}'].ServiceArn" \
+            --output text)
+          for i in {1..30}; do
+            STATUS=$(aws apprunner describe-service --service-arn "$SERVICE_ARN" \
+              --query 'Service.Status' --output text)
+            echo "[$i/30] 상태: $STATUS"
+            [ "$STATUS" = "RUNNING" ] && break
+            sleep 10
+          done
+
+      - name: Get service URL
+        run: |
+          SERVICE_ARN=$(aws apprunner list-services \
+            --query "ServiceSummaryList[?ServiceName=='${{ env.APP_NAME }}'].ServiceArn" \
+            --output text)
+          URL=$(aws apprunner describe-service --service-arn "$SERVICE_ARN" \
+            --query 'Service.ServiceUrl' --output text)
+          echo "::notice::🚀 배포 완료: https://$URL"
