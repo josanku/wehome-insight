@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>공유숙박 뉴스 모니터 · 매일 업데이트 | wehome Studio</title>
+<meta name="description" content="공유숙박·외도민업·Airbnb·관광 업계 뉴스와 유튜브 콘텐츠를 매일 자동 수집해 날짜별로 제공. 위홈이 한국 공유숙박 정보 허브가 됩니다."/>
+<meta name="keywords" content="공유숙박 뉴스, 외도민업 뉴스, Airbnb 한국 뉴스, 관광 뉴스, 호스트 정보"/>
+<link rel="canonical" href="https://insight.wehome.me/news"/>
+<meta property="og:title" content="공유숙박 뉴스 모니터 · 매일 자동 업데이트"/>
+<meta property="og:description" content="공유숙박 관련 뉴스·유튜브를 날짜별로 모아 보세요. 위홈 호스트 정보 허브."/>
+<meta property="og:url" content="https://insight.wehome.me/news"/>
+<meta property="og:image" content="https://insight.wehome.me/og-image.png"/>
+<meta name="theme-color" content="#0d1f45"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;background:#fafbfd;color:#0d1f45;line-height:1.6}
+
+header{background:#fff;border-bottom:1px solid #ececec;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:2000}
+.logo{font-size:20px;font-weight:800}.logo em{color:#FF6B35;font-style:normal}
+.logo small{font-size:12px;font-weight:400;color:#888;margin-left:6px}
+.nav{display:flex;gap:12px;font-size:13px;align-items:center;flex-wrap:wrap}
+.nav a{color:#555;text-decoration:none;padding:5px 10px;border-radius:6px}
+.nav a:hover{background:#f0f5ff;color:#1a52cc}
+.nav a.active{background:#27ae60;color:#fff}
+
+.hero{padding:50px 32px 30px;text-align:center;background:linear-gradient(180deg,#fff,#f0fff4)}
+.umbrella{display:inline-block;font-size:11px;color:#999;font-weight:700;letter-spacing:3px;margin-bottom:14px}
+.umbrella em{color:#27ae60;font-style:normal}
+.hero h1{font-size:40px;font-weight:800;letter-spacing:-1.5px;margin-bottom:10px}
+.hero h1 em{color:#27ae60;font-style:normal}
+.hero p{color:#666;font-size:15px;max-width:680px;margin:0 auto}
+.live-badge{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #27ae60;color:#27ae60;padding:5px 14px;border-radius:20px;font-size:11px;font-weight:800;margin-top:14px}
+.live-badge::before{content:'';width:8px;height:8px;background:#27ae60;border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+.section{padding:40px 32px;max-width:1200px;margin:0 auto}
+
+.filter-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:24px;background:#fff;padding:14px 18px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.filter-bar label{font-size:11px;color:#888;font-weight:700;letter-spacing:.5px;margin-right:4px}
+.filter-bar select,.filter-bar input{padding:8px 12px;border:1px solid #ddd;border-radius:7px;font-size:13px;background:#fff;outline:none}
+.tab{padding:7px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;background:#f0f5ff;color:#1a52cc;border:none}
+.tab.active{background:#0d1f45;color:#fff}
+
+/* Date timeline */
+.day-block{margin-bottom:36px}
+.day-header{display:flex;align-items:baseline;gap:14px;padding-bottom:12px;border-bottom:2px solid #0d1f45;margin-bottom:18px}
+.day-header h2{font-size:24px;font-weight:800;color:#0d1f45;letter-spacing:-0.5px}
+.day-header .day-meta{font-size:12px;color:#888}
+
+/* Items grid */
+.items-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.news-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.05);transition:.2s;display:flex;flex-direction:column}
+.news-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.1)}
+.news-card .thumb{height:160px;background:linear-gradient(135deg,#f0f5ff,#fff);display:flex;align-items:center;justify-content:center;font-size:42px;color:#aaa;position:relative;overflow:hidden}
+.news-card .thumb img{width:100%;height:100%;object-fit:cover}
+.news-card .type-badge{position:absolute;top:10px;left:10px;padding:3px 9px;border-radius:6px;font-size:10px;font-weight:800;color:#fff}
+.news-card .type-news{background:#1a52cc}
+.news-card .type-youtube{background:#e74c3c}
+.news-card .type-blog{background:#27ae60}
+.news-card .type-press{background:#9b59b6}
+.news-card .body{padding:14px 16px;flex:1;display:flex;flex-direction:column}
+.news-card .source{font-size:10px;color:#FF6B35;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px}
+.news-card h3{font-size:14px;font-weight:700;line-height:1.45;color:#0d1f45;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.news-card p{font-size:12px;color:#666;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:10px;flex:1}
+.news-card .meta{font-size:11px;color:#aaa;display:flex;justify-content:space-between}
+.news-card a{color:inherit;text-decoration:none;display:block;height:100%}
+
+.empty{text-align:center;padding:80px;color:#aaa;font-size:14px}
+
+footer{background:#0d1f45;color:#fff;padding:36px 32px;text-align:center;margin-top:60px}
+footer .brand{font-size:24px;font-weight:800;margin-bottom:6px}
+footer .brand em{color:#FF6B35;font-style:normal}
+footer .tagline{color:rgba(255,255,255,.7);font-size:13px;margin-bottom:18px}
+footer .links{display:flex;justify-content:center;gap:14px;font-size:12px;margin-bottom:14px;flex-wrap:wrap}
+footer .links a{color:rgba(255,255,255,.8);text-decoration:none}
+footer .links a.accent{color:#FF6B35;font-weight:700}
+footer .copy{color:rgba(255,255,255,.4);font-size:11px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1);max-width:800px;margin:14px auto 0}
+
+@media (max-width:768px){.items-grid{grid-template-columns:1fr}.hero h1{font-size:28px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><em>wehome</em> Studio <small>뉴스 모니터</small></div>
+  <nav class="nav">
+    <a href="/">🏠 진단</a>
+    <a href="/pricing">💰 가격</a>
+    <a href="/analysis">📊 분석</a>
+    <a href="/tips">💡 꿀팁</a>
+    <a href="/regulation">⚖️ 규제</a>
+    <a href="/news" class="active">📰 뉴스</a>
+    <a href="/newsletter">📧 호스트레터</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="umbrella">▎<em>STAY</em> by wehome</div>
+  <h1>공유숙박 <em>뉴스 모니터</em></h1>
+  <p>외도민업·Airbnb·관광 업계 뉴스와 유튜브 콘텐츠를<br/>매일 자동 수집해 날짜별로 정리합니다.</p>
+  <div class="live-badge">LIVE · 매일 03:00 자동 갱신</div>
+</section>
+
+<section class="section">
+  <!-- 필터 -->
+  <div class="filter-bar">
+    <label>유형:</label>
+    <button class="tab active" data-type="all" onclick="filterType('all')">전체</button>
+    <button class="tab" data-type="news" onclick="filterType('news')">📰 뉴스</button>
+    <button class="tab" data-type="youtube" onclick="filterType('youtube')">📺 유튜브</button>
+    <button class="tab" data-type="blog" onclick="filterType('blog')">📝 블로그</button>
+    <button class="tab" data-type="press" onclick="filterType('press')">📢 보도자료</button>
+
+    <label style="margin-left:14px">키워드:</label>
+    <input type="text" id="kwInput" placeholder="검색어" oninput="filterKw()"/>
+  </div>
+
+  <!-- 날짜별 타임라인 -->
+  <div id="timeline">
+    <div class="empty" id="loadingMsg">뉴스 로딩 중...</div>
+  </div>
+</section>
+
+<footer>
+  <div class="brand"><em>위</em>홈 · <em>we</em>home</div>
+  <div class="tagline">한국에서 합법 호스트가 되는 가장 쉬운 길</div>
+  <div class="links">
+    <a href="/">🏠 진단</a><a href="/pricing">💰 가격</a><a href="/analysis">📊 분석</a>
+    <a href="/tips">💡 꿀팁</a><a href="/regulation">⚖️ 규제</a><a href="/news">📰 뉴스</a>
+    <a href="/newsletter">📧 호스트레터</a><a href="/community">💬 단톡방</a>
+    <a href="https://wehome.me" target="_blank" class="accent">→ wehome.me</a>
+  </div>
+  <div class="copy">© 2026 wehome, Inc. · 뉴스 모니터는 공개 RSS·검색 결과를 인덱싱하며, 원본 출처를 명시합니다. 저작권은 각 매체에 있습니다.</div>
+</footer>
+
+<script>
+let allItems = [];
+let currentType = 'all';
+let currentKw = '';
+
+async function load(){
+  try {
+    const res = await fetch('/api/news').then(r=>r.json());
+    allItems = res.items || [];
+    render();
+  } catch(e){
+    document.getElementById('timeline').innerHTML = '<div class="empty">뉴스 데이터를 불러올 수 없습니다.<br/>매일 03:00 갱신됩니다.</div>';
+  }
+}
+
+function filterType(t){
+  currentType = t;
+  document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b.dataset.type === t));
+  render();
+}
+
+function filterKw(){
+  currentKw = document.getElementById('kwInput').value.trim().toLowerCase();
+  render();
+}
+
+function render(){
+  let items = allItems;
+  if(currentType !== 'all') items = items.filter(i => i.type === currentType);
+  if(currentKw){
+    items = items.filter(i =>
+      (i.title||'').toLowerCase().includes(currentKw) ||
+      (i.summary||'').toLowerCase().includes(currentKw) ||
+      (i.source||'').toLowerCase().includes(currentKw)
+    );
+  }
+
+  if(items.length === 0){
+    document.getElementById('timeline').innerHTML = '<div class="empty">📭 조건에 맞는 뉴스가 없습니다.</div>';
+    return;
+  }
+
+  // 날짜별 그룹
+  const byDate = {};
+  items.forEach(i => {
+    const d = (i.published_at||'').substring(0,10);
+    if(!byDate[d]) byDate[d] = [];
+    byDate[d].push(i);
+  });
+
+  const dates = Object.keys(byDate).sort().reverse();
+  document.getElementById('timeline').innerHTML = dates.map(d => {
+    const its = byDate[d];
+    return `<div class="day-block">
+      <div class="day-header">
+        <h2>📅 ${d}</h2>
+        <span class="day-meta">${its.length}건</span>
+      </div>
+      <div class="items-grid">
+        ${its.map(item => `
+          <div class="news-card">
+            <a href="${item.url}" target="_blank" rel="noopener">
+              <div class="thumb">
+                ${item.thumbnail ? `<img src="${item.thumbnail}" alt="" loading="lazy"/>` : (item.type==='youtube'?'📺':item.type==='blog'?'📝':'📰')}
+                <span class="type-badge type-${item.type}">${item.type==='youtube'?'YOUTUBE':item.type==='blog'?'BLOG':item.type==='press'?'PRESS':'NEWS'}</span>
+              </div>
+              <div class="body">
+                <div class="source">${item.source}</div>
+                <h3>${item.title}</h3>
+                <p>${item.summary || ''}</p>
+                <div class="meta">
+                  <span>${(item.published_at||'').substring(11,16)}</span>
+                  ${item.duration ? `<span>⏱ ${item.duration}</span>` : ''}
+                </div>
+              </div>
+            </a>
+          </div>
+        `).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+load();
+</script>
+</body>
+</html>

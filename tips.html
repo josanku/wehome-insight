@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>호스트 꿀팁 · 50가지 운영 노하우 | wehome Studio</title>
+<meta name="description" content="공유숙박 호스트를 위한 검증된 운영 꿀팁 50선. Airbnb 공식 가이드 + 위홈 베테랑 호스트 경험 정리. 슈퍼호스트 되는 법, 가격·청소·게스트 응대 노하우."/>
+<meta name="keywords" content="공유숙박 호스트 꿀팁, Airbnb 호스트 가이드, 슈퍼호스트, 위홈 호스트, 외도민업 운영, 게스트 응대, 청소 체크리스트"/>
+<link rel="canonical" href="https://insight.wehome.me/tips"/>
+<meta property="og:title" content="호스트 꿀팁 50가지 · 슈퍼호스트 되는 법"/>
+<meta property="og:description" content="Airbnb 공식 가이드 + 위홈 베테랑 호스트가 검증한 운영 노하우 50선."/>
+<meta property="og:url" content="https://insight.wehome.me/tips"/>
+<meta property="og:image" content="https://insight.wehome.me/og-image.png"/>
+<meta name="theme-color" content="#0d1f45"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;background:#fafbfd;color:#0d1f45;line-height:1.7}
+
+header{background:#fff;border-bottom:1px solid #ececec;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:2000}
+.logo{font-size:20px;font-weight:800}.logo em{color:#FF6B35;font-style:normal}
+.logo small{font-size:12px;font-weight:400;color:#888;margin-left:6px}
+.nav{display:flex;gap:12px;font-size:13px;align-items:center;flex-wrap:wrap}
+.nav a{color:#555;text-decoration:none;padding:5px 10px;border-radius:6px}
+.nav a:hover{background:#f0f5ff;color:#1a52cc}
+.nav a.active{background:#1a52cc;color:#fff}
+
+.hero{padding:60px 32px 40px;text-align:center;background:linear-gradient(180deg,#fff,#f5f8ff)}
+.umbrella{display:inline-block;font-size:11px;color:#999;font-weight:700;letter-spacing:3px;margin-bottom:14px}
+.umbrella em{color:#FF6B35;font-style:normal}
+.hero h1{font-size:40px;font-weight:800;letter-spacing:-1.5px;margin-bottom:10px}
+.hero h1 em{color:#FF6B35;font-style:normal}
+.hero p{color:#666;font-size:15px;max-width:680px;margin:0 auto}
+
+/* Category tabs */
+.cat-bar{position:sticky;top:60px;background:#fff;border-bottom:1px solid #ececec;padding:14px 32px;z-index:100;display:flex;gap:8px;overflow-x:auto;flex-wrap:nowrap}
+.cat-bar a{padding:7px 16px;background:#f0f5ff;border-radius:20px;font-size:12px;font-weight:700;color:#1a52cc;white-space:nowrap;text-decoration:none;cursor:pointer}
+.cat-bar a:hover,.cat-bar a.active{background:#1a52cc;color:#fff}
+
+.section{padding:50px 32px;max-width:1000px;margin:0 auto}
+.section h2{font-size:26px;font-weight:800;letter-spacing:-1px;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.section h2 .ico{font-size:32px}
+.section .lead{color:#888;font-size:14px;margin-bottom:24px}
+
+.tips-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.tip{background:#fff;border-radius:12px;padding:20px 22px;box-shadow:0 2px 8px rgba(0,0,0,.04);border-left:4px solid var(--c,#1a52cc);transition:.15s}
+.tip:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.tip .num{font-size:11px;color:var(--c,#1a52cc);font-weight:800;letter-spacing:1px;margin-bottom:6px}
+.tip h3{font-size:15px;font-weight:800;margin-bottom:8px;color:#0d1f45}
+.tip p{font-size:13px;color:#555;line-height:1.7}
+.tip .src{font-size:10px;color:#aaa;margin-top:10px;font-style:italic}
+
+/* Quote callout */
+.callout{background:linear-gradient(135deg,#fff8f0,#fff);border-left:5px solid #FF6B35;padding:20px 26px;margin:24px 0;border-radius:8px;font-size:14px;color:#555}
+.callout strong{color:#FF6B35}
+
+footer{background:#0d1f45;color:#fff;padding:36px 32px;text-align:center;margin-top:60px}
+footer .brand{font-size:24px;font-weight:800;margin-bottom:6px}
+footer .brand em{color:#FF6B35;font-style:normal}
+footer .tagline{color:rgba(255,255,255,.7);font-size:13px;margin-bottom:18px}
+footer .links{display:flex;justify-content:center;gap:14px;font-size:12px;margin-bottom:14px;flex-wrap:wrap}
+footer .links a{color:rgba(255,255,255,.8);text-decoration:none}
+footer .links a.accent{color:#FF6B35;font-weight:700}
+footer .copy{color:rgba(255,255,255,.4);font-size:11px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1);max-width:800px;margin:14px auto 0}
+
+@media (max-width:768px){.tips-grid{grid-template-columns:1fr} .hero h1{font-size:28px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><em>wehome</em> Studio <small>호스트 꿀팁</small></div>
+  <nav class="nav">
+    <a href="/">🏠 진단</a>
+    <a href="/pricing">💰 가격</a>
+    <a href="/analysis">📊 분석</a>
+    <a href="/tips" class="active">💡 꿀팁</a>
+    <a href="/regulation">⚖️ 규제</a>
+    <a href="/news">📰 뉴스</a>
+    <a href="/newsletter">📧 호스트레터</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="umbrella">▎<em>STAY</em> by wehome</div>
+  <h1>호스트 <em>꿀팁 50선</em></h1>
+  <p>슈퍼호스트가 된 사람들이 검증한 운영 노하우.<br/>Airbnb 공식 가이드 + 위홈 베테랑 호스트의 경험을 정리했습니다.</p>
+</section>
+
+<nav class="cat-bar">
+  <a href="#listing" class="active">📝 리스팅</a>
+  <a href="#pricing">💵 가격</a>
+  <a href="#cleaning">🧹 청소</a>
+  <a href="#guest">👥 게스트 응대</a>
+  <a href="#amenities">🛏️ 어메니티</a>
+  <a href="#review">⭐ 리뷰</a>
+  <a href="#tax">📊 세무·법무</a>
+  <a href="#superhost">🏆 슈퍼호스트</a>
+</nav>
+
+<!-- 1. 리스팅 -->
+<section class="section" id="listing">
+  <h2><span class="ico">📝</span>리스팅 작성</h2>
+  <p class="lead">첫 인상이 예약을 결정합니다. 사진과 제목·설명이 90%.</p>
+  <div class="tips-grid">
+    <div class="tip" style="--c:#FF6B35">
+      <div class="num">TIP 01</div>
+      <h3>제목에 "특징 + 위치 + 분위기" 3요소</h3>
+      <p>"홍대 도보 3분 / 한옥 감성 스튜디오"처럼 위치(역세권), 차별점(한옥), 분위기를 명확하게. 50자 이내로 모바일에서도 잘리지 않게.</p>
+      <div class="src">— Airbnb 공식 호스팅 가이드</div>
+    </div>
+    <div class="tip" style="--c:#FF6B35">
+      <div class="num">TIP 02</div>
+      <h3>대표사진 = 거실 + 자연광</h3>
+      <p>침실보다 거실, 인공조명보다 낮 자연광. 가로 사진이 모바일·데스크탑 모두 잘 보임. 첫 사진이 클릭률(CTR)을 2배까지 차이내요.</p>
+      <div class="src">— Airbnb 데이터 인사이트</div>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 03</div>
+      <h3>사진 20장 이상 + 모든 공간 커버</h3>
+      <p>침실·욕실·주방·거실은 물론 옷장 내부, 콘센트 위치까지. 게스트가 "예상치 못한 공간"이 없게 하는 게 핵심.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 04</div>
+      <h3>설명에 "주변 5분 도보" 정보</h3>
+      <p>마트·편의점·지하철·식당 등 5분 도보 거리 시설 5개 이상 나열. 외국인은 특히 안전·접근성을 가장 먼저 확인합니다.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 05</div>
+      <h3>"하우스룰"은 명확하게 (강하게 아님)</h3>
+      <p>금연·반려동물·파티 등 거절할 것만 명시. 너무 많으면 예약률 ↓. 게스트 관점에서 합리적인 수준이 베스트.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 06</div>
+      <h3>영문 설명 필수 (외도민업)</h3>
+      <p>외국인관광도시민박업 특성상 한·영 동시 작성 필수. 직접 작성이 어려우면 위홈은 자동번역 베타 제공.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2. 가격 -->
+<section class="section" id="pricing">
+  <h2><span class="ico">💵</span>가격 책정</h2>
+  <p class="lead">너무 비싸면 예약 없고, 너무 싸면 수익 손실. 동적 가격이 답.</p>
+  <div class="tips-grid">
+    <div class="tip" style="--c:#27ae60">
+      <div class="num">TIP 07</div>
+      <h3>주변 500m 시세의 중간값에서 시작</h3>
+      <p>위홈 Studio의 <a href="/pricing" style="color:#FF6B35">가격 추천</a>으로 동일 방 타입 중간값 확인. 처음엔 -10% 정도 낮게 시작해 리뷰 5개 모은 후 점진 인상.</p>
+    </div>
+    <div class="tip" style="--c:#27ae60">
+      <div class="num">TIP 08</div>
+      <h3>주말 +20%, 성수기 +50%</h3>
+      <p>금·토 가격을 평일 대비 20% 올리세요. 4-5월·9-10월 성수기는 30-50% 추가. 1·2·8월 비수기는 -10~20%.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 09</div>
+      <h3>장기 할인으로 점유율 ↑</h3>
+      <p>1주일 -10%, 1개월 -25% 할인 설정. 빈 날짜를 메우는 것이 단가 유지보다 수익에 유리.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 10</div>
+      <h3>최소 숙박 1박 vs 2박</h3>
+      <p>홍대·강남 등 도심은 1박 OK (회전율 ↑). 한적 지역은 2-3박 최소로 청소 부담 ↓.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 11</div>
+      <h3>이벤트·축제 시기 알림 설정</h3>
+      <p>BTS 콘서트, KCON, 벚꽃 시즌 등 외국인 방한 이벤트 직전 1-2주 가격 +30%.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 12</div>
+      <h3>청소비는 1박 가격의 30-50% 이하</h3>
+      <p>너무 높은 청소비는 단기 예약 거부 요인. 청소비 + 1박 가격 합산이 검색 노출 가격이 되니 신중히.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3. 청소 -->
+<section class="section" id="cleaning">
+  <h2><span class="ico">🧹</span>청소·세팅</h2>
+  <p class="lead">슈퍼호스트의 80%는 청소 평점 4.9+ 입니다.</p>
+  <div class="tips-grid">
+    <div class="tip" style="--c:#1a52cc">
+      <div class="num">TIP 13</div>
+      <h3>체크아웃 → 체크인 사이 3시간 확보</h3>
+      <p>11시 체크아웃 → 15시 체크인 = 4시간. 청소 2-3시간 + 점검 30분 + 비상시 여유 30분.</p>
+    </div>
+    <div class="tip" style="--c:#1a52cc">
+      <div class="num">TIP 14</div>
+      <h3>침구는 호텔식 흰색 + 매번 교체</h3>
+      <p>색상 통일 → 얼룩 즉시 식별. 침대 시트·베개커버·이불커버 100% 매 게스트마다 교체. 비용 ₩3,000/세트.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 15</div>
+      <h3>욕실 거울·수전 광택 = 청결 인상</h3>
+      <p>욕실은 첫 인상. 거울 물자국 0, 수전 광택, 변기 후 새 휴지 삼각접기.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 16</div>
+      <h3>주방 냄새 = 즉시 별점 -0.5</h3>
+      <p>음식 냄새는 다음 게스트가 가장 싫어함. 환기 1시간 + 베이킹소다 그릇 비치 + 디퓨저 (자스민 추천).</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 17</div>
+      <h3>청소 체크리스트 코팅해서 비치</h3>
+      <p>"50개 항목" 청소 리스트를 코팅해 청소 인력에게 매번 동일하게. 누락 방지 + 인력 교체 시 인수인계 쉬움.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 18</div>
+      <h3>전문 청소 업체 vs 셀프</h3>
+      <p>월 5박 이상 → 전문 업체 (₩8-15만/회). 셀프는 본인 거주 호스트만. 위홈 단톡방에서 지역별 업체 추천받기.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4. 게스트 응대 -->
+<section class="section" id="guest">
+  <h2><span class="ico">👥</span>게스트 응대</h2>
+  <p class="lead">응답 속도 1시간 이내 = 슈퍼호스트 자격 조건.</p>
+  <div class="tips-grid">
+    <div class="tip" style="--c:#9b59b6">
+      <div class="num">TIP 19</div>
+      <h3>1시간 이내 응답 = 슈퍼호스트 조건</h3>
+      <p>Airbnb는 12개월 평균 응답률 90%, 응답 시간 1시간 미만이 슈퍼호스트 조건. 알림 켜고 자동 응답 메시지 활용.</p>
+      <div class="src">— Airbnb Superhost 기준</div>
+    </div>
+    <div class="tip" style="--c:#9b59b6">
+      <div class="num">TIP 20</div>
+      <h3>5가지 사전 메시지 템플릿 준비</h3>
+      <p>예약 확인 / 체크인 안내 / 도착 환영 / 체크아웃 안내 / 리뷰 요청. 한·영 양쪽 미리 준비해 5초 안에 답변.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 21</div>
+      <h3>체크인 가이드는 비디오 + 사진</h3>
+      <p>지하철에서 숙소까지 보행 영상 30초 + 도어록 사진 5장. WhatsApp/카카오톡으로 도착 1일 전 전송.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 22</div>
+      <h3>웰컴 키트 = 평점 +0.3</h3>
+      <p>생수 2병, 한국 과자 1봉지, 손편지 (1줄). 비용 ₩2,000인데 리뷰 별점 효과 큼.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 23</div>
+      <h3>외국인 게스트 = 첫 메시지 영문</h3>
+      <p>한국어 못 읽는 게스트가 한국어 메시지 받으면 불안. 영문 우선, 필요시 한국어 병기.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 24</div>
+      <h3>분쟁 시 24시간 내 위홈/플랫폼 신고</h3>
+      <p>벽 손상·도난·소음 신고 등. 게스트와 직접 갈등 ❌, 즉시 플랫폼 중재 요청. 증거 사진 필수.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 5. 어메니티 -->
+<section class="section" id="amenities">
+  <h2><span class="ico">🛏️</span>어메니티·세팅</h2>
+  <p class="lead">예약률 ↑ vs 비용 ↓ 최적점 찾기.</p>
+  <div class="tips-grid">
+    <div class="tip" style="--c:#e74c3c">
+      <div class="num">TIP 25</div>
+      <h3>필수 7종 (검색 필터에 잡힘)</h3>
+      <p>WiFi · 에어컨 · 세탁기 · 헤어드라이어 · 다리미 · 주방 · 무료주차. 7개 모두 있으면 노출 +40%.</p>
+    </div>
+    <div class="tip" style="--c:#e74c3c">
+      <div class="num">TIP 26</div>
+      <h3>WiFi 속도 = 100Mbps 이상</h3>
+      <p>외국인 비즈니스 게스트의 80%가 WiFi 속도 확인. 속도 측정 결과 스크린샷을 리스팅에 첨부.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 27</div>
+      <h3>차량 어댑터 + 변환 플러그</h3>
+      <p>유럽·미국 게스트용 콘센트 변환 어댑터 3개. ₩5,000 투자로 리뷰 별점 +0.2.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 28</div>
+      <h3>웰컴 책자 (영문 가이드 PDF)</h3>
+      <p>주변 맛집·관광지·교통·긴급 연락처 1장. iPad 또는 코팅 인쇄. 게스트 만족도 큰 차이.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 29</div>
+      <h3>안전 키트 = 외도민업 법적 요구</h3>
+      <p>소화기·화재경보기·응급함·비상연락처 게시. 외국인관광도시민박업은 소방·위생 점검 의무.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 30</div>
+      <h3>"한국적인 요소" 1개는 필수</h3>
+      <p>한복 사진, 한지 등, 전통 차 등 작은 한국 요소가 외국인 추억으로 남음 → 리뷰에 자주 언급.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6. 리뷰 -->
+<section class="section" id="review">
+  <h2><span class="ico">⭐</span>리뷰 관리</h2>
+  <p class="lead">리뷰 5개 이전이 가장 중요. 슈퍼호스트는 4.8+ 유지.</p>
+  <div class="tips-grid">
+    <div class="tip" style="--c:#f39c12">
+      <div class="num">TIP 31</div>
+      <h3>체크아웃 후 24시간 내 리뷰 요청</h3>
+      <p>"좋은 시간 보내셨길 바라며 리뷰 부탁드립니다" 한 줄. 24시간 지나면 응답률 70% → 30%로 떨어짐.</p>
+    </div>
+    <div class="tip" style="--c:#f39c12">
+      <div class="num">TIP 32</div>
+      <h3>호스트도 게스트 리뷰 먼저</h3>
+      <p>호스트가 리뷰 먼저 쓰면 게스트도 14일 내 작성 확률 ↑. 게스트 리뷰 = 다음 호스트 결정 신호.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 33</div>
+      <h3>낮은 별점 게스트는 거절 가능</h3>
+      <p>이전 호스트 별점 4.5 미만 게스트는 예약 거절 권장. "Strict Cancellation" 설정 시 환불 X.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 34</div>
+      <h3>부정 리뷰엔 사실 + 사과 + 개선</h3>
+      <p>화내지 말고 사과 후 "이미 개선했습니다" 답글. 잠재 게스트가 호스트 응대 방식을 평가.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 35</div>
+      <h3>1년 평균 4.8+ = 슈퍼호스트</h3>
+      <p>최근 12개월 전체 별점 평균 4.8 이상이 슈퍼호스트 조건. 한 두 개 낮은 리뷰는 양으로 희석.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 36</div>
+      <h3>리뷰에 키워드 유도</h3>
+      <p>"위치", "청결", "친절" 등 검색 키워드가 리뷰에 자주 나오면 검색 노출 ↑. 체크아웃 메시지에 키워드 자연 노출.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 7. 세무 -->
+<section class="section" id="tax">
+  <h2><span class="ico">📊</span>세무·법무</h2>
+  <p class="lead">합법 호스트의 책무. 모르면 과태료.</p>
+  <div class="tips-grid">
+    <div class="tip" style="--c:#34495e">
+      <div class="num">TIP 37</div>
+      <h3>사업자등록 (외도민업 등록 시)</h3>
+      <p>업종코드 552105 (관광 숙박업) 또는 552906 (외국인관광도시민박업). 간이과세자 (연 매출 8천만원 미만) 추천.</p>
+    </div>
+    <div class="tip" style="--c:#34495e">
+      <div class="num">TIP 38</div>
+      <h3>부가가치세 신고 1년 2회</h3>
+      <p>1월·7월 신고. 간이과세는 1년 1회. 위홈 정산 내역 + 청소비·소모품 비용 영수증 보관.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 39</div>
+      <h3>외국인 게스트 정보 신고 의무</h3>
+      <p>외국인관광도시민박업은 모든 외국인 게스트의 여권 정보·체류 기록 신고 의무 (관할 시군구).</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 40</div>
+      <h3>종합소득세 5월</h3>
+      <p>전년도 1.1~12.31 매출-비용 차액을 5월에 신고. 청소·세탁·소모품·인테리어는 전부 비용 처리.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 8. 슈퍼호스트 -->
+<section class="section" id="superhost">
+  <h2><span class="ico">🏆</span>슈퍼호스트 되는 법</h2>
+  <p class="lead">분기별 평가 4가지 모두 통과해야 합니다.</p>
+  <div class="callout">
+    <strong>슈퍼호스트 4대 조건</strong><br/>
+    ① 1년 10건 이상 예약 (또는 100박 이상 + 3건)<br/>
+    ② 평균 별점 4.8+ (최근 12개월)<br/>
+    ③ 응답률 90%+ (24시간 내)<br/>
+    ④ 취소율 1% 미만 (호스트 사유)
+  </div>
+  <div class="tips-grid">
+    <div class="tip" style="--c:#27ae60">
+      <div class="num">TIP 41</div>
+      <h3>슈퍼호스트 혜택 = 매출 +22%</h3>
+      <p>검색 상단 노출 + 슈퍼호스트 뱃지 → 클릭률 1.6배. Airbnb 발표 평균 매출 +22%.</p>
+    </div>
+    <div class="tip" style="--c:#27ae60">
+      <div class="num">TIP 42</div>
+      <h3>슈퍼호스트 분기별 평가</h3>
+      <p>1·4·7·10월에 평가. 한 번 떨어지면 다음 분기 재평가까지 뱃지 회수.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 43</div>
+      <h3>1년차 = 슈퍼호스트 최단 거리</h3>
+      <p>1년차 호스트 중 15%가 첫해 슈퍼호스트. 핵심: 가격 낮게 시작 + 빠른 응답 + 청결.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 44</div>
+      <h3>실패해도 자동 회복</h3>
+      <p>슈퍼호스트 잃어도 다음 분기 평가에서 자동 회복 가능. 한 두 번의 실수가 영구 박탈 아님.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 45</div>
+      <h3>가족·친구 예약은 ❌</h3>
+      <p>지인 가짜 예약·리뷰는 적발 시 영구 정지. 정직한 운영이 장기적으로 가장 안전.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 46</div>
+      <h3>예약 후 5분 내 자동 메시지</h3>
+      <p>"예약 감사합니다. 체크인 1일 전 상세 안내 드리겠습니다." 자동 응답 설정으로 응답률 100% 유지.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 47</div>
+      <h3>달력 90일 미리 열어두기</h3>
+      <p>"즉시 예약 가능"이 검색 결과 상위 노출 알고리즘에 영향. 90일치 가격·블록 미리 설정.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 48</div>
+      <h3>비수기 무료 업그레이드 제안</h3>
+      <p>"공실이라 무료로 침대 1개 추가" 등 작은 보너스 → 리뷰에 강력한 인상 → 별점 ↑.</p>
+    </div>
+    <div class="tip">
+      <div class="num">TIP 49</div>
+      <h3>호스트 보험 (PHC) 활용</h3>
+      <p>Airbnb 호스트 보장보험 (최대 100만 달러). 게스트 부상·재산 손상 자동 보장. 위홈은 별도 PL보험 가입.</p>
+    </div>
+    <div class="tip" style="--c:#FF6B35">
+      <div class="num">TIP 50</div>
+      <h3>호스트레터 구독으로 매주 업데이트</h3>
+      <p>이런 꿀팁은 매주 갱신됩니다. <a href="/newsletter" style="color:#FF6B35;font-weight:800">호스트레터 구독</a>하면 카카오톡으로 매주 화요일 받아보세요.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="brand"><em>위</em>홈 · <em>we</em>home</div>
+  <div class="tagline">한국에서 합법 호스트가 되는 가장 쉬운 길</div>
+  <div class="links">
+    <a href="/">🏠 진단</a><a href="/pricing">💰 가격</a><a href="/analysis">📊 분석</a>
+    <a href="/tips">💡 꿀팁</a><a href="/regulation">⚖️ 규제</a><a href="/news">📰 뉴스</a>
+    <a href="/newsletter">📧 호스트레터</a><a href="/community">💬 단톡방</a>
+    <a href="https://wehome.me" target="_blank" class="accent">→ wehome.me</a>
+  </div>
+  <div class="copy">© 2026 wehome, Inc. · 호스트 꿀팁 50선 · Airbnb 공식 가이드 + 위홈 베테랑 호스트 노하우 정리</div>
+</footer>
+
+</body>
+</html>

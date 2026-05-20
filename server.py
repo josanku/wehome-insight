@@ -2,7 +2,7 @@
 위홈 인사이트 + 위홈 Studio Flask 서버
 """
 from flask import Flask, jsonify, request, send_from_directory
-import sqlite3, os, math, requests
+import sqlite3, os, math, requests, json
 from pyproj import Transformer
 
 app = Flask(__name__, static_folder='.')
@@ -323,6 +323,116 @@ def pricing_page():
 @app.route('/about')
 def about_page():
     return send_from_directory('.', 'about.html')
+
+@app.route('/newsletter')
+def newsletter_page():
+    return send_from_directory('.', 'newsletter.html')
+
+@app.route('/community')
+def community_page():
+    return send_from_directory('.', 'community.html')
+
+@app.route('/tips')
+def tips_page():
+    return send_from_directory('.', 'tips.html')
+
+@app.route('/regulation')
+def regulation_page():
+    return send_from_directory('.', 'regulation.html')
+
+@app.route('/news')
+def news_page():
+    return send_from_directory('.', 'news.html')
+
+@app.route('/api/news')
+def api_news():
+    """공유숙박 관련 뉴스·유튜브 (최근 14일)"""
+    conn = get_db()
+    conn.execute("""CREATE TABLE IF NOT EXISTS news_items (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        type TEXT, source TEXT, title TEXT NOT NULL,
+        url TEXT NOT NULL UNIQUE, summary TEXT, thumbnail TEXT,
+        published_at TEXT, duration TEXT, keyword TEXT,
+        collected_at TEXT DEFAULT (datetime('now'))
+    )""")
+    type_f = request.args.get('type', '')
+    cond, params = ["published_at >= date('now','-14 days')"], []
+    if type_f:
+        cond.append("type=?"); params.append(type_f)
+    where = " AND ".join(cond)
+    rows = conn.execute(f"""
+        SELECT type, source, title, url, summary, thumbnail, published_at, duration
+        FROM news_items WHERE {where}
+        ORDER BY published_at DESC LIMIT 200
+    """, params).fetchall()
+    conn.close()
+    return jsonify({'items': [dict(r) for r in rows], 'count': len(rows)})
+
+# ── Host Letter 구독자 관리 ──────────────────────────────────────────────
+def _init_subscribers(conn):
+    conn.execute("""CREATE TABLE IF NOT EXISTS subscribers (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        created_at TEXT DEFAULT (datetime('now')),
+        channel TEXT,                    -- kakao | email | sms
+        contact TEXT NOT NULL UNIQUE,    -- 카카오ID / 전화 / 이메일
+        sido TEXT, sigungu TEXT, dong TEXT,
+        status TEXT,                     -- host | aspiring | related
+        wehome_member INTEGER DEFAULT 0, -- 0/1
+        unsubscribed_at TEXT,
+        meta_json TEXT                   -- 추가 정보
+    )""")
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_subs_status ON subscribers(status)")
+    conn.commit()
+
+@app.route('/api/newsletter/subscribe', methods=['POST'])
+def api_subscribe():
+    """Host Letter 뉴스레터 구독 신청"""
+    try:
+        data = request.get_json(silent=True) or {}
+        contact = (data.get('contact') or '').strip()[:200]
+        channel = (data.get('channel') or 'kakao').strip()[:20]
+        address = (data.get('address') or '').strip()[:200]
+        status = (data.get('status') or '').strip()[:30]
+        wehome_member = 1 if data.get('wehome_member') else 0
+        if not contact or not status:
+            return jsonify({'ok': False, 'error': '연락처와 상태 필수'}), 400
+
+        # 주소 파싱
+        parts = address.split()
+        sido = parts[0] if parts else ''
+        sigungu = parts[1] if len(parts) > 1 else ''
+        dong = parts[2] if len(parts) > 2 else ''
+
+        conn = get_db()
+        _init_subscribers(conn)
+        try:
+            conn.execute("""INSERT INTO subscribers
+                (channel, contact, sido, sigungu, dong, status, wehome_member, meta_json)
+                VALUES (?,?,?,?,?,?,?,?)""",
+                (channel, contact, sido, sigungu, dong, status, wehome_member,
+                 json.dumps({'address': address}, ensure_ascii=False)))
+            conn.commit()
+            new_id = conn.lastrowid
+            conn.close()
+            return jsonify({'ok': True, 'id': new_id, 'message': '구독 완료'})
+        except sqlite3.IntegrityError:
+            conn.close()
+            return jsonify({'ok': False, 'error': '이미 구독 중인 연락처입니다'}), 409
+    except Exception as e:
+        return jsonify({'ok': False, 'error': str(e)}), 500
+
+@app.route('/api/newsletter/stats')
+def api_newsletter_stats():
+    """구독자 통계 (관리자용)"""
+    conn = get_db()
+    _init_subscribers(conn)
+    total = conn.execute("SELECT COUNT(*) FROM subscribers WHERE unsubscribed_at IS NULL").fetchone()[0]
+    by_status = {}
+    for r in conn.execute("""SELECT status, COUNT(*) c FROM subscribers
+        WHERE unsubscribed_at IS NULL GROUP BY status""").fetchall():
+        by_status[r[0]] = r[1]
+    conn.close()
+    return jsonify({'total': total, 'by_status': by_status})
 
 # ── SEO / AIEO 지원 라우트 ────────────────────────────────────────────────
 @app.route('/robots.txt')

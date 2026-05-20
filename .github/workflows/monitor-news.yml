@@ -1,0 +1,21 @@
+name: Daily News Monitor
+
+on:
+  schedule:
+    - cron: '0 18 * * *'   # UTC 18:00 = KST 03:00
+  workflow_dispatch:
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger news monitoring on App Runner
+        if: ${{ secrets.INSIGHT_URL != '' }}
+        env:
+          URL: ${{ secrets.INSIGHT_URL }}
+          SECRET: ${{ secrets.PUBLISH_SECRET }}
+        run: |
+          # 서버 측에서 news_monitor.py 실행하는 엔드포인트 호출 (옵션)
+          # 또는 Cron Job으로 서버에서 직접 실행
+          echo "News monitoring should be triggered via App Runner cron or scheduled task"
+          echo "Recommendation: configure AWS EventBridge to invoke news_monitor.py daily"

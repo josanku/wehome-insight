@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>호스트레터 톡 · 한국 공유숙박 호스트 카카오 단톡방 | wehome</title>
+<meta name="description" content="네이버 에어비앤비 카페의 대안. 카카오 오픈채팅으로 합법 공유숙박 호스트가 실시간으로 정보를 나누는 곳. 위홈 운영진과 베테랑 호스트가 모더레이트."/>
+<meta name="keywords" content="공유숙박 단톡방, 호스트 카카오, 호스트레터 톡, 외도민업 커뮤니티, 위홈 호스트 모임"/>
+<link rel="canonical" href="https://insight.wehome.me/community"/>
+<meta property="og:title" content="호스트레터 톡 · 한국 공유숙박 호스트 카카오 단톡방"/>
+<meta property="og:description" content="합법 공유숙박 호스트가 실시간으로 정보를 나누는 카카오 오픈채팅. 위홈 운영진 + 베테랑 호스트 모더레이트."/>
+<meta property="og:url" content="https://insight.wehome.me/community"/>
+<meta property="og:image" content="https://insight.wehome.me/og-image.png"/>
+<meta name="theme-color" content="#FEE500"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;background:#fafbfd;color:#0d1f45;line-height:1.6}
+
+header{background:#fff;border-bottom:1px solid #ececec;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:2000}
+.logo{font-size:20px;font-weight:800}.logo em{color:#FF6B35;font-style:normal}
+.logo small{font-size:12px;font-weight:400;color:#888;margin-left:6px}
+.nav{display:flex;gap:14px;font-size:13px;align-items:center}
+.nav a{color:#555;text-decoration:none;padding:5px 10px;border-radius:6px}
+.nav a:hover{background:#f0f5ff;color:#1a52cc}
+.nav a.active{background:#FEE500;color:#3C1E1E}
+
+/* Hero */
+.hero{padding:70px 32px 40px;text-align:center;background:linear-gradient(180deg,#FEE500 0%,#fff 100%);position:relative;overflow:hidden}
+.hero::before{content:'💬';position:absolute;font-size:200px;opacity:.1;top:50%;left:8%;transform:translateY(-50%)}
+.hero::after{content:'💬';position:absolute;font-size:200px;opacity:.1;top:50%;right:8%;transform:translateY(-50%)}
+.umbrella{display:inline-block;font-size:11px;color:#3C1E1E;font-weight:700;letter-spacing:3px;margin-bottom:14px}
+.hero h1{font-size:46px;font-weight:900;letter-spacing:-2px;margin-bottom:14px;color:#3C1E1E;position:relative}
+.hero .lead{color:#3C1E1E;font-size:16px;max-width:620px;margin:0 auto 20px;font-weight:500}
+.hero .vs{display:flex;justify-content:center;gap:8px;margin-top:30px;flex-wrap:wrap;max-width:680px;margin-left:auto;margin-right:auto}
+.hero .vs-card{background:#fff;border-radius:10px;padding:12px 16px;font-size:12px;font-weight:700;color:#666;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.hero .vs-card.us{background:#3C1E1E;color:#FEE500}
+
+/* Rooms grid */
+.section{padding:50px 32px;max-width:1100px;margin:0 auto}
+.section-title{font-size:26px;font-weight:800;letter-spacing:-1px;margin-bottom:8px}
+.section-sub{color:#888;font-size:14px;margin-bottom:30px}
+
+.rooms-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.room-card{background:#fff;border-radius:16px;padding:28px;box-shadow:0 4px 16px rgba(0,0,0,.06);border-top:5px solid #FEE500;transition:.2s}
+.room-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.1)}
+.room-card.main{border-top-color:#FF6B35}
+.room-card.local{border-top-color:#1a52cc}
+.room-card .ico{font-size:42px;margin-bottom:12px}
+.room-card h3{font-size:19px;font-weight:800;margin-bottom:4px}
+.room-card .room-sub{font-size:11px;color:#FF6B35;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+.room-card p{font-size:13px;color:#555;line-height:1.7;margin-bottom:14px}
+.room-card .features{list-style:none;font-size:12px;color:#666;margin-bottom:18px}
+.room-card .features li{padding:4px 0 4px 16px;position:relative}
+.room-card .features li::before{content:'✓';position:absolute;left:0;color:#27ae60;font-weight:800}
+.room-card .join-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;background:#FEE500;color:#3C1E1E;border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;text-decoration:none}
+.room-card .join-btn:hover{background:#FFD800}
+.room-card .join-btn.disabled{background:#eee;color:#aaa;cursor:not-allowed;pointer-events:none}
+.room-card .count{font-size:11px;color:#888;margin-top:8px;text-align:center}
+
+/* Rules */
+.rules-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px}
+.rule-card{background:#fff;border-radius:14px;padding:24px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.rule-card.ok{border-left:4px solid #27ae60}
+.rule-card.no{border-left:4px solid #e74c3c}
+.rule-card h4{font-size:14px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.rule-card ul{list-style:none;font-size:13px;color:#555;line-height:1.8}
+.rule-card ul li{padding-left:18px;position:relative}
+.rule-card.ok ul li::before{content:'✓';position:absolute;left:0;color:#27ae60;font-weight:800}
+.rule-card.no ul li::before{content:'✕';position:absolute;left:0;color:#e74c3c;font-weight:800}
+
+/* Topics */
+.topics-list{background:#fff;border-radius:14px;padding:24px;box-shadow:0 2px 10px rgba(0,0,0,.05);margin-top:20px}
+.topic-item{padding:14px 0;border-bottom:1px solid #f0f0f0;display:grid;grid-template-columns:60px 1fr auto;gap:12px;align-items:center}
+.topic-item:last-child{border:none}
+.topic-num{display:flex;align-items:center;justify-content:center;background:#FF6B35;color:#fff;border-radius:50%;width:32px;height:32px;font-size:13px;font-weight:800}
+.topic-title{font-size:14px;font-weight:700}
+.topic-meta{font-size:11px;color:#888;margin-top:3px}
+.topic-stats{text-align:right;font-size:11px;color:#888}
+.topic-stats .v{font-size:18px;font-weight:800;color:#FF6B35}
+
+/* Moderators */
+.mod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:20px}
+.mod-card{background:#fff;border-radius:12px;padding:20px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.mod-card .avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#FEE500,#FFD800);display:inline-flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:10px}
+.mod-card h4{font-size:14px;font-weight:800;margin-bottom:3px}
+.mod-card .role{font-size:11px;color:#FF6B35;font-weight:700;letter-spacing:.5px}
+.mod-card .desc{font-size:11px;color:#888;margin-top:6px}
+
+/* CTA section */
+.cta-section{background:linear-gradient(135deg,#3C1E1E,#5C2E2E);color:#FEE500;border-radius:16px;padding:40px;text-align:center;margin-top:30px}
+.cta-section h2{font-size:24px;font-weight:800;margin-bottom:8px}
+.cta-section p{color:rgba(254,229,0,.85);font-size:14px;margin-bottom:22px}
+.cta-section .btn-primary{background:#FEE500;color:#3C1E1E;padding:14px 30px;border-radius:10px;text-decoration:none;font-weight:800;display:inline-block;font-size:15px}
+.cta-section .btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(254,229,0,.3)}
+
+footer{background:#0d1f45;color:#fff;padding:36px 32px;text-align:center;margin-top:60px}
+footer .brand{font-size:24px;font-weight:800;margin-bottom:6px}
+footer .brand em{color:#FF6B35;font-style:normal}
+footer .tagline{color:rgba(255,255,255,.7);font-size:13px;margin-bottom:18px}
+footer .links{display:flex;justify-content:center;gap:16px;font-size:12px;margin-bottom:14px;flex-wrap:wrap}
+footer .links a{color:rgba(255,255,255,.8);text-decoration:none}
+footer .links a.accent{color:#FF6B35;font-weight:700}
+footer .copy{color:rgba(255,255,255,.4);font-size:11px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1);max-width:800px;margin:14px auto 0}
+
+@media (max-width:768px){
+  .hero h1{font-size:32px} .rooms-grid{grid-template-columns:1fr}
+  .rules-grid{grid-template-columns:1fr} .mod-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><em>wehome</em> Studio <small>호스트레터 톡</small></div>
+  <nav class="nav">
+    <a href="/">🏠 진단</a>
+    <a href="/pricing">💰 가격</a>
+    <a href="/analysis">📊 분석</a>
+    <a href="/map">🗺️ 지도</a>
+    <a href="/report">📰 리포트</a>
+    <a href="/newsletter">📧 호스트레터</a>
+    <a href="/community" class="active">💬 단톡방</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="umbrella">▎STAY by wehome</div>
+  <h1>호스트레터 톡</h1>
+  <p class="lead">한국 공유숙박 호스트의 <strong>실시간 정보 광장</strong>.<br/>카카오 오픈채팅으로 운영자·베테랑 호스트와 즉시 연결.</p>
+
+  <div class="vs">
+    <div class="vs-card">❌ 네이버 카페 (느림 · 미등록 정보 혼재)</div>
+    <div class="vs-card us">✓ 호스트레터 톡 (실시간 · 100% 합법 중심)</div>
+  </div>
+</section>
+
+<!-- 3개 채팅방 -->
+<section class="section">
+  <div class="section-title">💬 3개 채팅방</div>
+  <div class="section-sub">목적에 맞는 방을 선택해 입장하세요. 가입은 무료, 익명 가능.</div>
+
+  <div class="rooms-grid">
+    <div class="room-card main">
+      <div class="ico">📣</div>
+      <div class="room-sub">MAIN ROOM</div>
+      <h3>호스트레터 톡</h3>
+      <p>위홈 공식 공지·뉴스·중요 알림. <strong>읽기 중심</strong> · 운영자만 글 게시 (broadcast).</p>
+      <ul class="features">
+        <li>주간 호스트레터 동시 발송</li>
+        <li>긴급 정책·법 변경 알림</li>
+        <li>위홈 신기능 안내</li>
+        <li>월간 리포트 ISSUE 알림</li>
+      </ul>
+      <a href="#" class="join-btn disabled" id="joinMain">🔗 카톡 오픈채팅 입장 (준비 중)</a>
+      <div class="count">목표: 1,000~5,000명</div>
+    </div>
+
+    <div class="room-card">
+      <div class="ico">💬</div>
+      <div class="room-sub">Q&A · OPEN</div>
+      <h3>호스트레터 톡 · 자유</h3>
+      <p>등록·운영·세무 등 <strong>회원 자유 Q&A</strong>. 평일 09-18시 위홈 운영자 응답 보장.</p>
+      <ul class="features">
+        <li>외도민업 등록 절차 질문</li>
+        <li>가격 책정·운영 노하우</li>
+        <li>외국인 게스트 응대</li>
+        <li>세무·법무 일반 상담</li>
+      </ul>
+      <a href="#" class="join-btn disabled" id="joinQA">🔗 카톡 오픈채팅 입장 (준비 중)</a>
+      <div class="count">목표: 500~2,000명</div>
+    </div>
+
+    <div class="room-card local">
+      <div class="ico">📍</div>
+      <div class="room-sub">LOCAL · 지역</div>
+      <h3>호스트레터 톡 · 지역방</h3>
+      <p><strong>서울 / 부산 / 제주 / 강원</strong> 등 지역별 단톡방. 단속 동향·동네 이슈 실시간.</p>
+      <ul class="features">
+        <li>지역 단속·점검 정보</li>
+        <li>동네 호스트 오프 모임</li>
+        <li>지역 청소·세탁 업체 정보</li>
+        <li>로컬 게스트 트렌드</li>
+      </ul>
+      <a href="#" class="join-btn disabled" id="joinLocal">🔗 지역 선택 후 입장 (준비 중)</a>
+      <div class="count">서울 마포·종로 등 세분 예정</div>
+    </div>
+  </div>
+</section>
+
+<!-- 운영 규칙 -->
+<section class="section">
+  <div class="section-title">📜 운영 규칙</div>
+  <div class="section-sub">건강한 호스트 커뮤니티를 위한 최소한의 기본 규칙.</div>
+
+  <div class="rules-grid">
+    <div class="rule-card ok">
+      <h4>✅ 가능합니다</h4>
+      <ul>
+        <li>합법 호스팅 정보 공유</li>
+        <li>외도민업 등록·운영 Q&A</li>
+        <li>외국인 게스트 응대 경험</li>
+        <li>위홈 플랫폼 운영 노하우</li>
+        <li>정책·법무 일반 상담</li>
+        <li>지역 모임·번개 공지</li>
+        <li>호스트 인터뷰·소개</li>
+      </ul>
+    </div>
+    <div class="rule-card no">
+      <h4>❌ 금지됩니다</h4>
+      <ul>
+        <li>미등록 호스팅 정보 (단속 회피 등)</li>
+        <li>직거래·게스트 소개비</li>
+        <li>경쟁 플랫폼 광고·홍보</li>
+        <li>욕설·인신공격·차별 발언</li>
+        <li>스팸·도배·반복 광고</li>
+        <li>개인정보 유출 (실명·주소·연락처)</li>
+        <li>정치·종교적 논쟁</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 모더레이터 -->
+<section class="section">
+  <div class="section-title">🛡️ 모더레이터</div>
+  <div class="section-sub">위홈 운영진 + 베테랑 호스트가 24/7 모니터링.</div>
+
+  <div class="mod-grid">
+    <div class="mod-card">
+      <div class="avatar">👨‍💼</div>
+      <h4>위홈 운영자</h4>
+      <div class="role">PLATFORM</div>
+      <div class="desc">정책·법무 답변 · 평일 09-18시</div>
+    </div>
+    <div class="mod-card">
+      <div class="avatar">👩‍🏫</div>
+      <h4>마포 베테랑</h4>
+      <div class="role">SEOUL MAPO</div>
+      <div class="desc">홍대권역 5년차 · 등록 가이드</div>
+    </div>
+    <div class="mod-card">
+      <div class="avatar">👨‍🎨</div>
+      <h4>북촌 한옥</h4>
+      <div class="role">JONGNO HANOK</div>
+      <div class="desc">한옥체험업 운영 · 외국인 게스트</div>
+    </div>
+    <div class="mod-card">
+      <div class="avatar">👩‍🍳</div>
+      <h4>해운대 호스트</h4>
+      <div class="role">BUSAN</div>
+      <div class="desc">관광호텔·민박 동시 운영</div>
+    </div>
+  </div>
+</section>
+
+<!-- 이번 주 인기 토픽 -->
+<section class="section">
+  <div class="section-title">🔥 이번 주 인기 토픽</div>
+  <div class="section-sub">단톡방에서 가장 많이 논의된 주제 (호스트레터 위클리에도 게재).</div>
+
+  <div class="topics-list">
+    <div class="topic-item">
+      <div class="topic-num">1</div>
+      <div>
+        <div class="topic-title">마포구 단속 강화? 5월 신규 점검 일정</div>
+        <div class="topic-meta">2026-05-19 · 위홈 운영자 답변 완료</div>
+      </div>
+      <div class="topic-stats"><div class="v">238</div>댓글</div>
+    </div>
+    <div class="topic-item">
+      <div class="topic-num">2</div>
+      <div>
+        <div class="topic-title">아파트 외도민업 등록 가능 여부 — 관리규약 충돌</div>
+        <div class="topic-meta">2026-05-18 · 베테랑 답변 7건</div>
+      </div>
+      <div class="topic-stats"><div class="v">156</div>댓글</div>
+    </div>
+    <div class="topic-item">
+      <div class="topic-num">3</div>
+      <div>
+        <div class="topic-title">5월 외국인 게스트 급증 — 어떻게 대응할까</div>
+        <div class="topic-meta">2026-05-17 · 진행 중</div>
+      </div>
+      <div class="topic-stats"><div class="v">112</div>댓글</div>
+    </div>
+    <div class="topic-item">
+      <div class="topic-num">4</div>
+      <div>
+        <div class="topic-title">청소 업체 추천 (서울 마포구 · 가격대별)</div>
+        <div class="topic-meta">2026-05-15 · 마무리</div>
+      </div>
+      <div class="topic-stats"><div class="v">94</div>댓글</div>
+    </div>
+    <div class="topic-item">
+      <div class="topic-num">5</div>
+      <div>
+        <div class="topic-title">위홈 다국어 자동번역 베타 후기</div>
+        <div class="topic-meta">2026-05-14 · 위홈 PM 답변</div>
+      </div>
+      <div class="topic-stats"><div class="v">78</div>댓글</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section">
+  <div class="cta-section">
+    <h2>🚀 곧 오픈 합니다</h2>
+    <p>호스트레터 톡은 2026년 6월 출범 예정. 사전 알림을 받으시려면 호스트레터를 먼저 구독하세요.</p>
+    <a href="/newsletter" class="btn-primary">📧 호스트레터 구독하기 (사전 알림)</a>
+  </div>
+</section>
+
+<footer>
+  <div class="brand"><em>위</em>홈 · <em>we</em>home</div>
+  <div class="tagline">한국에서 합법 호스트가 되는 가장 쉬운 길</div>
+  <div class="links">
+    <a href="/">🏠 진단</a>
+    <a href="/pricing">💰 가격</a>
+    <a href="/analysis">📊 분석</a>
+    <a href="/map">🗺️ 지도</a>
+    <a href="/report">📰 리포트</a>
+    <a href="/newsletter">📧 호스트레터</a>
+    <a href="/community">💬 단톡방</a>
+    <a href="/about">ℹ️ 소개</a>
+    <a href="https://wehome.me" target="_blank" class="accent">→ wehome.me</a>
+  </div>
+  <div class="copy">© 2026 wehome, Inc. · Stay by wehome · 호스트레터 톡은 카카오 오픈채팅 공식 단톡방입니다.</div>
+</footer>
+
+</body>
+</html>

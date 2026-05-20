@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>호스트레터 · Host Letter | 한국 공유숙박 호스트를 위한 주간 뉴스레터</title>
+<meta name="description" content="매주 화요일 09시 카카오톡으로 받는 한국 공유숙박 호스트 전용 뉴스레터. 외도민업 시장 동향·내 동네 시그널·운영 가이드·법 정책을 한 번에. wehome Stay 시리즈."/>
+<meta name="keywords" content="호스트레터, Host Letter, 위홈 뉴스레터, 공유숙박 뉴스레터, 외도민업, Stay by wehome"/>
+<link rel="canonical" href="https://insight.wehome.me/newsletter"/>
+<meta property="og:title" content="호스트레터 · Host Letter | 매주 화요일 09시 카카오톡 발송"/>
+<meta property="og:description" content="한국 공유숙박 호스트의 첫 번째 뉴스레터. 내 동네 시그널 + 운영 가이드 + 법 정책 매주 5분."/>
+<meta property="og:url" content="https://insight.wehome.me/newsletter"/>
+<meta property="og:image" content="https://insight.wehome.me/og-image.png"/>
+<meta name="theme-color" content="#FF6B35"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;background:#fafbfd;color:#0d1f45;line-height:1.6}
+
+header{background:#fff;border-bottom:1px solid #ececec;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:2000}
+.logo{font-size:20px;font-weight:800}.logo em{color:#FF6B35;font-style:normal}
+.logo small{font-size:12px;font-weight:400;color:#888;margin-left:6px}
+.nav{display:flex;gap:14px;font-size:13px;align-items:center}
+.nav a{color:#555;text-decoration:none;padding:5px 10px;border-radius:6px}
+.nav a:hover{background:#f0f5ff;color:#1a52cc}
+.nav a.active{background:#FF6B35;color:#fff}
+
+/* Hero */
+.hero{padding:70px 32px 50px;text-align:center;background:linear-gradient(135deg,#fff8f0 0%,#fff 100%);position:relative;overflow:hidden}
+.hero::before{content:'📧';position:absolute;font-size:300px;opacity:.03;top:-50px;right:5%;line-height:1}
+.umbrella{display:inline-block;font-size:11px;color:#999;font-weight:700;letter-spacing:3px;margin-bottom:14px}
+.umbrella em{color:#FF6B35;font-style:normal}
+.hero h1{font-size:48px;font-weight:900;letter-spacing:-2px;margin-bottom:14px;line-height:1.1}
+.hero h1 em{color:#FF6B35;font-style:normal}
+.hero .lead{color:#555;font-size:17px;max-width:620px;margin:0 auto 24px;line-height:1.6}
+.hero .stats-row{display:flex;justify-content:center;gap:32px;margin-top:30px;flex-wrap:wrap}
+.hero .stat{text-align:center}
+.hero .stat .num{font-size:28px;font-weight:900;color:#FF6B35;letter-spacing:-1px}
+.hero .stat .lbl{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-top:3px}
+
+/* Subscribe form */
+.subscribe{max-width:540px;margin:30px auto;background:#fff;border-radius:16px;padding:32px;box-shadow:0 8px 32px rgba(255,107,53,.12);border:2px solid #ffe4d5}
+.subscribe h2{font-size:20px;font-weight:800;margin-bottom:6px}
+.subscribe .sub{color:#888;font-size:13px;margin-bottom:22px}
+.fb-row{margin-bottom:14px}
+.fb-row label{display:block;font-size:11px;color:#666;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.fb-row input,.fb-row select{width:100%;padding:12px 14px;border:1px solid #ddd;border-radius:8px;font-size:14px;outline:none;font-family:inherit}
+.fb-row input:focus,.fb-row select:focus{border-color:#FF6B35}
+.radio-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.radio-row label{display:flex;align-items:center;padding:11px 12px;border:1px solid #ddd;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;color:#555;justify-content:center;transition:.15s}
+.radio-row label:hover{border-color:#FF6B35;color:#FF6B35}
+.radio-row input[type=radio]{display:none}
+.radio-row input[type=radio]:checked + span{color:#FF6B35;font-weight:800}
+.radio-row label.selected{border-color:#FF6B35;background:#fff8f0;color:#FF6B35}
+.checkbox-row{display:flex;align-items:center;gap:8px;font-size:12px;color:#555;margin-top:6px;cursor:pointer}
+.submit-btn{width:100%;padding:15px;background:linear-gradient(135deg,#FF6B35,#e74c3c);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;margin-top:8px;letter-spacing:.5px}
+.submit-btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(255,107,53,.3)}
+.submit-btn:disabled{background:#aaa;cursor:wait}
+.success-msg{background:#d4edda;color:#155724;padding:14px;border-radius:10px;margin-top:14px;text-align:center;font-weight:700;display:none}
+.success-msg.show{display:block}
+
+/* Sample preview */
+.section{padding:50px 32px;max-width:1100px;margin:0 auto}
+.section-title{font-size:26px;font-weight:800;margin-bottom:8px;letter-spacing:-1px}
+.section-sub{color:#888;font-size:14px;margin-bottom:24px}
+
+.preview-card{background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.08);padding:36px;max-width:680px;margin:0 auto;border-top:6px solid #FF6B35}
+.preview-card .meta{font-size:11px;color:#FF6B35;font-weight:700;letter-spacing:2px;margin-bottom:8px}
+.preview-card h3{font-size:22px;font-weight:800;margin-bottom:16px}
+.preview-card .sect{margin:18px 0;padding:14px 0;border-bottom:1px solid #f0f0f0}
+.preview-card .sect:last-child{border:none}
+.preview-card .sect-title{font-size:11px;color:#0d1f45;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
+.preview-card .sect-body{font-size:13px;color:#555;line-height:1.7}
+.preview-card .sect-body li{margin:4px 0;list-style:none;padding-left:14px;position:relative}
+.preview-card .sect-body li::before{content:'·';position:absolute;left:0;color:#FF6B35;font-weight:800}
+
+/* Future expansion */
+.expansion{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px}
+.exp-card{background:#fff;border:1px solid #e8edf5;border-radius:12px;padding:18px;text-align:center;transition:.15s}
+.exp-card.current{background:linear-gradient(135deg,#FF6B35,#e74c3c);color:#fff;border-color:transparent}
+.exp-card.future{opacity:.6}
+.exp-card .ico{font-size:32px;margin-bottom:8px}
+.exp-card h4{font-size:14px;font-weight:800;margin-bottom:4px}
+.exp-card p{font-size:11px;opacity:.85}
+.exp-card .badge{display:inline-block;padding:2px 8px;background:#0d1f45;color:#fff;border-radius:8px;font-size:10px;margin-top:6px}
+.exp-card.current .badge{background:rgba(255,255,255,.25)}
+
+/* Footer (통일) */
+footer{background:#0d1f45;color:#fff;padding:36px 32px;text-align:center;margin-top:60px}
+footer .brand{font-size:24px;font-weight:800;margin-bottom:6px}
+footer .brand em{color:#FF6B35;font-style:normal}
+footer .tagline{color:rgba(255,255,255,.7);font-size:13px;margin-bottom:18px}
+footer .links{display:flex;justify-content:center;gap:16px;font-size:12px;margin-bottom:14px;flex-wrap:wrap}
+footer .links a{color:rgba(255,255,255,.8);text-decoration:none}
+footer .links a.accent{color:#FF6B35;font-weight:700}
+footer .copy{color:rgba(255,255,255,.4);font-size:11px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1);max-width:800px;margin:14px auto 0}
+
+@media (max-width:768px){
+  .hero h1{font-size:32px} .subscribe{padding:24px}
+  .radio-row{grid-template-columns:1fr} .expansion{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><em>wehome</em> Studio <small>호스트레터</small></div>
+  <nav class="nav">
+    <a href="/">🏠 진단</a>
+    <a href="/pricing">💰 가격</a>
+    <a href="/analysis">📊 분석</a>
+    <a href="/map">🗺️ 지도</a>
+    <a href="/report">📰 리포트</a>
+    <a href="/newsletter" class="active">📧 호스트레터</a>
+    <a href="/community">💬 단톡방</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="umbrella">▎<em>STAY</em> by wehome</div>
+  <h1>호스트<em>레터</em><br/><span style="font-size:24px;font-weight:600;color:#666;letter-spacing:-0.5px">Host Letter</span></h1>
+  <p class="lead">한국 공유숙박 호스트를 위한 <strong>유일한 주간 뉴스레터</strong>.<br/>매주 화요일 09시, 카카오톡으로 5분 만에 읽는 시장 동향·내 동네 시그널·운영 가이드.</p>
+
+  <div class="stats-row">
+    <div class="stat"><div class="num">📅 주1회</div><div class="lbl">매주 화요일 09:00</div></div>
+    <div class="stat"><div class="num">💬 카톡</div><div class="lbl">알림톡으로 발송</div></div>
+    <div class="stat"><div class="num">🆓 무료</div><div class="lbl">평생 무료 + 광고 절제</div></div>
+    <div class="stat"><div class="num">⏱️ 5분</div><div class="lbl">한 호 읽는 시간</div></div>
+  </div>
+</section>
+
+<!-- 구독 폼 -->
+<div class="subscribe">
+  <h2>📧 호스트레터 구독</h2>
+  <div class="sub">이름·이메일도 필요 없습니다. 카카오톡 채널 추가만으로 끝.</div>
+
+  <form id="subscribeForm">
+    <div class="fb-row">
+      <label>📱 카카오톡 ID 또는 전화번호 *</label>
+      <input type="text" id="contact" placeholder="@id 또는 010-XXXX-XXXX" required/>
+    </div>
+
+    <div class="fb-row">
+      <label>📍 거주 동네 (개인화용 · 선택)</label>
+      <input type="text" id="address" placeholder="예: 서울 마포구 연남동"/>
+    </div>
+
+    <div class="fb-row">
+      <label>👤 본인 상태 *</label>
+      <div class="radio-row" id="statusGroup">
+        <label data-val="host"><input type="radio" name="status" value="host"/><span>🏠 위홈 호스트</span></label>
+        <label data-val="aspiring"><input type="radio" name="status" value="aspiring" checked/><span>🌱 예비 호스트</span></label>
+        <label data-val="related"><input type="radio" name="status" value="related"/><span>💼 관련자</span></label>
+      </div>
+      <div class="checkbox-row" style="margin-top:10px">
+        <input type="checkbox" id="wehomeMember"/>
+        <label for="wehomeMember" style="margin:0;font-weight:500">위홈 회원입니다 (인증 안내 받기)</label>
+      </div>
+    </div>
+
+    <button type="submit" class="submit-btn" id="submitBtn">📨 매주 화요일 호스트레터 받기</button>
+  </form>
+
+  <div class="success-msg" id="successMsg">
+    ✅ 구독 완료! 다음주 화요일부터 카카오톡으로 받아보실 수 있습니다.
+  </div>
+</div>
+
+<!-- Preview -->
+<section class="section">
+  <div class="section-title">📄 샘플 이슈 미리보기</div>
+  <div class="section-sub">실제 발송되는 형식 (5분 읽기)</div>
+
+  <div class="preview-card">
+    <div class="meta">▎ISSUE 12 · 2026.05.21 (화)</div>
+    <h3>🏠 호스트레터 위클리</h3>
+
+    <div class="sect">
+      <div class="sect-title">▎이번 주 한눈에</div>
+      <ul class="sect-body">
+        <li>전국 외도민업 신규 등록 <strong>+127건</strong> (전주 대비 +23%)</li>
+        <li>마포구 영업중 <strong>1,761명</strong> (+9)</li>
+        <li>평균 객단가 <strong>₩82,300</strong> (↑₩1,200)</li>
+      </ul>
+    </div>
+
+    <div class="sect">
+      <div class="sect-title">▎📍 내 동네 시그널 (연남동 기준)</div>
+      <ul class="sect-body">
+        <li>이번 주 신규 등록: <strong>2건</strong></li>
+        <li>평균 단가: ₩75,000 (전주 ↑5%)</li>
+        <li>점유율 추정: <strong>67%</strong></li>
+      </ul>
+    </div>
+
+    <div class="sect">
+      <div class="sect-title">▎이주의 인사이트</div>
+      <p class="sect-body" style="padding:0">왜 마포구만 폐업률이 낮을까? 홍대권역 외국인 동선과 합법 호스팅의 상관관계 분석 (1분 차트).</p>
+    </div>
+
+    <div class="sect">
+      <div class="sect-title">▎예비 호스트 가이드 · Ep 03</div>
+      <p class="sect-body" style="padding:0"><strong>외도민업 등록 서류 체크리스트</strong> — 7가지 필수 서류를 한 번에.</p>
+    </div>
+
+    <div class="sect">
+      <div class="sect-title">▎법·정책 알림</div>
+      <ul class="sect-body">
+        <li>5월 인허가 지침 변경 (서울 마포구)</li>
+        <li>외국인 등록·세무 일정</li>
+      </ul>
+    </div>
+
+    <div class="sect">
+      <div class="sect-title">▎이주의 게스트 트렌드</div>
+      <ul class="sect-body">
+        <li>5월 입국 외국인 +12% (법무부)</li>
+        <li>국적 TOP3: 일본·미국·태국</li>
+      </ul>
+    </div>
+
+    <div class="sect" style="background:#fff8f0;margin:0 -36px -36px;padding:18px 36px;border-radius:0 0 10px 10px">
+      <div class="sect-title">▎이번주 위홈</div>
+      <p class="sect-body" style="padding:0">📣 신기능: 다국어 자동번역 베타 · 호스트 인터뷰: 연남동 12개월차</p>
+    </div>
+  </div>
+</section>
+
+<!-- 확장 로드맵 -->
+<section class="section">
+  <div class="section-title">🌟 Stay by wehome · 미디어 패밀리</div>
+  <div class="section-sub">호스트레터는 시작. 위홈은 한국 공유숙박의 권위 있는 정보 허브를 만들어 갑니다.</div>
+
+  <div class="expansion">
+    <div class="exp-card current">
+      <div class="ico">📧</div>
+      <h4>Host Letter</h4>
+      <p>주간 호스트 뉴스레터</p>
+      <div class="badge">NOW · 2026.05</div>
+    </div>
+    <div class="exp-card current">
+      <div class="ico">📊</div>
+      <h4>Stay Insight</h4>
+      <p>시장 데이터 플랫폼</p>
+      <div class="badge">NOW</div>
+    </div>
+    <div class="exp-card future">
+      <div class="ico">📰</div>
+      <h4>Stay Magazine</h4>
+      <p>업계·산업 매거진</p>
+      <div class="badge">Q3 · 2026</div>
+    </div>
+    <div class="exp-card future">
+      <div class="ico">📺</div>
+      <h4>Stay TV</h4>
+      <p>유튜브 콘텐츠</p>
+      <div class="badge">Q4 · 2026</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="brand"><em>위</em>홈 · <em>we</em>home</div>
+  <div class="tagline">한국에서 합법 호스트가 되는 가장 쉬운 길</div>
+  <div class="links">
+    <a href="/">🏠 진단</a>
+    <a href="/pricing">💰 가격</a>
+    <a href="/analysis">📊 분석</a>
+    <a href="/map">🗺️ 지도</a>
+    <a href="/report">📰 리포트</a>
+    <a href="/newsletter">📧 호스트레터</a>
+    <a href="/community">💬 단톡방</a>
+    <a href="/about">ℹ️ 소개</a>
+    <a href="https://wehome.me" target="_blank" class="accent">→ wehome.me</a>
+  </div>
+  <div class="copy">© 2026 wehome, Inc. · Stay by wehome · 호스트레터(Host Letter)는 위홈의 공식 뉴스레터입니다.</div>
+</footer>
+
+<script>
+// 라디오 버튼 시각 효과
+document.querySelectorAll('#statusGroup label').forEach(lbl => {
+  lbl.addEventListener('click', ()=>{
+    document.querySelectorAll('#statusGroup label').forEach(l => l.classList.remove('selected'));
+    lbl.classList.add('selected');
+    lbl.querySelector('input').checked = true;
+  });
+});
+document.querySelector('#statusGroup label[data-val="aspiring"]').classList.add('selected');
+
+document.getElementById('subscribeForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true; btn.textContent = '전송 중...';
+  try {
+    const res = await fetch('/api/newsletter/subscribe', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        channel: 'kakao',
+        contact: document.getElementById('contact').value.trim(),
+        address: document.getElementById('address').value.trim(),
+        status: document.querySelector('input[name="status"]:checked').value,
+        wehome_member: document.getElementById('wehomeMember').checked,
+      })
+    });
+    const d = await res.json();
+    if(d.ok){
+      document.getElementById('successMsg').classList.add('show');
+      document.getElementById('subscribeForm').style.display = 'none';
+    } else {
+      alert(d.error || '구독 실패');
+    }
+  } catch(e){
+    alert('오류: ' + e.message);
+  } finally {
+    btn.disabled = false; btn.textContent = '📨 매주 화요일 호스트레터 받기';
+  }
+});
+</script>
+</body>
+</html>
