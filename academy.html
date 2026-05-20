@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>공유숙박 아카데미 · Stay Academy by wehome | 호스트 교육 사업</title>
+<meta name="description" content="공유숙박 호스트를 위한 정식 교육 프로그램. 외도민업 등록·운영·세무·외국어·인테리어 전 과정. 위홈 베테랑 호스트가 강의. 2026 Q4 정식 오픈 예정."/>
+<meta name="keywords" content="공유숙박 아카데미, 호스트 교육, 외도민업 강좌, 위홈 아카데미, Stay Academy"/>
+<link rel="canonical" href="https://insight.wehome.me/academy"/>
+<meta property="og:title" content="공유숙박 아카데미 · Stay Academy by wehome"/>
+<meta property="og:description" content="당근자판기·유튜브 채널의 부실한 정보 ❌. 위홈 베테랑 호스트가 직접 강의하는 검증된 교육."/>
+<meta property="og:image" content="https://insight.wehome.me/og-image.png"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;background:#fafbfd;color:#0d1f45;line-height:1.6}
+header{background:#fff;border-bottom:1px solid #ececec;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:2000}
+.logo{font-size:20px;font-weight:800}.logo em{color:#FF6B35;font-style:normal}
+.logo small{font-size:12px;font-weight:400;color:#888;margin-left:6px}
+.nav{display:flex;gap:10px;font-size:13px;align-items:center;flex-wrap:wrap}
+.nav a{color:#555;text-decoration:none;padding:5px 10px;border-radius:6px}
+.nav a:hover{background:#f0f5ff}
+.nav a.active{background:#0d1f45;color:#fff}
+
+.hero{padding:80px 32px 60px;text-align:center;background:linear-gradient(135deg,#0d1f45,#1a52cc);color:#fff;position:relative;overflow:hidden}
+.hero::before{content:'🎓';position:absolute;font-size:280px;opacity:.07;top:-30px;right:5%}
+.umbrella{display:inline-block;font-size:11px;color:#FF6B35;font-weight:700;letter-spacing:3px;margin-bottom:14px}
+.hero .badge-coming{display:inline-block;background:#FF6B35;padding:5px 14px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:1px;margin-bottom:14px}
+.hero h1{font-size:48px;font-weight:900;letter-spacing:-2px;margin-bottom:14px;line-height:1.1}
+.hero h1 em{color:#FF6B35;font-style:normal}
+.hero p{color:rgba(255,255,255,.85);font-size:17px;max-width:680px;margin:0 auto 24px;line-height:1.6}
+.hero .preregister-btn{display:inline-block;padding:16px 32px;background:#FF6B35;color:#fff;border-radius:10px;text-decoration:none;font-weight:800;letter-spacing:.5px}
+.hero .preregister-btn:hover{background:#e74c3c;transform:translateY(-1px)}
+
+.section{padding:50px 32px;max-width:1100px;margin:0 auto}
+.section h2{font-size:28px;font-weight:800;letter-spacing:-1px;margin-bottom:8px}
+.section .lead{color:#888;font-size:14px;margin-bottom:24px}
+
+/* Why us */
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:30px}
+.why{background:#fff;border-radius:14px;padding:24px;box-shadow:0 2px 10px rgba(0,0,0,.05);text-align:center}
+.why .ico{font-size:42px;margin-bottom:10px}
+.why h3{font-size:16px;font-weight:800;margin-bottom:6px}
+.why p{font-size:13px;color:#555;line-height:1.7}
+
+/* Vs comparison */
+.vs-row{display:grid;grid-template-columns:1fr 60px 1fr;gap:16px;align-items:center;margin:20px 0}
+.vs-col{background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.vs-col.bad{background:#fff5f5;border:1px solid #ffd8d8}
+.vs-col.good{background:#f0fff4;border:1px solid #c3e6cb}
+.vs-col h4{font-size:14px;font-weight:800;margin-bottom:12px}
+.vs-col ul{list-style:none;font-size:13px}
+.vs-col ul li{padding:5px 0 5px 22px;position:relative;color:#555}
+.vs-col.bad ul li::before{content:'✗';position:absolute;left:0;color:#e74c3c;font-weight:800}
+.vs-col.good ul li::before{content:'✓';position:absolute;left:0;color:#27ae60;font-weight:800}
+.vs-arrow{font-size:32px;text-align:center;color:#FF6B35}
+
+/* Courses */
+.course-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.course{background:#fff;border-radius:14px;padding:26px;box-shadow:0 2px 10px rgba(0,0,0,.06);border-top:5px solid var(--c,#0d1f45);position:relative}
+.course .level{font-size:11px;color:var(--c,#0d1f45);font-weight:800;letter-spacing:1.5px;margin-bottom:8px}
+.course h3{font-size:18px;font-weight:800;margin-bottom:8px}
+.course p{font-size:13px;color:#555;margin-bottom:14px;line-height:1.7}
+.course .modules{font-size:12px;color:#666;margin-bottom:14px}
+.course .modules div{padding:5px 0 5px 22px;position:relative}
+.course .modules div::before{content:'📚';position:absolute;left:0}
+.course .meta{display:flex;gap:14px;font-size:12px;color:#888;margin-top:10px;padding-top:14px;border-top:1px solid #f0f0f0}
+.course .price{font-size:18px;font-weight:800;color:var(--c,#0d1f45);margin-top:8px}
+.course .price .strike{font-size:13px;color:#aaa;font-weight:500;text-decoration:line-through;margin-right:6px}
+
+/* Pre-register form */
+.preregister{background:#0d1f45;color:#fff;border-radius:16px;padding:40px;margin-top:30px;display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center}
+.preregister h2{font-size:24px;margin-bottom:8px;color:#fff}
+.preregister p{color:rgba(255,255,255,.8);font-size:14px;margin-bottom:14px}
+.preregister .form .row{margin-bottom:10px}
+.preregister .form input,.preregister .form select{width:100%;padding:11px 13px;border:1px solid rgba(255,255,255,.2);border-radius:7px;font-size:13px;background:rgba(255,255,255,.08);color:#fff;outline:none}
+.preregister .form input::placeholder{color:rgba(255,255,255,.4)}
+.preregister .form button{width:100%;padding:13px;background:#FF6B35;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:800;cursor:pointer;margin-top:6px}
+
+footer{background:#0d1f45;color:#fff;padding:36px 32px;text-align:center;margin-top:60px}
+footer .brand{font-size:24px;font-weight:800;margin-bottom:6px}
+footer .brand em{color:#FF6B35;font-style:normal}
+footer .tagline{color:rgba(255,255,255,.7);font-size:13px;margin-bottom:18px}
+footer .links{display:flex;justify-content:center;gap:12px;font-size:12px;margin-bottom:14px;flex-wrap:wrap}
+footer .links a{color:rgba(255,255,255,.8);text-decoration:none}
+footer .copy{color:rgba(255,255,255,.4);font-size:11px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1);margin-top:14px}
+
+@media (max-width:768px){
+  .hero h1{font-size:32px} .why-grid,.course-grid{grid-template-columns:1fr}
+  .vs-row{grid-template-columns:1fr} .vs-arrow{transform:rotate(90deg)}
+  .preregister{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><em>wehome</em> Studio <small>아카데미</small></div>
+  <nav class="nav">
+    <a href="/">🏠 진단</a><a href="/property">🏘️ 부동산</a><a href="/services">🤝 서비스</a>
+    <a href="/academy" class="active">🎓 아카데미</a><a href="/tips">💡 꿀팁</a>
+    <a href="/regulation">⚖️ 규제</a><a href="/newsletter">📧 호스트레터</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="umbrella">▎<em style="color:#FF6B35">STAY</em> ACADEMY BY WEHOME</div>
+  <span class="badge-coming">📌 2026 Q4 정식 오픈 · 사전 등록 중</span>
+  <h1>공유숙박 <em>아카데미</em></h1>
+  <p>유튜브의 부실한 정보가 아닌, <strong>실제 위홈 베테랑 호스트가 직접 강의</strong>하는<br/>한국 최초의 검증된 공유숙박 호스트 교육 프로그램.</p>
+  <a href="#preregister" class="preregister-btn">🎓 사전 등록하기 (얼리버드 -50%)</a>
+</section>
+
+<!-- Why -->
+<section class="section">
+  <h2>🌟 왜 Stay Academy 인가</h2>
+  <p class="lead">"믿을 수 있는 정보" 가 핵심.</p>
+
+  <div class="why-grid">
+    <div class="why">
+      <div class="ico">✅</div>
+      <h3>위홈 검증 강사진</h3>
+      <p>3년+ 슈퍼호스트만 강의. 실전 데이터·매출 공개.</p>
+    </div>
+    <div class="why">
+      <div class="ico">📊</div>
+      <h3>실데이터 기반</h3>
+      <p>insight.wehome.me 의 공공데이터로 시장·트렌드 분석.</p>
+    </div>
+    <div class="why">
+      <div class="ico">🏆</div>
+      <h3>수료증 + 커뮤니티</h3>
+      <p>수료자 위홈 호스트 우대 + 평생 단톡방.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VS -->
+<section class="section" data-feedback="academy-vs" data-feedback-block>
+  <h2>🆚 유튜브 vs Stay Academy</h2>
+  <p class="lead">유튜브 "당근자판기" 등 부실한 정보의 한계.</p>
+
+  <div class="vs-row">
+    <div class="vs-col bad">
+      <h4>❌ 유튜브 채널 (당근자판기·기타)</h4>
+      <ul>
+        <li>경험 검증 안 됨 (호스트 아닌 경우 多)</li>
+        <li>합법성 무시 (미등록 운영 홍보 위험)</li>
+        <li>광고 위주, 일관성 ❌</li>
+        <li>외도민업·세금 정확도 낮음</li>
+        <li>질문 답변 불가</li>
+        <li>실패 사례 숨김</li>
+      </ul>
+    </div>
+    <div class="vs-arrow">→</div>
+    <div class="vs-col good">
+      <h4>✅ Stay Academy by wehome</h4>
+      <ul>
+        <li>3년+ 슈퍼호스트만 강의</li>
+        <li>100% 합법 외도민업 기준</li>
+        <li>광고 ❌ · 수업료 외 수익 0</li>
+        <li>법무사·세무사 협업 모듈</li>
+        <li>1:1 멘토링 + 단톡방 평생</li>
+        <li>실패 사례 + 회복 노하우</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Courses -->
+<section class="section" data-feedback="academy-courses" data-feedback-block>
+  <h2>📚 커리큘럼 (3개 트랙)</h2>
+  <p class="lead">예비 → 초기 → 슈퍼호스트 단계별 설계.</p>
+
+  <div class="course-grid">
+    <div class="course" style="--c:#27ae60">
+      <div class="level">▎LEVEL 1 · STARTER</div>
+      <h3>🌱 예비 호스트 입문</h3>
+      <p>외도민업 등록부터 첫 게스트까지. 30일 완성 코스.</p>
+      <div class="modules">
+        <div>외도민업·한옥체험업·관광숙박업 카테고리 선택</div>
+        <div>지역별 등록 절차 + 자치구 연락처</div>
+        <div>인테리어·어메니티 기초</div>
+        <div>위홈·Airbnb 리스팅 작성</div>
+        <div>첫 게스트 응대 시뮬레이션</div>
+      </div>
+      <div class="meta">📅 4주 · 🎥 12강 · 💬 단톡방</div>
+      <div class="price"><span class="strike">₩290,000</span>₩145,000 <small style="color:#888;font-size:12px">얼리버드</small></div>
+    </div>
+
+    <div class="course" style="--c:#1a52cc">
+      <div class="level">▎LEVEL 2 · OPERATOR</div>
+      <h3>🚀 신규 호스트 안정화</h3>
+      <p>등록 후 첫 6개월. 별점·예약률·매출 최적화.</p>
+      <div class="modules">
+        <div>가격 책정 (Dynamic Pricing 실전)</div>
+        <div>리뷰 평점 4.8+ 만드는 법</div>
+        <div>외국인 게스트 응대 + 영어 기본</div>
+        <div>청소·세탁 시스템 구축</div>
+        <div>부가세·종소세 셀프 신고</div>
+        <div>분쟁 대응·보험</div>
+      </div>
+      <div class="meta">📅 6주 · 🎥 18강 · 👤 멘토링 2회</div>
+      <div class="price"><span class="strike">₩490,000</span>₩245,000 <small style="color:#888;font-size:12px">얼리버드</small></div>
+    </div>
+
+    <div class="course" style="--c:#FF6B35">
+      <div class="level">▎LEVEL 3 · SUPERHOST</div>
+      <h3>🏆 슈퍼호스트 + 확장</h3>
+      <p>1호점 → N호점. 멀티 호스트 운영 자동화.</p>
+      <div class="modules">
+        <div>슈퍼호스트 알고리즘 분석</div>
+        <div>매물 추가 발굴 + 부동산 진단</div>
+        <div>청소·체크인 외주화</div>
+        <div>법인 전환·세무 최적화</div>
+        <div>호스텔/모텔 인수 전략</div>
+        <div>위홈 PRO 호스트 인증</div>
+      </div>
+      <div class="meta">📅 8주 · 🎥 24강 · 👤 멘토링 4회</div>
+      <div class="price"><span class="strike">₩890,000</span>₩445,000 <small style="color:#888;font-size:12px">얼리버드</small></div>
+    </div>
+
+    <div class="course" style="--c:#9b59b6">
+      <div class="level">▎SPECIAL · MASTERCLASS</div>
+      <h3>🎤 마스터클래스 (월 1회)</h3>
+      <p>특별 게스트 1회성 강의. 단발 참여 OK.</p>
+      <div class="modules">
+        <div>월 1회 · 외부 전문가 초청</div>
+        <div>예: 슈퍼호스트 인터뷰 · 세무사 Q&A</div>
+        <div>K-관광 트렌드 · 부동산 동향</div>
+        <div>실시간 채팅 참여 가능</div>
+      </div>
+      <div class="meta">📅 2시간 · 🎥 라이브</div>
+      <div class="price">₩30,000 <small style="color:#888;font-size:12px">/회</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- Pre-register -->
+<section class="section">
+  <div class="preregister" id="preregister">
+    <div>
+      <h2>🎓 사전 등록 (얼리버드 -50%)</h2>
+      <p>2026 Q4 정식 오픈. 사전 등록자는 첫 100명만 50% 할인 + 호스트레터 톡 단톡방 즉시 입장.</p>
+      <div style="margin-top:14px">
+        <div style="font-size:24px;font-weight:900;color:#FF6B35">현재 사전 등록 87명 / 100명</div>
+        <div style="background:rgba(255,255,255,.15);height:8px;border-radius:4px;margin-top:6px;overflow:hidden">
+          <div style="background:#FF6B35;height:100%;width:87%"></div>
+        </div>
+      </div>
+    </div>
+    <div class="form">
+      <form id="preForm">
+        <div class="row"><input type="text" id="p_name" placeholder="이름" required/></div>
+        <div class="row"><input type="text" id="p_contact" placeholder="카카오ID 또는 전화번호" required/></div>
+        <div class="row">
+          <select id="p_status">
+            <option value="aspiring">예비 호스트 (등록 준비)</option>
+            <option value="host">현 호스트 (1호점)</option>
+            <option value="multi">현 호스트 (2호점+)</option>
+            <option value="related">관련자 (부동산·중개)</option>
+          </select>
+        </div>
+        <div class="row">
+          <select id="p_track">
+            <option value="L1">L1 예비 호스트 입문 (-50%)</option>
+            <option value="L2">L2 신규 호스트 안정화 (-50%)</option>
+            <option value="L3">L3 슈퍼호스트 + 확장 (-50%)</option>
+            <option value="all">전체 패키지 (-60%)</option>
+          </select>
+        </div>
+        <button type="submit">🎓 사전 등록 (얼리버드 -50%)</button>
+      </form>
+      <div id="preSuccess" style="display:none;margin-top:10px;background:#27ae60;padding:12px;border-radius:8px;text-align:center;font-weight:700">✅ 사전 등록 완료! 출시 시 가장 먼저 알려드립니다.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="brand"><em>위</em>홈 · <em>we</em>home</div>
+  <div class="tagline">한국에서 합법 호스트가 되는 가장 쉬운 길</div>
+  <div class="links">
+    <a href="/">진단</a><a href="/property">부동산</a><a href="/services">서비스</a>
+    <a href="/academy">아카데미</a><a href="/newsletter">호스트레터</a>
+  </div>
+  <div class="copy">© 2026 wehome, Inc. · Stay Academy by wehome · 정식 오픈 2026 Q4</div>
+</footer>
+
+<script src="/static/feedback-widget.js"></script>
+<script>
+document.getElementById('preForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  // 뉴스레터 구독 API로 (academy intent로) 전송
+  try {
+    await fetch('/api/newsletter/subscribe', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        channel: 'kakao',
+        contact: document.getElementById('p_contact').value,
+        status: 'academy_' + document.getElementById('p_status').value,
+        wehome_member: false,
+        address: '',
+      })
+    });
+    document.getElementById('preForm').style.display='none';
+    document.getElementById('preSuccess').style.display='block';
+  } catch(e){
+    alert('등록 실패: ' + e.message);
+  }
+});
+</script>
+</body>
+</html>

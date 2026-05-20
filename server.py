@@ -344,6 +344,117 @@ def regulation_page():
 def news_page():
     return send_from_directory('.', 'news.html')
 
+@app.route('/property')
+def property_page():
+    return send_from_directory('.', 'property.html')
+
+@app.route('/styling')
+def styling_page():
+    return send_from_directory('.', 'styling.html')
+
+@app.route('/tax-finance')
+def tax_finance_page():
+    return send_from_directory('.', 'tax-finance.html')
+
+@app.route('/services')
+def services_page():
+    return send_from_directory('.', 'services.html')
+
+@app.route('/academy')
+def academy_page():
+    return send_from_directory('.', 'academy.html')
+
+@app.route('/static/<path:fname>')
+def static_files(fname):
+    return send_from_directory('static', fname)
+
+@app.route('/api/properties')
+def api_properties():
+    """호스트용 부동산 매물 검색"""
+    sido = request.args.get('sido', '')
+    sigungu = request.args.get('sigungu', '')
+    listing_type = request.args.get('listing_type', '')
+    deal_type = request.args.get('deal_type', '')
+    eligible = request.args.get('eligible', '')
+    q = request.args.get('q', '')
+    sort = request.args.get('sort', 'recent')
+
+    cond, params = ["sold_at IS NULL"], []
+    if sido:         cond.append("sido=?");         params.append(sido)
+    if sigungu:      cond.append("sigungu=?");      params.append(sigungu)
+    if listing_type: cond.append("listing_type=?"); params.append(listing_type)
+    if deal_type:    cond.append("deal_type=?");    params.append(deal_type)
+    if eligible:     cond.append("urbanstay_eligible=?"); params.append(eligible)
+    if q:
+        cond.append("(title LIKE ? OR description LIKE ? OR road_address LIKE ?)")
+        params += [f'%{q}%', f'%{q}%', f'%{q}%']
+    where = " AND ".join(cond)
+
+    order = "listed_at DESC"
+    if sort == 'price_asc': order = "COALESCE(price, monthly_rent*100) ASC"
+    elif sort == 'price_desc': order = "COALESCE(price, monthly_rent*100) DESC"
+    elif sort == 'rooms_desc': order = "rooms DESC"
+
+    conn = get_db()
+    rows = conn.execute(f"""
+        SELECT id, listing_type, deal_type, title, description,
+               sido, sigungu, dong, road_address, lat, lng,
+               area_m2, rooms, floor, total_floors,
+               price, monthly_rent, deposit,
+               urbanstay_eligible, building_type, seller_type,
+               features_json, listed_at, view_count, meta_json
+        FROM properties
+        WHERE {where}
+        ORDER BY {order}
+        LIMIT 100
+    """, params).fetchall()
+    conn.close()
+
+    out = []
+    for r in rows:
+        d = dict(r)
+        try: d['features'] = json.loads(d.pop('features_json') or '[]')
+        except: d['features'] = []
+        try: d['meta'] = json.loads(d.pop('meta_json') or '{}')
+        except: d['meta'] = {}
+        out.append(d)
+    return jsonify({'count': len(out), 'data': out})
+
+@app.route('/api/properties', methods=['POST'])
+def api_properties_create():
+    """호스트가 매물 등록 (간단 폼)"""
+    try:
+        data = request.get_json(silent=True) or {}
+        required = ['title','sido','listing_type','deal_type','seller_contact']
+        for k in required:
+            if not data.get(k):
+                return jsonify({'ok': False, 'error': f'{k} 필수'}), 400
+
+        conn = get_db()
+        conn.execute("""INSERT INTO properties
+            (listing_type, deal_type, title, description, sido, sigungu, dong,
+             road_address, area_m2, rooms, price, monthly_rent, deposit,
+             urbanstay_eligible, building_type, seller_type, seller_contact,
+             features_json, meta_json)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+            (data.get('listing_type','house'), data.get('deal_type','sale'),
+             data.get('title','')[:200], data.get('description','')[:2000],
+             data.get('sido',''), data.get('sigungu',''), data.get('dong',''),
+             data.get('road_address',''),
+             data.get('area_m2'), data.get('rooms'),
+             data.get('price'), data.get('monthly_rent'), data.get('deposit'),
+             data.get('urbanstay_eligible','maybe'),
+             data.get('building_type',''), data.get('seller_type','host'),
+             data.get('seller_contact','')[:200],
+             json.dumps(data.get('features',[]), ensure_ascii=False),
+             json.dumps(data.get('meta',{}), ensure_ascii=False)))
+        conn.commit()
+        new_id = conn.lastrowid
+        conn.close()
+        return jsonify({'ok': True, 'id': new_id, 'message': '매물 등록 완료. 관리자 검토 후 노출됩니다.'})
+    except Exception as e:
+        return jsonify({'ok': False, 'error': str(e)}), 500
+
 @app.route('/api/news')
 def api_news():
     """공유숙박 관련 뉴스·유튜브 (최근 14일)"""

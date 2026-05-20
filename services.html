@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>호스트 서비스 디렉토리 · 위홈 추천 + Affiliate | wehome Studio</title>
+<meta name="description" content="공유숙박 호스트가 자주 이용하는 서비스 모음 — 청소·세탁·인테리어·법무·세무·어메니티·인쇄·사진. 위홈 검증 추천 + Affiliate 파트너 큐레이션."/>
+<meta name="keywords" content="호스트 청소업체, 어메니티 공동구매, 외도민업 세무대리, 호스트 인테리어, 위홈 affiliate"/>
+<link rel="canonical" href="https://insight.wehome.me/services"/>
+<meta property="og:title" content="호스트 서비스 디렉토리"/>
+<meta property="og:description" content="위홈 검증 + Affiliate 파트너만 큐레이션. 호스트가 쓸 만한 서비스 한 곳에."/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;background:#fafbfd;color:#0d1f45;line-height:1.6}
+header{background:#fff;border-bottom:1px solid #ececec;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:2000}
+.logo{font-size:20px;font-weight:800}.logo em{color:#FF6B35;font-style:normal}
+.logo small{font-size:12px;font-weight:400;color:#888;margin-left:6px}
+.nav{display:flex;gap:10px;font-size:13px;align-items:center;flex-wrap:wrap}
+.nav a{color:#555;text-decoration:none;padding:5px 10px;border-radius:6px}
+.nav a:hover{background:#f0f5ff}
+.nav a.active{background:#1a52cc;color:#fff}
+.hero{padding:60px 32px 30px;text-align:center;background:linear-gradient(180deg,#fff,#f0f5ff)}
+.umbrella{display:inline-block;font-size:11px;color:#999;font-weight:700;letter-spacing:3px;margin-bottom:14px}
+.umbrella em{color:#1a52cc;font-style:normal}
+.hero h1{font-size:40px;font-weight:800;letter-spacing:-1.5px;margin-bottom:10px}
+.hero h1 em{color:#1a52cc;font-style:normal}
+.hero p{color:#666;font-size:15px;max-width:680px;margin:0 auto}
+.section{padding:40px 32px;max-width:1200px;margin:0 auto}
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:30px}
+.cat{background:#fff;border-radius:12px;padding:18px;text-align:center;cursor:pointer;transition:.15s;border-top:3px solid transparent}
+.cat:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.08);border-color:#1a52cc}
+.cat .ico{font-size:32px;margin-bottom:6px}
+.cat .name{font-size:13px;font-weight:800}
+.cat .count{font-size:10px;color:#888;margin-top:3px}
+
+.affiliate-section{background:linear-gradient(135deg,#FF6B35,#e74c3c);color:#fff;border-radius:16px;padding:36px;margin-bottom:30px}
+.affiliate-section .badge{display:inline-block;background:rgba(255,255,255,.2);padding:4px 12px;border-radius:6px;font-size:11px;font-weight:800;letter-spacing:2px;margin-bottom:10px}
+.affiliate-section h2{font-size:24px;margin-bottom:8px}
+.affiliate-section p{color:rgba(255,255,255,.9);font-size:14px;margin-bottom:18px}
+.aff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.aff-card{background:rgba(255,255,255,.15);border-radius:10px;padding:18px;backdrop-filter:blur(10px)}
+.aff-card h4{font-size:14px;font-weight:800;margin-bottom:5px}
+.aff-card p{font-size:12px;opacity:.95;color:#fff;margin-bottom:8px}
+.aff-card .perk{display:inline-block;padding:3px 9px;background:rgba(255,255,255,.25);border-radius:6px;font-size:11px;font-weight:700}
+
+.service-cat{margin-bottom:36px}
+.service-cat h2{font-size:22px;font-weight:800;letter-spacing:-0.5px;margin-bottom:6px;display:flex;align-items:center;gap:10px;padding-bottom:8px;border-bottom:2px solid #0d1f45}
+.service-cat .lead{color:#888;font-size:13px;margin-bottom:18px}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.svc{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.04);position:relative}
+.svc.verified{border-left:4px solid #27ae60}
+.svc.affiliate{border-left:4px solid #FF6B35}
+.svc .badge-svc{position:absolute;top:14px;right:14px;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:800}
+.svc.verified .badge-svc{background:#d4edda;color:#155724}
+.svc.affiliate .badge-svc{background:#fff8f0;color:#FF6B35}
+.svc h3{font-size:15px;font-weight:800;margin-bottom:4px}
+.svc .type{font-size:11px;color:#888;font-weight:600;margin-bottom:8px}
+.svc p{font-size:12px;color:#555;line-height:1.6;margin-bottom:10px}
+.svc .meta{display:flex;gap:8px;font-size:11px;color:#666;flex-wrap:wrap}
+.svc .meta span{padding:2px 7px;background:#f5f5f5;border-radius:6px}
+.svc .perk{margin-top:10px;padding:8px 10px;background:#fff8f0;border-radius:6px;font-size:11px;color:#FF6B35;font-weight:700}
+
+footer{background:#0d1f45;color:#fff;padding:36px 32px;text-align:center;margin-top:60px}
+footer .brand{font-size:24px;font-weight:800;margin-bottom:6px}
+footer .brand em{color:#FF6B35;font-style:normal}
+footer .tagline{color:rgba(255,255,255,.7);font-size:13px;margin-bottom:18px}
+footer .links{display:flex;justify-content:center;gap:12px;font-size:12px;margin-bottom:14px;flex-wrap:wrap}
+footer .links a{color:rgba(255,255,255,.8);text-decoration:none}
+footer .copy{color:rgba(255,255,255,.4);font-size:11px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1);margin-top:14px}
+@media (max-width:768px){.cat-grid,.svc-grid,.aff-grid{grid-template-columns:1fr 1fr} .hero h1{font-size:28px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><em>wehome</em> Studio <small>서비스 디렉토리</small></div>
+  <nav class="nav">
+    <a href="/">🏠 진단</a><a href="/property">🏘️ 부동산</a><a href="/services" class="active">🤝 서비스</a>
+    <a href="/styling">🎨 스타일링</a><a href="/tax-finance">📊 세금·금융</a>
+    <a href="/academy">🎓 아카데미</a><a href="/newsletter">📧 호스트레터</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="umbrella">▎<em>STAY</em> by wehome</div>
+  <h1>호스트 <em>서비스 디렉토리</em></h1>
+  <p>호스트가 자주 이용하는 서비스 한 곳에.<br/>위홈 검증 ✓ + Affiliate 파트너 ★ 큐레이션.</p>
+</section>
+
+<section class="section">
+  <!-- 카테고리 -->
+  <div class="cat-grid">
+    <a class="cat"><div class="ico">🧹</div><div class="name">청소·세탁</div><div class="count">8개 업체</div></a>
+    <a class="cat"><div class="ico">🛏️</div><div class="name">어메니티</div><div class="count">5개 공급사</div></a>
+    <a class="cat"><div class="ico">🎨</div><div class="name">인테리어·시공</div><div class="count">6개 업체</div></a>
+    <a class="cat"><div class="ico">📸</div><div class="name">사진·영상</div><div class="count">4명 작가</div></a>
+    <a class="cat"><div class="ico">📋</div><div class="name">세무·법무</div><div class="count">5명 전문가</div></a>
+    <a class="cat"><div class="ico">💳</div><div class="name">금융·보험</div><div class="count">제휴 검토</div></a>
+    <a class="cat"><div class="ico">🔑</div><div class="name">스마트락·CCTV</div><div class="count">3개 브랜드</div></a>
+    <a class="cat"><div class="ico">🌐</div><div class="name">번역·외국어</div><div class="count">위홈 자동</div></a>
+  </div>
+
+  <!-- 위홈 Affiliate Partner -->
+  <div class="affiliate-section">
+    <div class="badge">★ WEHOME AFFILIATE PARTNER</div>
+    <h2>위홈 호스트 전용 할인 제휴</h2>
+    <p>위홈 검증 + 단가 협상 완료. 호스트레터 구독자에게만 코드 제공.</p>
+
+    <div class="aff-grid">
+      <div class="aff-card">
+        <h4>🛏️ 어메니티 공동구매</h4>
+        <p>샴푸·바디워시·치약·면도기·1회용품. 호스트 N명 모이면 최대 -50%.</p>
+        <span class="perk">-30~50% OFF</span>
+      </div>
+      <div class="aff-card">
+        <h4>🧹 청소대행 협력</h4>
+        <p>전국 5개 지역 청소 업체. 위홈 호스트 정기 계약 시 단가 -20%.</p>
+        <span class="perk">-20% + 응급 지원</span>
+      </div>
+      <div class="aff-card">
+        <h4>🔑 스마트락 (도어록)</h4>
+        <p>외국인 PIN 자동 전송 가능 모델. 위홈 호스트 설치비 무료 (제휴사).</p>
+        <span class="perk">설치비 무료</span>
+      </div>
+      <div class="aff-card">
+        <h4>📸 리스팅 사진 촬영</h4>
+        <p>외국인 게스트 시선 맞춤 촬영가. 위홈 호스트 첫 회 50% 할인.</p>
+        <span class="perk">-50% 첫 촬영</span>
+      </div>
+      <div class="aff-card">
+        <h4>📋 세무대리</h4>
+        <p>외도민업 특화 세무사. 위홈 호스트 월정액 -30%.</p>
+        <span class="perk">-30% 월정액</span>
+      </div>
+      <div class="aff-card">
+        <h4>💳 호스트 카드</h4>
+        <p>운영 비용 결제 시 1.5% 캐시백. 위홈 제휴은행 검토 중.</p>
+        <span class="perk">1.5% 캐시백 (예정)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 청소·세탁 -->
+  <div class="service-cat" data-feedback="svc-cleaning" data-feedback-block>
+    <h2>🧹 청소·세탁</h2>
+    <p class="lead">정기 청소·체크아웃 청소·이불 세탁 전문 업체.</p>
+    <div class="svc-grid">
+      <div class="svc affiliate">
+        <span class="badge-svc">★ AFFILIATE</span>
+        <h3>스테이클린</h3>
+        <div class="type">청소대행 · 서울/부산/제주</div>
+        <p>호스트 전용 청소 전문. 외도민업 운영 경험 풍부. 평일 09-19시 응대.</p>
+        <div class="meta"><span>1회 ₩8~15만</span><span>월 5회+ -20%</span></div>
+        <div class="perk">위홈 호스트 -20% + 응급 청소 우선 배정</div>
+      </div>
+      <div class="svc verified">
+        <span class="badge-svc">✓ 검증</span>
+        <h3>홈클린</h3>
+        <div class="type">청소대행 · 서울/경기</div>
+        <p>주거형 전문. 청소 사진 자동 전송. 호스트레터 톡 추천.</p>
+        <div class="meta"><span>1회 ₩7~12만</span></div>
+      </div>
+      <div class="svc verified">
+        <span class="badge-svc">✓ 검증</span>
+        <h3>대박세탁</h3>
+        <div class="type">이불·시트 세탁 · 전국</div>
+        <p>호텔식 세탁. 픽업 + 배송. 50장 이상 정기계약.</p>
+        <div class="meta"><span>1세트 ₩3,000~</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 어메니티 -->
+  <div class="service-cat" data-feedback="svc-amenity" data-feedback-block>
+    <h2>🛏️ 어메니티 공급사</h2>
+    <p class="lead">호텔식 어메니티 (샴푸·바디워시·치약·일회용품).</p>
+    <div class="svc-grid">
+      <div class="svc affiliate">
+        <span class="badge-svc">★ AFFILIATE</span>
+        <h3>위홈 어메니티 공동구매</h3>
+        <div class="type">월 1회 / 호스트 직거래</div>
+        <p>위홈이 호스트 N명 모아 도매 단가 협상. 매월 25일 마감.</p>
+        <div class="meta"><span>최소 30세트</span></div>
+        <div class="perk">최대 -50% (대량 협상)</div>
+      </div>
+      <div class="svc verified">
+        <span class="badge-svc">✓ 검증</span>
+        <h3>호텔리어</h3>
+        <div class="type">어메니티 도매 · 전국</div>
+        <p>호텔용 미니어처 어메니티. 영문 라벨. 외국인 게스트 친화.</p>
+        <div class="meta"><span>30ml ₩200~</span></div>
+      </div>
+      <div class="svc verified">
+        <span class="badge-svc">✓ 검증</span>
+        <h3>K-Amenity</h3>
+        <div class="type">한국적 어메니티 · 인삼·인삼차</div>
+        <p>외국인 인기 한국 전통 어메니티. 인삼차·홍삼 미니팩.</p>
+        <div class="meta"><span>세트 ₩3~8천</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 세무·법무 -->
+  <div class="service-cat" data-feedback="svc-tax" data-feedback-block>
+    <h2>📋 세무·법무</h2>
+    <p class="lead">외도민업 특화 세무대리·법무·노무 전문가.</p>
+    <div class="svc-grid">
+      <div class="svc affiliate">
+        <span class="badge-svc">★ AFFILIATE</span>
+        <h3>외도민세무 (가칭)</h3>
+        <div class="type">세무대리 · 외도민업 특화</div>
+        <p>월정액 ₩7~15만. 부가세·종소세 모두. 위홈 거래내역 자동 연동.</p>
+        <div class="meta"><span>월정액제</span></div>
+        <div class="perk">위홈 호스트 -30%</div>
+      </div>
+      <div class="svc verified">
+        <span class="badge-svc">✓ 검증</span>
+        <h3>관광사업 법무사</h3>
+        <div class="type">외도민업 등록 대행 · 서울</div>
+        <p>등록 신청부터 갱신까지. 자치구별 절차 숙지.</p>
+        <div class="meta"><span>1건 ₩30~80만</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 스마트락 -->
+  <div class="service-cat" data-feedback="svc-smart" data-feedback-block>
+    <h2>🔑 스마트락·CCTV·IoT</h2>
+    <p class="lead">외국인 게스트 PIN 자동 전송, 분실 키 ❌.</p>
+    <div class="svc-grid">
+      <div class="svc affiliate">
+        <span class="badge-svc">★ AFFILIATE</span>
+        <h3>도어락 코리아</h3>
+        <div class="type">스마트락 · 전국 설치</div>
+        <p>위홈 API 연동. 예약 시 PIN 자동 생성·전송. 외국인 친화 UI.</p>
+        <div class="meta"><span>₩25~45만</span></div>
+        <div class="perk">위홈 호스트 설치비 무료</div>
+      </div>
+      <div class="svc verified">
+        <span class="badge-svc">✓ 검증</span>
+        <h3>안심 CCTV</h3>
+        <div class="type">외부 CCTV · 게스트 안전</div>
+        <p>출입구 CCTV. 게스트 사전 고지 필수 (개인정보 보호).</p>
+        <div class="meta"><span>₩15만+</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 사진·영상 -->
+  <div class="service-cat" data-feedback="svc-photo" data-feedback-block>
+    <h2>📸 사진·영상 작가</h2>
+    <p class="lead">리스팅 사진은 클릭률을 2배 차이내요.</p>
+    <div class="svc-grid">
+      <div class="svc affiliate">
+        <span class="badge-svc">★ AFFILIATE</span>
+        <h3>호스트포토</h3>
+        <div class="type">리스팅 촬영 · 서울/부산</div>
+        <p>외국인 게스트 시선 맞춤. 20장 풀패키지. 위홈 호스트 첫 회 할인.</p>
+        <div class="meta"><span>₩20~35만</span></div>
+        <div class="perk">첫 촬영 -50%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 등록 신청 -->
+  <div style="background:#fff;border:2px dashed #1a52cc;border-radius:14px;padding:30px;text-align:center;margin-top:30px">
+    <h3 style="font-size:18px;font-weight:800;margin-bottom:8px">🤝 서비스 업체 등록 신청</h3>
+    <p style="color:#666;font-size:13px;margin-bottom:14px">호스트에게 도움되는 서비스를 운영 중이신가요? 위홈 검증 + Affiliate 파트너 신청.</p>
+    <a href="/about" style="display:inline-block;padding:10px 24px;background:#1a52cc;color:#fff;border-radius:8px;text-decoration:none;font-weight:700;font-size:13px">파트너 신청 →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="brand"><em>위</em>홈 · <em>we</em>home</div>
+  <div class="tagline">한국에서 합법 호스트가 되는 가장 쉬운 길</div>
+  <div class="links">
+    <a href="/">진단</a><a href="/property">부동산</a><a href="/services">서비스</a>
+    <a href="/academy">아카데미</a><a href="/newsletter">호스트레터</a>
+  </div>
+  <div class="copy">© 2026 wehome, Inc. · ★ Affiliate 업체는 거래 발생 시 위홈에 수수료가 지급될 수 있습니다 · ✓ 검증 업체는 위홈 호스트 평가 기반</div>
+</footer>
+<script src="/static/feedback-widget.js"></script>
+</body>
+</html>
