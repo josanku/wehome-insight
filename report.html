@@ -95,12 +95,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans
   section{page-break-inside:avoid}
 }
 
-.no-print{position:fixed;top:14px;right:14px;z-index:1000;display:flex;gap:8px}
+.no-print{position:fixed;top:14px;right:14px;z-index:1000;display:flex;gap:8px;align-items:center}
 .no-print .btn{padding:8px 14px;background:#0d1f45;color:#fff;text-decoration:none;border-radius:6px;font-size:12px;border:none;cursor:pointer;font-weight:600}
 .no-print .btn:hover{background:#1a52cc}
+.no-print select.issue-sel{padding:7px 28px 7px 12px;background:#fff;border:1px solid #ddd;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;color:#0d1f45;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 5 5-5z' fill='%230d1f45'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
 .no-print .lang-tg{display:flex;background:#fff;border:1px solid #ddd;border-radius:6px;padding:2px}
 .no-print .lang-tg button{padding:6px 10px;border:none;background:transparent;font-size:11px;font-weight:700;cursor:pointer;border-radius:4px;color:#888}
 .no-print .lang-tg button.active{background:#0d1f45;color:#fff}
+
+/* 발행 이력 섹션 */
+.issue-archive{padding:30px 60px 0;max-width:1100px;margin:0 auto}
+.issue-archive .label{font-size:11px;color:#FF6B35;font-weight:800;letter-spacing:2px;margin-bottom:10px}
+.issue-archive h3{font-size:20px;font-weight:800;color:#0d1f45;margin-bottom:14px}
+.issue-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:30px}
+.issue-card{background:#fff;border:1px solid #e0e6f0;border-radius:10px;padding:16px 18px;text-decoration:none;color:#0d1f45;transition:.15s;display:block}
+.issue-card:hover{border-color:#1a52cc;transform:translateY(-2px);box-shadow:0 4px 12px rgba(13,31,69,.08)}
+.issue-card.current{background:linear-gradient(135deg,#0d1f45,#1a52cc);color:#fff;border-color:transparent}
+.issue-card .num{font-size:11px;font-weight:800;color:#FF6B35;letter-spacing:2px;margin-bottom:5px}
+.issue-card .ym{font-size:18px;font-weight:800;letter-spacing:-0.5px}
+.issue-card .meta{font-size:11px;opacity:.7;margin-top:6px}
 
 /* Cover page */
 .cover{background:linear-gradient(135deg,#0d1f45 0%,#1a52cc 100%);color:#fff;padding:80px 60px;min-height:100vh;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
@@ -204,6 +217,7 @@ footer .copyright{font-size:11px;color:#666;border-top:1px solid rgba(255,255,25
 <body>
 
 <div class="no-print">
+  <select id="issueSelect" class="issue-sel" onchange="loadIssue(this.value)" title="발행 이력에서 선택"></select>
   <div class="lang-tg">
     <button id="btnKR" class="active" onclick="setLang('ko')">KR</button>
     <button id="btnEN" onclick="setLang('en')">EN</button>
@@ -211,6 +225,13 @@ footer .copyright{font-size:11px;color:#666;border-top:1px solid rgba(255,255,25
   <button class="btn" onclick="window.print()" data-i18n="btn_print">🖨️ PDF로 저장</button>
   <a href="/analysis" class="btn" style="background:#1a52cc" data-i18n="btn_back">← 분석으로</a>
 </div>
+
+<!-- 발행 이력 (커버 위) -->
+<section class="issue-archive" id="archiveSection">
+  <div class="label">▎PUBLISHED ISSUES · 발행 이력</div>
+  <h3 data-i18n="archive_title">매월 25일 발행 · 모든 호 누적 공개</h3>
+  <div class="issue-grid" id="issueList"></div>
+</section>
 
 <!-- COVER -->
 <div class="cover">
@@ -627,17 +648,128 @@ function renderPie(canvasId, pieData, tableId, formatLabel){
   }
 }
 
+// URL path에서 ym 추출 (/report/2026-05 → '2026-05')
+let CURRENT_YM = null;
+function detectYmFromPath(){
+  const m = window.location.pathname.match(/\/report\/(\d{4}-\d{2})/);
+  return m ? m[1] : null;
+}
+
+async function loadIssueList(){
+  try {
+    const reports = await fetch('/api/reports').then(r=>r.json());
+    if(!reports.length) return;
+
+    // 셀렉트
+    const sel = document.getElementById('issueSelect');
+    sel.innerHTML = reports.map(r => {
+      const pubDate = (r.published_at||'').substring(0,10);
+      return `<option value="${r.year_month}">ISSUE ${String(r.issue_number).padStart(2,'0')} · ${r.year_month} (발행 ${pubDate})</option>`;
+    }).join('');
+
+    // 카드 그리드
+    const target = CURRENT_YM || reports[0].year_month;
+    sel.value = target;
+
+    document.getElementById('issueList').innerHTML = reports.map(r=>{
+      const isCurrent = r.year_month === target;
+      const pubDate = (r.published_at||'').substring(0,10);
+      return `<a href="/report/${r.year_month}" class="issue-card ${isCurrent?'current':''}" onclick="event.preventDefault(); loadIssue('${r.year_month}')">
+        <div class="num">ISSUE ${String(r.issue_number).padStart(2,'0')}</div>
+        <div class="ym">${r.year_month}</div>
+        <div class="meta">발행 ${pubDate}</div>
+      </a>`;
+    }).join('');
+
+    if(reports.length === 1){
+      document.getElementById('archiveSection').style.display = 'none';
+    }
+  } catch(e){
+    console.warn('발행 이력 로드 실패:', e);
+  }
+}
+
+function loadIssue(ym){
+  CURRENT_YM = ym;
+  history.pushState({}, '', `/report/${ym}`);
+  load();
+}
+
 async function load(){
   destroyCharts();
-  const [cats, analysis, urbanNational, hanokNational, hostelNational, seoulDist, busanDist] = await Promise.all([
-    fetch('/api/categories').then(r=>r.json()),
-    fetch('/api/analysis').then(r=>r.json()),
-    fetch('/api/national?category=foreigner_city_homestays').then(r=>r.json()).catch(()=>[]),
-    fetch('/api/national?category=hanok_experience').then(r=>r.json()).catch(()=>[]),
-    fetch('/api/national?category=tourist_accommodations').then(r=>r.json()).catch(()=>[]),
-    fetch('/api/districts?sido=' + encodeURIComponent('서울특별시') + '&category=foreigner_city_homestays').then(r=>r.json()).catch(()=>[]),
-    fetch('/api/districts?sido=' + encodeURIComponent('부산광역시') + '&category=foreigner_city_homestays').then(r=>r.json()).catch(()=>[]),
-  ]);
+  CURRENT_YM = CURRENT_YM || detectYmFromPath();
+
+  // 1) 발행 이력 갱신
+  await loadIssueList();
+
+  // 2) 특정 호 스냅샷 데이터 우선, 없으면 라이브 데이터
+  let snapshotData = null;
+  if(CURRENT_YM){
+    try {
+      const r = await fetch(`/api/report/${CURRENT_YM}`);
+      if(r.ok) snapshotData = await r.json();
+    } catch(e){}
+  }
+  if(!snapshotData){
+    // 최신 호 자동 로드
+    try {
+      const r = await fetch('/api/report/latest');
+      if(r.ok){
+        snapshotData = await r.json();
+        CURRENT_YM = snapshotData.year_month;
+      }
+    } catch(e){}
+  }
+
+  // 스냅샷이 있으면 그것을 사용, 없으면 라이브 API
+  let cats, urbanNational, hanokNational, hostelNational, seoulDist, busanDist;
+  let analysisData = null;
+
+  if(snapshotData){
+    const s = snapshotData.snapshot;
+    cats = Object.entries(s.categories).map(([k,v]) => ({
+      category: k, ...v,
+      color: {foreigner_city_homestays:'#FF6B35',hanok_experience:'#8B4513',
+              tourist_accommodations:'#1a52cc',rural_homestays:'#27ae60',
+              tourist_pensions:'#9b59b6'}[k] || '#888'
+    }));
+    urbanNational = s.top_sido.map(x => ({sido:x.sido, active:x.active, total:x.active}));
+    hanokNational = [];
+    hostelNational = [];
+    seoulDist = s.seoul_districts.map(d => ({sigungu:d.sigungu, active:d.active}));
+    busanDist = s.busan_districts.map(d => ({sigungu:d.sigungu, active:d.active}));
+    analysisData = {
+      recent_active: s.urbanstay.recent_active,
+      stale_active: s.urbanstay.stale_active,
+      mapo_active: s.urbanstay.mapo_active,
+      by_year: s.by_year,
+    };
+
+    // 호별 라벨 업데이트
+    const issueLabel = `ISSUE ${String(snapshotData.issue_number).padStart(2,'0')} · ${snapshotData.year_month}`;
+    document.querySelectorAll('.cover .brand').forEach(el => el.textContent = 'WEHOME STUDIO MARKET REPORT');
+    document.querySelectorAll('.cover .issue').forEach(el => el.textContent = issueLabel);
+    document.querySelectorAll('.cover .date').forEach(el => {
+      const ymDate = snapshotData.year_month.replace('-','.');
+      el.innerHTML = `${ymDate}<small>통계 기준일: ${(snapshotData.data_basis_date||'').substring(0,10)}</small>`;
+    });
+  } else {
+    // Fallback: 라이브 API
+    const [c, a, u, h, ho, s, b] = await Promise.all([
+      fetch('/api/categories').then(r=>r.json()),
+      fetch('/api/analysis').then(r=>r.json()),
+      fetch('/api/national?category=foreigner_city_homestays').then(r=>r.json()).catch(()=>[]),
+      fetch('/api/national?category=hanok_experience').then(r=>r.json()).catch(()=>[]),
+      fetch('/api/national?category=tourist_accommodations').then(r=>r.json()).catch(()=>[]),
+      fetch('/api/districts?sido='+encodeURIComponent('서울특별시')+'&category=foreigner_city_homestays').then(r=>r.json()).catch(()=>[]),
+      fetch('/api/districts?sido='+encodeURIComponent('부산광역시')+'&category=foreigner_city_homestays').then(r=>r.json()).catch(()=>[]),
+    ]);
+    cats = c; analysisData = a;
+    urbanNational = u; hanokNational = h; hostelNational = ho;
+    seoulDist = s; busanDist = b;
+  }
+
+  const analysis = analysisData;
 
   // urban national fallback (기본 /api/national은 외도민업)
   const urban = urbanNational.length > 0 ? urbanNational : await fetch('/api/national').then(r=>r.json());

@@ -236,8 +236,85 @@ def api_categories():
     return jsonify(out)
 
 @app.route('/report')
-def report_page():
+@app.route('/report/<ym>')
+def report_page(ym=None):
     return send_from_directory('.', 'report.html')
+
+@app.route('/api/reports')
+def api_reports():
+    """발행된 리포트 목록 (히스토리)"""
+    conn = get_db()
+    conn.execute("""CREATE TABLE IF NOT EXISTS monthly_reports (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        year_month TEXT UNIQUE NOT NULL,
+        issue_number INTEGER UNIQUE,
+        published_at TEXT DEFAULT (datetime('now')),
+        data_basis_date TEXT,
+        snapshot_json TEXT NOT NULL
+    )""")
+    rows = conn.execute("""
+        SELECT year_month, issue_number, published_at, data_basis_date
+        FROM monthly_reports ORDER BY issue_number DESC
+    """).fetchall()
+    conn.close()
+    return jsonify([dict(r) for r in rows])
+
+@app.route('/api/report/<ym>')
+def api_report_detail(ym):
+    """특정 월 리포트 스냅샷"""
+    conn = get_db()
+    row = conn.execute("""
+        SELECT year_month, issue_number, published_at, data_basis_date, snapshot_json
+        FROM monthly_reports WHERE year_month=?
+    """, (ym,)).fetchone()
+    conn.close()
+    if not row:
+        return jsonify({'error': f'ISSUE not published for {ym}'}), 404
+    import json as _json
+    return jsonify({
+        'year_month': row['year_month'],
+        'issue_number': row['issue_number'],
+        'published_at': row['published_at'],
+        'data_basis_date': row['data_basis_date'],
+        'snapshot': _json.loads(row['snapshot_json']),
+    })
+
+@app.route('/api/report/latest')
+def api_report_latest():
+    """가장 최신 리포트"""
+    conn = get_db()
+    row = conn.execute("""
+        SELECT year_month FROM monthly_reports
+        ORDER BY issue_number DESC LIMIT 1
+    """).fetchone()
+    conn.close()
+    if not row:
+        return jsonify({'error': 'no reports published yet'}), 404
+    return api_report_detail(row['year_month'])
+
+@app.route('/api/report/publish', methods=['POST'])
+def api_report_publish():
+    """관리자: 수동 발행 트리거 (cron 또는 직접 호출)
+    Body: {"year_month": "2026-05", "force": false, "secret": "..."}
+    """
+    data = request.get_json(silent=True) or {}
+    expected = os.environ.get('PUBLISH_SECRET', '')
+    if expected and data.get('secret') != expected:
+        return jsonify({'error': 'unauthorized'}), 401
+
+    try:
+        # 동일 디렉토리의 publish_report.py 임포트
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "publish_report",
+            os.path.join(os.path.dirname(__file__), "publish_report.py")
+        )
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        result = mod.publish(data.get('year_month'), force=bool(data.get('force')))
+        return jsonify({'ok': True, 'result': result})
+    except Exception as e:
+        return jsonify({'ok': False, 'error': str(e)}), 500
 
 @app.route('/pricing')
 def pricing_page():

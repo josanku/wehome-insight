@@ -1,0 +1,65 @@
+name: Publish Monthly Report
+
+# 매월 25일 KST 00:30 (UTC 15:30 of 24th) 자동 발행
+on:
+  schedule:
+    - cron: '30 15 24 * *'   # UTC 24일 15:30 = KST 25일 00:30
+  workflow_dispatch:          # 수동 실행 가능
+    inputs:
+      year_month:
+        description: '발행할 년월 (YYYY-MM, 비우면 이번달)'
+        required: false
+        default: ''
+      force:
+        description: '이미 발행된 호 재발행 (true/false)'
+        required: false
+        default: 'false'
+
+permissions:
+  id-token: write  # OIDC
+  contents: read
+
+env:
+  AWS_REGION: ap-northeast-2
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        if: ${{ secrets.AWS_DEPLOY_ROLE_ARN != '' }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Trigger publish via App Runner endpoint
+        # AWS App Runner에 배포된 서비스의 /api/report/publish 엔드포인트 호출
+        # PUBLISH_SECRET 환경변수가 App Runner에 설정돼 있어야 함
+        env:
+          PUBLISH_SECRET: ${{ secrets.PUBLISH_SECRET }}
+          SERVICE_URL: ${{ secrets.INSIGHT_URL }}    # https://insight.wehome.me 또는 App Runner URL
+          YM: ${{ github.event.inputs.year_month }}
+          FORCE: ${{ github.event.inputs.force || 'false' }}
+        run: |
+          if [ -z "$SERVICE_URL" ]; then
+            echo "⚠️ INSIGHT_URL secret 미설정. 배포 후 GitHub Secrets에 추가 필요."
+            exit 0
+          fi
+          BODY="{\"year_month\":\"$YM\",\"force\":$FORCE"
+          if [ -n "$PUBLISH_SECRET" ]; then
+            BODY="$BODY,\"secret\":\"$PUBLISH_SECRET\""
+          fi
+          BODY="$BODY}"
+          echo "▸ Publishing to $SERVICE_URL/api/report/publish"
+          curl -fsSL -X POST "$SERVICE_URL/api/report/publish" \
+            -H "Content-Type: application/json" \
+            -d "$BODY" | tee /tmp/result.json
+          cat /tmp/result.json
+
+      - name: Notify (optional)
+        if: failure()
+        run: echo "❌ 월간 리포트 발행 실패. 로그 확인 필요."
