@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>호스트 게시판 · 위홈 호스트 커뮤니티 | wehome Studio</title>
+<meta name="description" content="공유숙박 호스트가 실시간으로 정보를 공유하는 게시판. 등록·법무·운영·인테리어·부동산·동네별 7개 카테고리. Upvote 기반 인기 글, 익명 가능."/>
+<meta name="keywords" content="호스트 게시판, 공유숙박 커뮤니티, 외도민업 질문, 위홈 게시판, 호스트 토론"/>
+<link rel="canonical" href="https://insight.wehome.me/board"/>
+<meta property="og:title" content="호스트 게시판 · 위홈 호스트 커뮤니티"/>
+<meta property="og:description" content="실시간 정보 공유 · Upvote 인기글 · 익명 가능. 7개 카테고리 호스트 토론장."/>
+<meta property="og:image" content="https://insight.wehome.me/og-image.png"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;background:#f5f8fa;color:#0d1f45;line-height:1.5}
+header{background:#fff;border-bottom:1px solid #ececec;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:2000}
+.logo{font-size:20px;font-weight:800}.logo em{color:#FF6B35;font-style:normal}
+.logo small{font-size:12px;font-weight:400;color:#888;margin-left:6px}
+.nav{display:flex;gap:10px;font-size:13px;align-items:center;flex-wrap:wrap}
+.nav a{color:#555;text-decoration:none;padding:5px 10px;border-radius:6px}
+.nav a:hover{background:#f0f5ff}
+.nav a.active{background:#FF6B35;color:#fff}
+
+/* Layout */
+.main-grid{max-width:1280px;margin:24px auto;padding:0 20px;display:grid;grid-template-columns:240px 1fr;gap:20px}
+
+/* Sidebar */
+.sidebar{position:sticky;top:80px;height:fit-content}
+.sidebar h3{font-size:11px;color:#888;font-weight:800;letter-spacing:1.5px;margin-bottom:8px;padding:0 12px}
+.cat-list{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.cat-item{padding:11px 14px;display:flex;align-items:center;gap:9px;cursor:pointer;font-size:13px;border-bottom:1px solid #f5f5f5;transition:.1s;text-decoration:none;color:inherit}
+.cat-item:hover{background:#f0f5ff}
+.cat-item.active{background:#fff8f0;color:#FF6B35;font-weight:700;border-left:3px solid #FF6B35}
+.cat-item .ico{font-size:18px;flex-shrink:0}
+.cat-item .body{flex:1;min-width:0}
+.cat-item .name{font-size:13px;font-weight:600}
+.cat-item .desc{font-size:11px;color:#888;margin-top:2px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.cat-item .count{font-size:10px;color:#aaa;font-weight:600}
+
+/* Content */
+.content{min-width:0}
+
+/* Top bar */
+.top-bar{background:#fff;border-radius:12px;padding:14px 18px;display:flex;gap:10px;align-items:center;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.04);flex-wrap:wrap}
+.sort-tabs{display:flex;gap:4px}
+.sort-tab{padding:7px 14px;border:none;background:transparent;border-radius:18px;font-size:12px;font-weight:700;cursor:pointer;color:#888}
+.sort-tab.active{background:#0d1f45;color:#fff}
+.search-input{flex:1;min-width:200px;padding:8px 12px;border:1px solid #ddd;border-radius:8px;font-size:13px;outline:none}
+.search-input:focus{border-color:#FF6B35}
+.write-btn{padding:8px 18px;background:#FF6B35;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap}
+.write-btn:hover{background:#e55a25}
+
+/* Post card */
+.post-card{background:#fff;border-radius:12px;padding:16px 18px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.04);display:grid;grid-template-columns:48px 1fr;gap:14px;cursor:pointer;transition:.1s}
+.post-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);transform:translateY(-1px)}
+.vote-col{display:flex;flex-direction:column;align-items:center;gap:2px;padding-top:2px}
+.vote-btn{background:transparent;border:none;cursor:pointer;color:#aaa;font-size:18px;line-height:1;padding:2px;border-radius:4px}
+.vote-btn:hover{background:#f0f5ff;color:#FF6B35}
+.vote-btn.active{color:#FF6B35}
+.vote-btn.down.active{color:#1a52cc}
+.vote-count{font-size:13px;font-weight:800;color:#0d1f45}
+
+.post-body{min-width:0}
+.post-meta{display:flex;gap:8px;align-items:center;font-size:11px;color:#888;margin-bottom:6px;flex-wrap:wrap}
+.post-meta .pin{background:#FF6B35;color:#fff;padding:2px 7px;border-radius:5px;font-weight:800;font-size:10px}
+.post-meta .cat-tag{padding:2px 8px;background:#f0f5ff;color:#1a52cc;border-radius:5px;font-weight:700}
+.post-title{font-size:15px;font-weight:700;color:#0d1f45;margin-bottom:5px;line-height:1.4}
+.post-preview{font-size:12px;color:#666;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:8px}
+.post-stats{display:flex;gap:14px;font-size:11px;color:#999}
+.post-stats span{display:inline-flex;align-items:center;gap:3px}
+
+/* Detail view */
+.post-detail{background:#fff;border-radius:12px;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,.04);display:none}
+.post-detail.show{display:block}
+.post-detail .back-btn{background:transparent;border:none;font-size:13px;color:#1a52cc;cursor:pointer;font-weight:700;padding:6px 0;margin-bottom:14px}
+.post-detail h1{font-size:22px;font-weight:800;margin:6px 0 10px}
+.post-detail .meta-bar{display:flex;gap:10px;font-size:12px;color:#888;align-items:center;padding-bottom:14px;border-bottom:1px solid #f0f0f0;margin-bottom:18px}
+.post-detail .body-text{font-size:14px;color:#333;line-height:1.8;margin-bottom:24px;white-space:pre-wrap}
+.post-detail .action-bar{display:flex;gap:10px;align-items:center;padding:14px 0;border-top:1px solid #f0f0f0;border-bottom:1px solid #f0f0f0;margin-bottom:20px}
+.action-vote{display:inline-flex;align-items:center;gap:4px;background:#f5f8fa;padding:6px 12px;border-radius:20px;font-size:13px;font-weight:700}
+.action-vote button{background:transparent;border:none;cursor:pointer;color:#666;font-size:18px;padding:2px 4px}
+.action-vote button:hover{color:#FF6B35}
+.action-vote button.up.active{color:#FF6B35}
+.action-vote button.down.active{color:#1a52cc}
+
+/* Comments */
+.comments-section h3{font-size:14px;font-weight:800;margin-bottom:12px}
+.comment-form{margin-bottom:18px}
+.comment-form textarea{width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:13px;outline:none;resize:vertical;min-height:70px;font-family:inherit}
+.comment-form input{padding:8px 10px;border:1px solid #ddd;border-radius:7px;font-size:12px;margin-right:6px}
+.comment-form button{padding:8px 16px;background:#1a52cc;color:#fff;border:none;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer}
+.comment-form .row2{display:flex;gap:6px;align-items:center;margin-top:6px}
+.comment{padding:12px 0;border-bottom:1px solid #f5f5f5;display:grid;grid-template-columns:36px 1fr;gap:10px}
+.comment .vote-col{padding-top:0}
+.comment .vote-btn{font-size:14px}
+.comment-meta{font-size:11px;color:#888;margin-bottom:4px}
+.comment-meta strong{color:#0d1f45}
+.comment-body{font-size:13px;color:#333;line-height:1.6}
+
+/* Write modal */
+.modal-bg{position:fixed;inset:0;background:rgba(13,31,69,.7);z-index:3000;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-bg.show{display:flex}
+.modal{background:#fff;border-radius:14px;padding:28px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto}
+.modal .close{float:right;background:#f0f0f0;border:none;width:32px;height:32px;border-radius:50%;cursor:pointer}
+.modal h2{font-size:20px;font-weight:800;margin-bottom:16px}
+.modal .row{margin-bottom:12px}
+.modal .row label{display:block;font-size:11px;color:#888;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+.modal .row select,.modal .row input,.modal .row textarea{width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:13px;outline:none;font-family:inherit}
+.modal .row textarea{min-height:180px;resize:vertical}
+.modal .row.two{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
+.modal .anon{display:flex;align-items:center;gap:6px;font-size:12px;color:#666}
+.modal .submit{width:100%;padding:13px;background:#FF6B35;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;margin-top:6px}
+
+footer{background:#0d1f45;color:#fff;padding:36px 32px;text-align:center;margin-top:40px}
+footer .brand{font-size:24px;font-weight:800;margin-bottom:6px}
+footer .brand em{color:#FF6B35;font-style:normal}
+footer .tagline{color:rgba(255,255,255,.7);font-size:13px;margin-bottom:18px}
+footer .links{display:flex;justify-content:center;gap:12px;font-size:12px;margin-bottom:14px;flex-wrap:wrap}
+footer .links a{color:rgba(255,255,255,.8);text-decoration:none}
+footer .copy{color:rgba(255,255,255,.4);font-size:11px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1);margin-top:14px}
+
+.empty{padding:60px;text-align:center;color:#999;background:#fff;border-radius:12px}
+
+@media (max-width:768px){
+  .main-grid{grid-template-columns:1fr;margin:14px auto}
+  .sidebar{position:static}
+  .post-card{grid-template-columns:42px 1fr;gap:10px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><em>wehome</em> Studio <small>호스트 게시판</small></div>
+  <nav class="nav">
+    <a href="/">🏠 진단</a><a href="/property">🏘️ 부동산</a><a href="/services">🤝 서비스</a>
+    <a href="/board" class="active">📋 게시판</a><a href="/academy">🎓 아카데미</a>
+    <a href="/newsletter">📧 호스트레터</a><a href="/community">💬 카톡</a>
+  </nav>
+</header>
+
+<div class="main-grid">
+
+  <!-- Sidebar: Categories -->
+  <aside class="sidebar">
+    <h3>▎카테고리</h3>
+    <div class="cat-list" id="catList">
+      <a class="cat-item active" data-cat="" onclick="setCat('')">
+        <span class="ico">🔥</span>
+        <div class="body"><div class="name">전체 인기</div><div class="desc">모든 카테고리</div></div>
+      </a>
+    </div>
+
+    <div style="margin-top:14px;background:#fff;border-radius:12px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.04)">
+      <h3 style="padding:0;margin-bottom:8px">▎운영 규칙</h3>
+      <ul style="font-size:11px;color:#666;line-height:1.7;padding-left:14px">
+        <li>합법 호스팅 정보만</li>
+        <li>욕설·차별·도배 금지</li>
+        <li>개인정보 공개 ❌</li>
+        <li>광고는 위홈 운영진 승인</li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Content -->
+  <main class="content">
+    <!-- List view -->
+    <div id="listView">
+      <div class="top-bar">
+        <div class="sort-tabs">
+          <button class="sort-tab active" data-sort="hot" onclick="setSort('hot')">🔥 인기</button>
+          <button class="sort-tab" data-sort="new" onclick="setSort('new')">🆕 최신</button>
+          <button class="sort-tab" data-sort="top" onclick="setSort('top')">⭐ 추천순</button>
+        </div>
+        <input type="text" id="searchInput" class="search-input" placeholder="🔍 게시판 검색..." onkeypress="if(event.key==='Enter')loadPosts()"/>
+        <button class="write-btn" onclick="openWrite()">✍️ 글쓰기</button>
+      </div>
+
+      <div id="postsContainer">
+        <div class="empty">로딩 중...</div>
+      </div>
+    </div>
+
+    <!-- Detail view -->
+    <div id="detailView" class="post-detail"></div>
+  </main>
+</div>
+
+<!-- Write Modal -->
+<div class="modal-bg" id="writeModal">
+  <div class="modal">
+    <button class="close" onclick="closeWrite()">✕</button>
+    <h2>✍️ 새 글 작성</h2>
+    <form id="writeForm">
+      <div class="row">
+        <label>카테고리 *</label>
+        <select id="w_cat" required></select>
+      </div>
+      <div class="row">
+        <label>제목 *</label>
+        <input type="text" id="w_title" required maxlength="200" placeholder="짧고 명확하게"/>
+      </div>
+      <div class="row">
+        <label>본문 *</label>
+        <textarea id="w_body" required placeholder="구체적으로 적을수록 좋은 답변을 받을 수 있어요"></textarea>
+      </div>
+      <div class="row two">
+        <input type="text" id="w_name" placeholder="이름 (선택)" maxlength="30"/>
+        <label class="anon">
+          <input type="checkbox" id="w_anon" checked/>
+          익명으로 작성
+        </label>
+      </div>
+      <button type="submit" class="submit">📝 게시</button>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <div class="brand"><em>위</em>홈 · <em>we</em>home</div>
+  <div class="tagline">한국에서 합법 호스트가 되는 가장 쉬운 길</div>
+  <div class="links">
+    <a href="/">진단</a><a href="/board">게시판</a><a href="/academy">아카데미</a>
+    <a href="/newsletter">호스트레터</a><a href="/community">카톡</a>
+  </div>
+  <div class="copy">© 2026 wehome, Inc. · 호스트 게시판 (Beta)</div>
+</footer>
+
+<script>
+// ── 사용자 토큰 (익명 식별, localStorage) ──────────────
+function getToken(){
+  let t = localStorage.getItem('wh_token');
+  if(!t){ t = 'tok_' + Math.random().toString(36).slice(2) + Date.now().toString(36); localStorage.setItem('wh_token', t); }
+  return t;
+}
+const TOKEN = getToken();
+
+// ── 상태 ───────────────────────────────────────────
+let currentCat = '';
+let currentSort = 'hot';
+let categories = {};
+let myVotes = JSON.parse(localStorage.getItem('wh_votes')||'{}');
+
+function saveVotes(){ localStorage.setItem('wh_votes', JSON.stringify(myVotes)); }
+function getVote(type, id){ return myVotes[type+':'+id] || 0; }
+function setVote(type, id, v){ myVotes[type+':'+id] = v; saveVotes(); }
+
+const fmt = n => Number(n||0).toLocaleString();
+function relTime(dt){
+  if(!dt) return '';
+  const d = new Date(dt.replace(' ', 'T'));
+  const sec = Math.floor((Date.now() - d.getTime())/1000);
+  if(sec < 60) return `${sec}초 전`;
+  if(sec < 3600) return `${Math.floor(sec/60)}분 전`;
+  if(sec < 86400) return `${Math.floor(sec/3600)}시간 전`;
+  if(sec < 2592000) return `${Math.floor(sec/86400)}일 전`;
+  return d.toLocaleDateString('ko-KR');
+}
+
+// ── 카테고리 로드 ──────────────────────────────────
+async function loadCategories(){
+  const cats = await fetch('/api/board/categories').then(r=>r.json());
+  cats.forEach(c => categories[c.slug] = c);
+  const list = document.getElementById('catList');
+  list.innerHTML = `<a class="cat-item ${currentCat===''?'active':''}" data-cat="" onclick="setCat('')">
+    <span class="ico">🔥</span>
+    <div class="body"><div class="name">전체 인기</div><div class="desc">모든 카테고리</div></div>
+  </a>` + cats.map(c => `
+    <a class="cat-item ${currentCat===c.slug?'active':''}" data-cat="${c.slug}" onclick="setCat('${c.slug}')">
+      <span class="ico">${c.icon}</span>
+      <div class="body"><div class="name">${c.name}</div><div class="desc">${c.desc}</div></div>
+      <span class="count">${c.post_count}</span>
+    </a>
+  `).join('');
+
+  // 글쓰기 모달용 셀렉트
+  const sel = document.getElementById('w_cat');
+  sel.innerHTML = cats.map(c => `<option value="${c.slug}">${c.icon} ${c.name}</option>`).join('');
+}
+
+// ── 글 목록 로드 ──────────────────────────────────
+async function loadPosts(){
+  const q = document.getElementById('searchInput').value.trim();
+  const params = new URLSearchParams({category: currentCat, sort: currentSort, q});
+  document.getElementById('postsContainer').innerHTML = '<div class="empty">로딩 중...</div>';
+  document.getElementById('listView').style.display = 'block';
+  document.getElementById('detailView').classList.remove('show');
+
+  try {
+    const res = await fetch('/api/board/posts?'+params).then(r=>r.json());
+    const posts = res.data || [];
+    if(posts.length === 0){
+      document.getElementById('postsContainer').innerHTML = '<div class="empty">📭 아직 글이 없습니다. <button class="write-btn" style="margin-left:10px" onclick="openWrite()">첫 글 작성하기</button></div>';
+      return;
+    }
+    document.getElementById('postsContainer').innerHTML = posts.map(p => {
+      const score = (p.upvotes||0) - (p.downvotes||0);
+      const myV = getVote('post', p.id);
+      const cat = categories[p.category] || {name: p.category, icon: '📋'};
+      return `<div class="post-card" onclick="openPost(${p.id})">
+        <div class="vote-col" onclick="event.stopPropagation()">
+          <button class="vote-btn up ${myV===1?'active':''}" onclick="vote('post', ${p.id}, 1, this)">▲</button>
+          <span class="vote-count">${score}</span>
+          <button class="vote-btn down ${myV===-1?'active':''}" onclick="vote('post', ${p.id}, -1, this)">▼</button>
+        </div>
+        <div class="post-body">
+          <div class="post-meta">
+            ${p.pinned ? '<span class="pin">📌 고정</span>' : ''}
+            <span class="cat-tag">${cat.icon} ${cat.name}</span>
+            <span>${p.is_anonymous?'익명':(p.author_name||'익명')}</span>
+            <span>·</span>
+            <span>${relTime(p.created_at)}</span>
+          </div>
+          <div class="post-title">${escapeHtml(p.title)}</div>
+          <div class="post-preview">${escapeHtml((p.body||'').substring(0, 200))}</div>
+          <div class="post-stats">
+            <span>💬 ${p.comment_count||0}</span>
+            <span>👁 ${p.view_count||0}</span>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e){
+    document.getElementById('postsContainer').innerHTML = '<div class="empty">불러올 수 없습니다</div>';
+  }
+}
+
+function escapeHtml(s){ return (s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+// ── 글 상세 ────────────────────────────────────────
+async function openPost(pid){
+  document.getElementById('listView').style.display = 'none';
+  const detail = document.getElementById('detailView');
+  detail.classList.add('show');
+  detail.innerHTML = '<div class="empty">로딩 중...</div>';
+  history.pushState({}, '', `/board/post/${pid}`);
+
+  try {
+    const d = await fetch('/api/board/posts/'+pid).then(r=>r.json());
+    if(d.error){ detail.innerHTML = '<div class="empty">글을 찾을 수 없습니다</div>'; return; }
+    renderDetail(d);
+  } catch(e){
+    detail.innerHTML = '<div class="empty">오류</div>';
+  }
+}
+
+function renderDetail(d){
+  const p = d.post;
+  const cat = categories[p.category] || {name: p.category, icon: '📋'};
+  const score = (p.upvotes||0) - (p.downvotes||0);
+  const myV = getVote('post', p.id);
+  document.getElementById('detailView').innerHTML = `
+    <button class="back-btn" onclick="backToList()">← 목록으로</button>
+    <div style="display:flex;gap:8px;align-items:center;font-size:12px;margin-bottom:8px">
+      <span class="cat-tag" style="padding:2px 8px;background:#f0f5ff;color:#1a52cc;border-radius:5px;font-weight:700">${cat.icon} ${cat.name}</span>
+      ${p.pinned?'<span class="pin" style="background:#FF6B35;color:#fff;padding:2px 7px;border-radius:5px;font-size:10px;font-weight:800">📌 고정</span>':''}
+    </div>
+    <h1>${escapeHtml(p.title)}</h1>
+    <div class="meta-bar">
+      <span><strong>${p.is_anonymous?'익명':(p.author_name||'익명')}</strong></span>
+      <span>·</span>
+      <span>${relTime(p.created_at)}</span>
+      <span>·</span>
+      <span>👁 ${p.view_count} 회</span>
+    </div>
+    <div class="body-text">${escapeHtml(p.body)}</div>
+    <div class="action-bar">
+      <div class="action-vote">
+        <button class="up ${myV===1?'active':''}" onclick="vote('post', ${p.id}, 1, this)">▲</button>
+        <span id="postScore">${score}</span>
+        <button class="down ${myV===-1?'active':''}" onclick="vote('post', ${p.id}, -1, this)">▼</button>
+      </div>
+      <span style="font-size:12px;color:#888">💬 ${p.comment_count} 댓글</span>
+    </div>
+
+    <div class="comments-section">
+      <h3>💬 댓글 (${p.comment_count})</h3>
+      <div class="comment-form">
+        <textarea id="commentBody" placeholder="댓글을 남겨주세요 (마크다운 미지원)"></textarea>
+        <div class="row2">
+          <input type="text" id="commentName" placeholder="이름 (선택)" maxlength="30"/>
+          <button onclick="postComment(${p.id})">댓글 작성</button>
+        </div>
+      </div>
+      <div id="commentsList">
+        ${d.comments.map(c => {
+          const cScore = (c.upvotes||0) - (c.downvotes||0);
+          const cMyV = getVote('comment', c.id);
+          return `<div class="comment">
+            <div class="vote-col">
+              <button class="vote-btn up ${cMyV===1?'active':''}" onclick="vote('comment', ${c.id}, 1, this)">▲</button>
+              <span style="font-size:11px;font-weight:700">${cScore}</span>
+              <button class="vote-btn down ${cMyV===-1?'active':''}" onclick="vote('comment', ${c.id}, -1, this)">▼</button>
+            </div>
+            <div>
+              <div class="comment-meta"><strong>${escapeHtml(c.author_name||'익명')}</strong> · ${relTime(c.created_at)}</div>
+              <div class="comment-body">${escapeHtml(c.body)}</div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function backToList(){
+  document.getElementById('detailView').classList.remove('show');
+  document.getElementById('listView').style.display = 'block';
+  history.pushState({}, '', '/board');
+}
+
+// ── 투표 ──────────────────────────────────────────
+async function vote(type, id, v, btn){
+  event && event.stopPropagation && event.stopPropagation();
+  const old = getVote(type, id);
+  const newV = (old === v) ? 0 : v;  // toggle
+  try {
+    const r = await fetch('/api/board/vote', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({target_type: type, target_id: id, value: newV, voter_token: TOKEN})
+    }).then(r=>r.json());
+    setVote(type, id, newV);
+    // UI 즉시 업데이트
+    if(type === 'post' && document.getElementById('postScore')){
+      document.getElementById('postScore').textContent = (r.upvotes||0) - (r.downvotes||0);
+      document.querySelectorAll('.action-vote .up,.action-vote .down').forEach(b => b.classList.remove('active'));
+      if(newV === 1) document.querySelector('.action-vote .up')?.classList.add('active');
+      if(newV === -1) document.querySelector('.action-vote .down')?.classList.add('active');
+    } else {
+      // 목록 재로드
+      if(document.getElementById('listView').style.display !== 'none') loadPosts();
+    }
+  } catch(e){
+    alert('투표 실패');
+  }
+}
+
+// ── 댓글 작성 ────────────────────────────────────
+async function postComment(pid){
+  const body = document.getElementById('commentBody').value.trim();
+  const name = document.getElementById('commentName').value.trim() || '익명';
+  if(!body) return alert('내용을 입력하세요');
+  const r = await fetch(`/api/board/posts/${pid}/comments`, {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({body, author_name: name, author_token: TOKEN})
+  }).then(r=>r.json());
+  if(r.ok){ openPost(pid); } else { alert('실패: '+(r.error||'')); }
+}
+
+// ── 글쓰기 ────────────────────────────────────────
+function openWrite(){ document.getElementById('writeModal').classList.add('show'); }
+function closeWrite(){ document.getElementById('writeModal').classList.remove('show'); }
+document.getElementById('writeForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const r = await fetch('/api/board/posts', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({
+      category: document.getElementById('w_cat').value,
+      title: document.getElementById('w_title').value.trim(),
+      body: document.getElementById('w_body').value.trim(),
+      author_name: document.getElementById('w_name').value.trim() || '익명',
+      is_anonymous: document.getElementById('w_anon').checked,
+      author_token: TOKEN,
+    })
+  }).then(r=>r.json());
+  if(r.ok){
+    closeWrite();
+    document.getElementById('writeForm').reset();
+    document.getElementById('w_anon').checked = true;
+    loadPosts();
+    setTimeout(()=>openPost(r.id), 300);
+  } else { alert('작성 실패: ' + (r.error||'')); }
+});
+
+// ── 정렬/카테고리 ───────────────────────────────────
+function setCat(c){ currentCat = c; document.querySelectorAll('.cat-item').forEach(el=>el.classList.toggle('active', el.dataset.cat===c)); loadPosts(); }
+function setSort(s){ currentSort = s; document.querySelectorAll('.sort-tab').forEach(el=>el.classList.toggle('active', el.dataset.sort===s)); loadPosts(); }
+
+// 초기 로드
+(async () => {
+  await loadCategories();
+  // URL에서 post id 추출
+  const m = window.location.pathname.match(/\/board\/post\/(\d+)/);
+  if(m){ openPost(parseInt(m[1])); } else { loadPosts(); }
+})();
+</script>
+</body>
+</html>

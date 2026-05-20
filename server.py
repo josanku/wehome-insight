@@ -364,9 +364,249 @@ def services_page():
 def academy_page():
     return send_from_directory('.', 'academy.html')
 
+@app.route('/board')
+@app.route('/board/post/<int:pid>')
+def board_page(pid=None):
+    return send_from_directory('.', 'board.html')
+
 @app.route('/static/<path:fname>')
 def static_files(fname):
     return send_from_directory('static', fname)
+
+# ── 게시판 (Reddit형) ────────────────────────────────────────────────────
+BOARD_CATEGORIES = {
+    'registration': {'name': '등록·법무', 'icon': '⚖️', 'desc': '외도민업·한옥체험·세무'},
+    'operation':    {'name': '운영·매출', 'icon': '💰', 'desc': '가격·예약·점유율'},
+    'styling':      {'name': '인테리어',   'icon': '🎨', 'desc': '스타일링·가구·청소'},
+    'property':     {'name': '부동산',     'icon': '🏘️', 'desc': '매물·임대·매매'},
+    'local':        {'name': '동네방',     'icon': '📍', 'desc': '서울/부산/제주/경주'},
+    'discussion':   {'name': '토론장',     'icon': '💬', 'desc': '정책·제도·시장'},
+    'free':         {'name': '자유게시판', 'icon': '☕', 'desc': '잡담·번개'},
+}
+
+def _init_board(conn):
+    conn.execute("""CREATE TABLE IF NOT EXISTS board_posts (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        category TEXT NOT NULL,
+        title TEXT NOT NULL,
+        body TEXT NOT NULL,
+        author_name TEXT,
+        author_token TEXT,
+        is_anonymous INTEGER DEFAULT 0,
+        upvotes INTEGER DEFAULT 0,
+        downvotes INTEGER DEFAULT 0,
+        comment_count INTEGER DEFAULT 0,
+        view_count INTEGER DEFAULT 0,
+        pinned INTEGER DEFAULT 0,
+        locked INTEGER DEFAULT 0,
+        created_at TEXT DEFAULT (datetime('now')),
+        updated_at TEXT DEFAULT (datetime('now'))
+    )""")
+    conn.execute("""CREATE TABLE IF NOT EXISTS board_comments (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        post_id INTEGER NOT NULL,
+        parent_id INTEGER,
+        body TEXT NOT NULL,
+        author_name TEXT,
+        author_token TEXT,
+        upvotes INTEGER DEFAULT 0,
+        downvotes INTEGER DEFAULT 0,
+        created_at TEXT DEFAULT (datetime('now'))
+    )""")
+    conn.execute("""CREATE TABLE IF NOT EXISTS board_votes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        target_type TEXT,           -- post | comment
+        target_id INTEGER,
+        voter_token TEXT NOT NULL,
+        value INTEGER,              -- 1 (up) or -1 (down)
+        created_at TEXT DEFAULT (datetime('now')),
+        UNIQUE(target_type, target_id, voter_token)
+    )""")
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_bp_cat ON board_posts(category, created_at DESC)")
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_bc_post ON board_comments(post_id, created_at)")
+    conn.commit()
+
+@app.route('/api/board/categories')
+def api_board_categories():
+    conn = get_db()
+    _init_board(conn)
+    out = []
+    for slug, meta in BOARD_CATEGORIES.items():
+        cnt = conn.execute("SELECT COUNT(*) FROM board_posts WHERE category=?", (slug,)).fetchone()[0]
+        out.append({'slug': slug, **meta, 'post_count': cnt})
+    conn.close()
+    return jsonify(out)
+
+@app.route('/api/board/posts')
+def api_board_posts():
+    """게시글 목록 - category, sort=hot|new|top, q"""
+    category = request.args.get('category', '')
+    sort = request.args.get('sort', 'hot')
+    q = request.args.get('q', '').strip()
+    page = max(1, int(request.args.get('page', 1)))
+    per = 25
+
+    cond, params = ["1=1"], []
+    if category and category in BOARD_CATEGORIES:
+        cond.append("category=?"); params.append(category)
+    if q:
+        cond.append("(title LIKE ? OR body LIKE ?)")
+        params += [f'%{q}%', f'%{q}%']
+    where = " AND ".join(cond)
+
+    if sort == 'new':       order = "pinned DESC, created_at DESC"
+    elif sort == 'top':     order = "pinned DESC, (upvotes - downvotes) DESC, created_at DESC"
+    else:  # hot
+        order = "pinned DESC, ((upvotes - downvotes) * 1.0 + comment_count * 0.5) / (1 + (julianday('now') - julianday(created_at))) DESC"
+
+    conn = get_db()
+    _init_board(conn)
+    total = conn.execute(f"SELECT COUNT(*) FROM board_posts WHERE {where}", params).fetchone()[0]
+    rows = conn.execute(f"""
+        SELECT id, category, title, body, author_name, is_anonymous,
+               upvotes, downvotes, comment_count, view_count, pinned,
+               created_at
+        FROM board_posts WHERE {where}
+        ORDER BY {order}
+        LIMIT ? OFFSET ?
+    """, params + [per, (page-1)*per]).fetchall()
+    conn.close()
+
+    return jsonify({
+        'total': total, 'page': page, 'per_page': per,
+        'data': [dict(r) for r in rows],
+    })
+
+@app.route('/api/board/posts', methods=['POST'])
+def api_board_post_create():
+    data = request.get_json(silent=True) or {}
+    cat = data.get('category','')
+    title = (data.get('title') or '').strip()[:300]
+    body = (data.get('body') or '').strip()[:10000]
+    name = (data.get('author_name') or '익명').strip()[:50]
+    token = (data.get('author_token') or '').strip()[:100]
+    anon = 1 if data.get('is_anonymous') else 0
+
+    if cat not in BOARD_CATEGORIES:
+        return jsonify({'ok': False, 'error': '카테고리 오류'}), 400
+    if not title or not body:
+        return jsonify({'ok': False, 'error': '제목·본문 필수'}), 400
+
+    conn = get_db()
+    _init_board(conn)
+    cur = conn.execute("""INSERT INTO board_posts
+        (category, title, body, author_name, author_token, is_anonymous)
+        VALUES (?,?,?,?,?,?)""",
+        (cat, title, body, name, token, anon))
+    pid = cur.lastrowid
+    conn.commit()
+    conn.close()
+    return jsonify({'ok': True, 'id': pid})
+
+@app.route('/api/board/posts/<int:pid>')
+def api_board_post_detail(pid):
+    conn = get_db()
+    _init_board(conn)
+    # 조회수 증가
+    conn.execute("UPDATE board_posts SET view_count = view_count + 1 WHERE id=?", (pid,))
+    conn.commit()
+
+    p = conn.execute("""SELECT id, category, title, body, author_name, is_anonymous,
+        upvotes, downvotes, comment_count, view_count, pinned, locked, created_at
+        FROM board_posts WHERE id=?""", (pid,)).fetchone()
+    if not p:
+        conn.close()
+        return jsonify({'error': 'not found'}), 404
+
+    comments = conn.execute("""SELECT id, parent_id, body, author_name,
+        upvotes, downvotes, created_at FROM board_comments
+        WHERE post_id=? ORDER BY created_at""", (pid,)).fetchall()
+    conn.close()
+    return jsonify({
+        'post': dict(p),
+        'comments': [dict(c) for c in comments],
+    })
+
+@app.route('/api/board/posts/<int:pid>/comments', methods=['POST'])
+def api_board_comment(pid):
+    data = request.get_json(silent=True) or {}
+    body = (data.get('body') or '').strip()[:5000]
+    name = (data.get('author_name') or '익명').strip()[:50]
+    token = (data.get('author_token') or '').strip()[:100]
+    parent_id = data.get('parent_id')
+
+    if not body:
+        return jsonify({'ok': False, 'error': '내용 필수'}), 400
+
+    conn = get_db()
+    _init_board(conn)
+    # 게시글 잠금 체크
+    p = conn.execute("SELECT locked FROM board_posts WHERE id=?", (pid,)).fetchone()
+    if not p:
+        conn.close()
+        return jsonify({'ok': False, 'error': 'post not found'}), 404
+    if p['locked']:
+        conn.close()
+        return jsonify({'ok': False, 'error': '잠긴 게시글'}), 403
+
+    conn.execute("""INSERT INTO board_comments
+        (post_id, parent_id, body, author_name, author_token)
+        VALUES (?,?,?,?,?)""", (pid, parent_id, body, name, token))
+    conn.execute("UPDATE board_posts SET comment_count = comment_count + 1 WHERE id=?", (pid,))
+    conn.commit()
+    conn.close()
+    return jsonify({'ok': True})
+
+@app.route('/api/board/vote', methods=['POST'])
+def api_board_vote():
+    """투표 - target_type=post|comment, target_id, value=1|-1, voter_token"""
+    data = request.get_json(silent=True) or {}
+    t = data.get('target_type','')
+    tid = data.get('target_id')
+    v = int(data.get('value', 0))
+    token = (data.get('voter_token') or '').strip()[:100]
+    if t not in ('post','comment') or not tid or v not in (-1, 0, 1) or not token:
+        return jsonify({'ok': False, 'error': '파라미터 오류'}), 400
+
+    conn = get_db()
+    _init_board(conn)
+
+    # 기존 투표 확인
+    prev = conn.execute("""SELECT value FROM board_votes
+        WHERE target_type=? AND target_id=? AND voter_token=?""",
+        (t, tid, token)).fetchone()
+
+    table = 'board_posts' if t == 'post' else 'board_comments'
+
+    if prev:
+        old_v = prev['value']
+        if v == 0:  # 투표 취소
+            conn.execute("""DELETE FROM board_votes WHERE target_type=? AND target_id=? AND voter_token=?""",
+                (t, tid, token))
+            if old_v == 1:
+                conn.execute(f"UPDATE {table} SET upvotes = upvotes - 1 WHERE id=?", (tid,))
+            else:
+                conn.execute(f"UPDATE {table} SET downvotes = downvotes - 1 WHERE id=?", (tid,))
+        elif v != old_v:  # 투표 변경
+            conn.execute("""UPDATE board_votes SET value=? WHERE target_type=? AND target_id=? AND voter_token=?""",
+                (v, t, tid, token))
+            if old_v == 1 and v == -1:
+                conn.execute(f"UPDATE {table} SET upvotes = upvotes - 1, downvotes = downvotes + 1 WHERE id=?", (tid,))
+            elif old_v == -1 and v == 1:
+                conn.execute(f"UPDATE {table} SET upvotes = upvotes + 1, downvotes = downvotes - 1 WHERE id=?", (tid,))
+    elif v != 0:
+        conn.execute("""INSERT INTO board_votes (target_type, target_id, voter_token, value)
+            VALUES (?,?,?,?)""", (t, tid, token, v))
+        if v == 1:
+            conn.execute(f"UPDATE {table} SET upvotes = upvotes + 1 WHERE id=?", (tid,))
+        else:
+            conn.execute(f"UPDATE {table} SET downvotes = downvotes + 1 WHERE id=?", (tid,))
+
+    conn.commit()
+    # 현재 카운트 반환
+    row = conn.execute(f"SELECT upvotes, downvotes FROM {table} WHERE id=?", (tid,)).fetchone()
+    conn.close()
+    return jsonify({'ok': True, 'upvotes': row['upvotes'], 'downvotes': row['downvotes']})
 
 @app.route('/api/properties')
 def api_properties():
