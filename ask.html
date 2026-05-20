@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>위홈 호스트 AI · 한국 공유숙박 대화형 어시스턴트 | wehome Studio</title>
+<title>Stay AI · 한국 공유숙박 대화형 어시스턴트 | wehome Studio</title>
 <meta name="description" content="외국인관광도시민박업·한옥체험업·관광숙박업 등 한국 공유숙박 모든 정보를 24/7 대화형으로. 위홈 Knowledge Base RAG 기반 정확한 답변 + 출처 인용."/>
 <meta name="keywords" content="위홈 AI, 호스트 챗봇, 외도민업 질문, 공유숙박 AI, 호스트 어시스턴트"/>
 <link rel="canonical" href="https://insight.wehome.me/ask"/>
-<meta property="og:title" content="위홈 호스트 AI · 한국 공유숙박 대화형 어시스턴트"/>
+<meta property="og:title" content="Stay AI · 한국 공유숙박 대화형 어시스턴트"/>
 <meta property="og:description" content="외도민업·한옥체험업 등 모든 정보를 AI에게 직접 질문. 출처 인용 정확한 답변."/>
 <meta property="og:image" content="https://insight.wehome.me/og-image.png"/>
 <style>
@@ -80,7 +80,7 @@ header{background:#fff;border-bottom:1px solid #ececec;padding:14px 32px;display
   <nav class="nav">
     <a href="/">🏠 진단</a><a href="/search">🔍 검색</a>
     <a href="/ask" class="active">🤖 AI</a>
-    <a href="/board">📋 게시판</a><a href="/newsletter">📧 호스트레터</a>
+    <a href="/board">📋 게시판</a><a href="/newsletter">📧 Stay Letter</a>
   </nav>
 </header>
 
@@ -157,7 +157,7 @@ function addMessage(role, content, sources=null, msgId=null){
   if(msgId) msg.dataset.id = msgId;
 
   const avatar = role === 'user' ? '👤' : '🤖';
-  const name = role === 'user' ? '나' : '위홈 호스트 AI';
+  const name = role === 'user' ? '나' : 'Stay AI';
 
   let html = `<div class="avatar">${avatar}</div>
     <div class="body">

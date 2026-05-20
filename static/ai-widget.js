@@ -68,7 +68,7 @@
   const fab = document.createElement('button');
   fab.className = 'wh-ai-fab';
   fab.innerHTML = '🤖<span class="pulse">AI</span>';
-  fab.title = '위홈 호스트 AI';
+  fab.title = 'Stay AI';
   document.body.appendChild(fab);
 
   const panel = document.createElement('div');
@@ -76,7 +76,7 @@
   panel.innerHTML = `
     <div class="wh-ai-head">
       <div>
-        <div class="ttl">🤖 위홈 호스트 AI</div>
+        <div class="ttl">🤖 Stay AI</div>
         <div class="sub">한국 공유숙박 무엇이든 물어보세요</div>
       </div>
       <button class="close" type="button">✕</button>
