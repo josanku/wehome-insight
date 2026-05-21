@@ -1,5 +1,6 @@
 """
-위홈 인사이트 + 위홈 Studio Flask 서버
+Wehome Host Lounge Flask 서버 (lounge.wehome.me)
+한국 공유숙박 합법 호스트 포털 — 진단·인사이트·커뮤니티·교육
 """
 from flask import Flask, jsonify, request, send_from_directory
 import sqlite3, os, math, requests, json
@@ -496,7 +497,7 @@ def generate_answer(question, sources):
     for i, s in enumerate(sources[:3], 1):
         excerpt = (s['excerpt'] or '').replace('\n', ' ')[:200]
         text += f"**{i}. {s['title']}**\n{excerpt}\n→ {s['source_url']}\n\n"
-    text += "더 자세한 내용은 위 출처에서 확인하세요. 위홈 호스트레터를 구독하시면 매주 핵심 정보를 받아보실 수 있습니다."
+    text += "더 자세한 내용은 위 출처에서 확인하세요. 위홈 Stay Letter를 구독하시면 매주 핵심 정보를 받아보실 수 있습니다."
     return {'text': text, 'mode': 'extractive'}
 
 def generate_llm_answer(question, sources, openai_key, anthropic_key):
@@ -907,7 +908,7 @@ def api_news():
     conn.close()
     return jsonify({'items': [dict(r) for r in rows], 'count': len(rows)})
 
-# ── Host Letter 구독자 관리 ──────────────────────────────────────────────
+# ── Stay Letter 구독자 관리 ──────────────────────────────────────────────
 def _init_subscribers(conn):
     conn.execute("""CREATE TABLE IF NOT EXISTS subscribers (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -925,7 +926,7 @@ def _init_subscribers(conn):
 
 @app.route('/api/newsletter/subscribe', methods=['POST'])
 def api_subscribe():
-    """Host Letter 뉴스레터 구독 신청"""
+    """Stay Letter 뉴스레터 구독 신청"""
     try:
         data = request.get_json(silent=True) or {}
         contact = (data.get('contact') or '').strip()[:200]
@@ -1005,7 +1006,7 @@ Allow: /
 User-agent: cohere-ai
 Allow: /
 
-Sitemap: https://insight.wehome.me/sitemap.xml
+Sitemap: https://lounge.wehome.me/sitemap.xml
 """
     from flask import Response
     return Response(txt, mimetype='text/plain')
@@ -1025,7 +1026,7 @@ def sitemap_xml():
     items = []
     for path, prio, freq in pages:
         items.append(f"""<url>
-    <loc>https://insight.wehome.me{path}</loc>
+    <loc>https://lounge.wehome.me{path}</loc>
     <changefreq>{freq}</changefreq>
     <priority>{prio}</priority>
   </url>""")
@@ -1038,9 +1039,9 @@ def sitemap_xml():
 @app.route('/llms.txt')
 def llms_txt():
     """AI crawlers 위한 사이트 안내 (AIEO 표준)"""
-    txt = """# wehome Studio (위홈 인사이트)
+    txt = """# Wehome Host Lounge (lounge.wehome.me)
 
-> 한국 공유숙박 데이터 플랫폼. 외국인관광도시민박업(외도민업) 합법 등록 진단, 시장 분석, 가격 추천 무료 도구.
+> 한국 공유숙박 합법 호스트를 위한 종합 포털. 외국인관광도시민박업(외도민업) 등록 진단·시장 인사이트·커뮤니티·뉴스레터·교육·AI 어시스턴트.
 > The data platform for Korean short-term rental hosts. Free tools for legal registration diagnosis, market analysis, and pricing.
 
 ## 운영 주체 / Operator
@@ -1060,12 +1061,12 @@ def llms_txt():
   - 관광펜션업 1,300
 
 ## 주요 페이지 / Key Pages
-- [/](https://insight.wehome.me/): 주소 기반 외도민업 등록 진단 도구
-- [/pricing](https://insight.wehome.me/pricing): AI 최적 가격 추천 (주변 시세 비교)
-- [/analysis](https://insight.wehome.me/analysis): 5종 카테고리 시장 분석 (KR/EN)
-- [/map](https://insight.wehome.me/map): 전국 영업중 호스트 카카오맵
-- [/report](https://insight.wehome.me/report): 월간 시장 리포트 (인포그래픽)
-- [/about](https://insight.wehome.me/about): 서비스 소개 + FAQ + 피드백
+- [/](https://lounge.wehome.me/): 주소 기반 외도민업 등록 진단 도구
+- [/pricing](https://lounge.wehome.me/pricing): AI 최적 가격 추천 (주변 시세 비교)
+- [/analysis](https://lounge.wehome.me/analysis): 5종 카테고리 시장 분석 (KR/EN)
+- [/map](https://lounge.wehome.me/map): 전국 영업중 호스트 카카오맵
+- [/report](https://lounge.wehome.me/report): 월간 시장 리포트 (인포그래픽)
+- [/about](https://lounge.wehome.me/about): 서비스 소개 + FAQ + 피드백
 
 ## 데이터 소스 / Data Sources
 - 행정안전부 지방행정 인허가 데이터 (file.localdata.go.kr)
@@ -1295,7 +1296,7 @@ def api_pricing_suggest():
     })
 
 # ════════════════════════════════════════════════════════════════════════════
-# wehome Studio: 진단 API
+# Wehome Host Lounge: 진단 API
 # ════════════════════════════════════════════════════════════════════════════
 def haversine_m(lat1, lng1, lat2, lng2):
     """위경도 두 점 거리 (미터)"""
@@ -1697,7 +1698,7 @@ def api_analysis():
     })
 
 if __name__ == '__main__':
-    print("🏠 wehome Studio + Insights 서버: http://localhost:5001")
-    print("   - / (메인)       → wehome Studio (예비 호스트 진단)")
-    print("   - /insights     → 시장 분석 대시보드")
+    print("🏠 Wehome Host Lounge 서버: http://localhost:5001  (prod: lounge.wehome.me)")
+    print("   - / (메인)       → 호스트 진단 (Stay Studio)")
+    print("   - /insights     → Stay Insight 대시보드")
     app.run(host='0.0.0.0', port=5001, debug=False)

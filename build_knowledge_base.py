@@ -1,5 +1,5 @@
 """
-위홈 인사이트 Knowledge Base 인덱싱
+Wehome Host Lounge Knowledge Base 인덱싱
 - HTML 페이지 파싱 → 청크 분할
 - 외도민업 DB 통계 → 텍스트화
 - 게시판 글·댓글 인덱싱
@@ -20,7 +20,7 @@ PAGE_META = {
     'map.html':        {'url':'/map',        'title':'전국 지도',   'category':'data'},
     'report.html':     {'url':'/report',     'title':'월간 리포트', 'category':'report'},
     'about.html':      {'url':'/about',      'title':'소개·FAQ',    'category':'about'},
-    'newsletter.html': {'url':'/newsletter', 'title':'호스트레터',  'category':'community'},
+    'newsletter.html': {'url':'/newsletter', 'title':'Stay Letter',  'category':'community'},
     'community.html':  {'url':'/community',  'title':'단톡방',      'category':'community'},
     'board.html':      {'url':'/board',      'title':'게시판',      'category':'community'},
     'tips.html':       {'url':'/tips',       'title':'호스트 꿀팁', 'category':'guide'},

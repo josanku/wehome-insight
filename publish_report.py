@@ -1,5 +1,5 @@
 """
-wehome Studio 월간 리포트 자동 발행
+Wehome Host Lounge 월간 리포트 자동 발행
 - 매월 25일 실행 (GitHub Actions cron)
 - 현재 시점의 모든 통계를 스냅샷으로 DB에 저장
 - issue_number 자동 증가 (1, 2, 3, ...)

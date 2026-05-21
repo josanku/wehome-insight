@@ -1,5 +1,5 @@
 /**
- * wehome Studio · 공통 피드백 위젯
+ * Wehome Host Lounge · 공통 피드백 위젯
  * 사용: 페이지 어디든 <script src="/static/feedback-widget.js"></script> 삽입
  * 또는 data-feedback="topic-id" 속성 가진 요소 옆에 자동 부착
  */
