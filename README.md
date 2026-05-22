@@ -1,9 +1,9 @@
-# Wehome Host Lounge
+# K-STAY
 
 > 한국 공유숙박 시장 데이터 분석 + 예비 호스트 진단 + 가격 추천 플랫폼
 > The data-driven companion for Korean homestay hosts.
 
-[lounge.wehome.me](https://lounge.wehome.me) (배포 예정)
+[k-stay.ai](https://k-stay.ai) (배포 예정)
 
 ---
 
@@ -76,7 +76,7 @@ railway up
 railway variables set KAKAO_REST_API_KEY=your_key
 
 # 커스텀 도메인
-railway domain lounge.wehome.me
+railway domain k-stay.ai
 ```
 
 **DNS 설정** (wehome.me 도메인 관리자에서):
@@ -137,5 +137,5 @@ TTL: 300
 
 ---
 
-**Made with 🏠 by Wehome Host Lounge**
+**Made with 🏠 by K-STAY**
 한국에서 합법 호스트가 되는 가장 쉬운 길.

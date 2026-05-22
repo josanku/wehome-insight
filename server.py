@@ -1,5 +1,5 @@
 """
-Wehome Host Lounge Flask 서버 (lounge.wehome.me)
+K-STAY Flask 서버 (k-stay.ai)
 한국 공유숙박 합법 호스트 포털 — 진단·인사이트·커뮤니티·교육
 """
 from flask import Flask, jsonify, request, send_from_directory
@@ -1067,7 +1067,7 @@ Allow: /
 User-agent: cohere-ai
 Allow: /
 
-Sitemap: https://lounge.wehome.me/sitemap.xml
+Sitemap: https://k-stay.ai/sitemap.xml
 """
     from flask import Response
     return Response(txt, mimetype='text/plain')
@@ -1087,7 +1087,7 @@ def sitemap_xml():
     items = []
     for path, prio, freq in pages:
         items.append(f"""<url>
-    <loc>https://lounge.wehome.me{path}</loc>
+    <loc>https://k-stay.ai{path}</loc>
     <changefreq>{freq}</changefreq>
     <priority>{prio}</priority>
   </url>""")
@@ -1100,7 +1100,7 @@ def sitemap_xml():
 @app.route('/llms.txt')
 def llms_txt():
     """AI crawlers 위한 사이트 안내 (AIEO 표준)"""
-    txt = """# Wehome Host Lounge (lounge.wehome.me)
+    txt = """# K-STAY (k-stay.ai)
 
 > 한국 공유숙박 합법 호스트를 위한 종합 포털. 외국인관광도시민박업(외도민업) 등록 진단·시장 인사이트·커뮤니티·뉴스레터·교육·AI 어시스턴트.
 > The data platform for Korean short-term rental hosts. Free tools for legal registration diagnosis, market analysis, and pricing.
@@ -1122,12 +1122,12 @@ def llms_txt():
   - 관광펜션업 1,300
 
 ## 주요 페이지 / Key Pages
-- [/](https://lounge.wehome.me/): 주소 기반 외도민업 등록 진단 도구
-- [/pricing](https://lounge.wehome.me/pricing): AI 최적 가격 추천 (주변 시세 비교)
-- [/analysis](https://lounge.wehome.me/analysis): 5종 카테고리 시장 분석 (KR/EN)
-- [/map](https://lounge.wehome.me/map): 전국 영업중 호스트 카카오맵
-- [/report](https://lounge.wehome.me/report): 월간 시장 리포트 (인포그래픽)
-- [/about](https://lounge.wehome.me/about): 서비스 소개 + FAQ + 피드백
+- [/](https://k-stay.ai/): 주소 기반 외도민업 등록 진단 도구
+- [/pricing](https://k-stay.ai/pricing): AI 최적 가격 추천 (주변 시세 비교)
+- [/analysis](https://k-stay.ai/analysis): 5종 카테고리 시장 분석 (KR/EN)
+- [/map](https://k-stay.ai/map): 전국 영업중 호스트 카카오맵
+- [/report](https://k-stay.ai/report): 월간 시장 리포트 (인포그래픽)
+- [/about](https://k-stay.ai/about): 서비스 소개 + FAQ + 피드백
 
 ## 데이터 소스 / Data Sources
 - 행정안전부 지방행정 인허가 데이터 (file.localdata.go.kr)
@@ -1357,7 +1357,7 @@ def api_pricing_suggest():
     })
 
 # ════════════════════════════════════════════════════════════════════════════
-# Wehome Host Lounge: 진단 API
+# K-STAY: 진단 API
 # ════════════════════════════════════════════════════════════════════════════
 def haversine_m(lat1, lng1, lat2, lng2):
     """위경도 두 점 거리 (미터)"""
@@ -1759,7 +1759,7 @@ def api_analysis():
     })
 
 if __name__ == '__main__':
-    print("🏠 Wehome Host Lounge 서버: http://localhost:5001  (prod: lounge.wehome.me)")
+    print("🏠 K-STAY 서버: http://localhost:5001  (prod: k-stay.ai)")
     print("   - / (메인)       → 호스트 진단 (Stay Studio)")
     print("   - /insights     → Stay Insight 대시보드")
     app.run(host='0.0.0.0', port=5001, debug=False)

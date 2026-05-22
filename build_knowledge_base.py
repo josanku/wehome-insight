@@ -1,5 +1,5 @@
 """
-Wehome Host Lounge Knowledge Base 인덱싱
+K-STAY Knowledge Base 인덱싱
 - HTML 페이지 파싱 → 청크 분할
 - 외도민업 DB 통계 → 텍스트화
 - 게시판 글·댓글 인덱싱

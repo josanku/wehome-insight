@@ -41,7 +41,7 @@ jobs:
         # PUBLISH_SECRET 환경변수가 App Runner에 설정돼 있어야 함
         env:
           PUBLISH_SECRET: ${{ secrets.PUBLISH_SECRET }}
-          SERVICE_URL: ${{ secrets.INSIGHT_URL }}    # https://lounge.wehome.me 또는 App Runner URL
+          SERVICE_URL: ${{ secrets.INSIGHT_URL }}    # https://k-stay.ai 또는 App Runner URL
           YM: ${{ github.event.inputs.year_month }}
           FORCE: ${{ github.event.inputs.force || 'false' }}
         run: |
