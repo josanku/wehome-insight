@@ -155,6 +155,7 @@ header{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.96);back
   <div class="logo"><em>K</em>-STAY <small>전국 외도민업 지도</small></div>
   <nav class="nav">
     <a href="/">🏠 진단</a>
+    <a href="/hanok">🏯 한옥</a>
     <a href="/analysis">📊 분석</a>
     <a href="/map" class="active">🗺️ 지도</a>
     <a href="/insights">📋 대시보드</a>
@@ -408,8 +409,32 @@ function debounce(fn, ms){
 }
 
 init().catch(e=>{
-  alert('초기화 오류: '+e.message);
   document.getElementById('loader').classList.remove('show');
+  const mapEl = document.getElementById('map');
+  if(mapEl){
+    mapEl.innerHTML = `
+      <div style="height:100%;display:flex;align-items:center;justify-content:center;background:#FAF7F2;padding:40px;text-align:center">
+        <div style="max-width:480px">
+          <div style="font-size:48px;margin-bottom:14px">🗺️</div>
+          <h2 style="font-size:20px;color:#3D2817;margin-bottom:10px">지도를 불러올 수 없습니다</h2>
+          <p style="font-size:14px;color:#666;line-height:1.7;margin-bottom:16px">
+            카카오맵 SDK가 <b>k-stay.ai</b> 도메인에서 인증되지 않았습니다.<br/>
+            사이트 운영자는 카카오 개발자 콘솔에서 사이트 도메인을 등록해주세요.
+          </p>
+          <div style="background:#fff;border-radius:10px;padding:14px 18px;font-size:12px;color:#444;text-align:left;margin-bottom:16px">
+            <b style="color:#8B4513">해결 방법</b><br/>
+            1. <a href="https://developers.kakao.com" target="_blank" style="color:#1a52cc">developers.kakao.com</a> 로그인<br/>
+            2. 내 애플리케이션 → 플랫폼 → Web → 사이트 도메인 추가<br/>
+            3. <code style="background:#FAF0DC;padding:1px 4px;border-radius:3px">https://k-stay.ai</code> 등록
+          </div>
+          <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+            <a href="/analysis" style="background:#1a52cc;color:#fff;padding:9px 16px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:700">📊 시장 분석으로</a>
+            <a href="/registrations" style="background:#FF6B35;color:#fff;padding:9px 16px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:700">📈 신규 등록 추이</a>
+            <a href="/about" style="background:#fff;color:#3D2817;padding:9px 16px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:700;border:1px solid #ccc">ℹ️ 서비스 소개</a>
+          </div>
+        </div>
+      </div>`;
+  }
 });
 </script>
 <script src="/static/ai-widget.js"></script>
