@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>한국관광공사 명품고택 20곳 | K-STAY</title>
+<meta name="description" content="한국관광공사가 인증한 명품고택 20곳. 임청각·운조루·선교장 등 보물·국가민속문화재 등급 한옥에서의 숙박 체험."/>
+<meta name="keywords" content="명품고택, 한국관광공사, 임청각, 운조루, 선교장, 종택, 한옥숙박, KTO 인증, hanok stay luxury"/>
+<link rel="canonical" href="https://k-stay.ai/hanok/meongpum-gotaek"/>
+<meta property="og:title" content="한국관광공사 명품고택 20곳 | K-STAY"/>
+<meta property="og:description" content="문화재 한옥의 종택 체험. 보물·국가민속문화재 한옥에서의 숙박."/>
+<meta property="og:url" content="https://k-stay.ai/hanok/meongpum-gotaek"/>
+<meta property="og:image" content="https://k-stay.ai/og-image.png"/>
+<meta property="og:site_name" content="K-STAY"/>
+<meta name="theme-color" content="#E8192C"/>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;background:#FAF7F2;color:#1a1a1a;line-height:1.65}
+header{background:#fff;border-bottom:1px solid #ececec;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-size:20px;font-weight:800}.logo em{color:#FF6B35;font-style:normal}
+.logo small{font-size:12px;font-weight:400;color:#888;margin-left:6px}
+.nav{display:flex;gap:12px;font-size:13px;flex-wrap:wrap}
+.nav a{color:#555;text-decoration:none;padding:5px 10px;border-radius:6px}
+.nav a:hover{background:#FFEBED;color:#E8192C}
+.nav a.active{background:#E8192C;color:#fff}
+
+.hero{padding:50px 32px 28px;text-align:center;background:linear-gradient(180deg,#fff,#FFEBED)}
+.hero .crest{display:inline-block;font-size:11px;font-weight:800;color:#fff;background:#E8192C;padding:5px 14px;border-radius:14px;letter-spacing:2px;margin-bottom:14px}
+.hero h1{font-size:38px;font-weight:900;letter-spacing:-1.2px;margin-bottom:10px;color:#3D2817}
+.hero h1 em{color:#E8192C;font-style:normal}
+.hero p{color:#555;font-size:15px;max-width:720px;margin:0 auto}
+
+main{max-width:1200px;margin:0 auto;padding:24px}
+
+#gotaekMap{width:100%;height:420px;border-radius:12px;background:#fde8ea;margin-bottom:20px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+
+.intro-card{background:#fff;border-radius:14px;padding:24px;box-shadow:0 2px 10px rgba(0,0,0,.06);margin-bottom:18px;border-left:4px solid #E8192C}
+.intro-card h2{font-size:16px;color:#3D2817;margin-bottom:6px}
+.intro-card p{font-size:13px;color:#555}
+.intro-card b{color:#E8192C}
+
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;align-items:center}
+.filters select{padding:7px 12px;border:1px solid #d8dde6;border-radius:8px;background:#fff;font-size:12px;font-weight:600}
+.filters .count{font-size:12px;color:#888;margin-left:auto}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.gcard{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.06);transition:transform .2s,box-shadow .2s;cursor:pointer;border-top:4px solid #E8192C;position:relative}
+.gcard:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(232,25,44,.15)}
+.gcard .kto{position:absolute;top:14px;right:14px;background:#E8192C;color:#fff;font-size:9px;font-weight:800;padding:3px 7px;border-radius:8px;letter-spacing:.5px}
+.gcard .head{padding:18px 20px 8px}
+.gcard h3{font-size:19px;font-weight:800;color:#3D2817;margin-bottom:3px;padding-right:50px}
+.gcard .en{font-size:11px;color:#888;font-style:italic}
+.gcard .city{font-size:12px;color:#8B4513;font-weight:700;margin-top:6px}
+.gcard .body{padding:0 20px 18px}
+.gcard .row{display:flex;font-size:12px;color:#555;margin:5px 0;gap:8px}
+.gcard .row .k{color:#888;min-width:80px;font-size:11px}
+.gcard .row .v{flex:1}
+.gcard .row .v b{color:#3D2817}
+.gcard .story{font-size:13px;color:#3D2817;line-height:1.65;margin-top:10px;padding-top:10px;border-top:1px dashed #f8d5d9}
+.gcard .exp{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.gcard .ext{font-size:10px;padding:3px 8px;background:#FFEBED;color:#E8192C;border-radius:8px}
+.gcard .hl{margin-top:10px;font-size:12px;color:#8B4513;font-weight:700;padding:8px 10px;background:#FFF8E7;border-radius:8px}
+
+footer{background:#3D2817;color:#fff;padding:30px;text-align:center;font-size:12px;margin-top:40px}
+footer a{color:#FFD89C;text-decoration:none}
+
+@media (max-width:720px){
+  .hero h1{font-size:26px}
+  #gotaekMap{height:300px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><em>K</em>-STAY <small>명품고택</small></div>
+  <nav class="nav">
+    <a href="/">진단</a>
+    <a href="/hanok">한옥</a>
+    <a href="/hanok/villages">한옥마을</a>
+    <a href="/hanok/meongpum-gotaek" class="active">명품고택</a>
+    <a href="/hanok/intro">한옥 소개</a>
+    <a href="/about">소개</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="crest">▎KTO 인증 · 한국관광공사 최고 등급</div>
+  <h1>한국관광공사 <em>명품고택</em> 20곳</h1>
+  <p>문화재로 지정된 종택·고택을 한옥숙박 시설로 인증한 한국관광공사 최고 등급 컬렉션.</p>
+</section>
+
+<main>
+  <div class="intro-card">
+    <h2>🏛️ 명품고택이란?</h2>
+    <p>
+      한국관광공사가 매년 평가·인증하는 <b>문화재 한옥 숙박 시설</b>입니다. 보물·국가민속문화재·지방문화재 등급의 종택을 보존하면서
+      방문객이 직접 체험·숙박할 수 있게 운영되며, <b>건축 가치 + 운영 품질 + 문화 체험 프로그램</b>을 종합 평가해 선정합니다.
+      한옥체험업 일반 등록 외에 KTO 명품고택 인증을 별도로 받은 곳들로, 가장 권위 있는 한옥숙박 등급입니다.
+    </p>
+  </div>
+
+  <div id="gotaekMap"></div>
+
+  <div class="filters">
+    <select id="sidoFilter"><option value="">전체 시도</option></select>
+    <select id="expFilter">
+      <option value="">전체 체험</option>
+      <option value="다도">다도</option>
+      <option value="국악">국악</option>
+      <option value="제례">제례</option>
+      <option value="서예">서예</option>
+      <option value="떡">전통음식</option>
+    </select>
+    <span class="count" id="count">- 곳</span>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <div data-feedback="hanok-meongpum" data-feedback-block style="margin-top:24px"></div>
+</main>
+
+<footer>
+  © 2026 wehome, Inc. · K-STAY · 출처: 한국관광공사 한옥홍보 + 문화재청 공개 정보. 명품고택 명단은 매년 갱신됩니다.
+</footer>
+
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d57298b5648cef7e88c9f7bec9b24e74&autoload=false"></script>
+<script>
+let map, houses = [];
+
+async function load(){
+  const data = await fetch('/api/hanok/meongpum').then(r=>r.json());
+  houses = data.houses;
+  populateFilters();
+  render();
+  initMap();
+}
+
+function populateFilters(){
+  const sidos = [...new Set(houses.map(h=>h.sido||h.city))].sort();
+  const sel = document.getElementById('sidoFilter');
+  sidos.forEach(s => {
+    const o = document.createElement('option'); o.value=s; o.textContent=s; sel.appendChild(o);
+  });
+  document.getElementById('sidoFilter').addEventListener('change', render);
+  document.getElementById('expFilter').addEventListener('change', render);
+}
+
+function filtered(){
+  const sido = document.getElementById('sidoFilter').value;
+  const exp = document.getElementById('expFilter').value;
+  return houses.filter(h => {
+    if(sido && (h.sido||h.city) !== sido) return false;
+    if(exp && !(h.experiences||[]).includes(exp)) return false;
+    return true;
+  });
+}
+
+function render(){
+  const list = filtered();
+  document.getElementById('count').textContent = `${list.length} 곳`;
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  list.forEach(h => {
+    const card = document.createElement('div');
+    card.className = 'gcard';
+    card.id = h.id;
+    const exps = (h.experiences||[]).map(e => `<span class="ext">${e}</span>`).join('');
+    card.innerHTML = `
+      <div class="kto">KTO 인증</div>
+      <div class="head">
+        <h3>${h.name_ko}</h3>
+        <div class="en">${h.name_en||''}</div>
+        <div class="city">📍 ${h.city} ${h.sido?'· '+h.sido:''}</div>
+      </div>
+      <div class="body">
+        <div class="row"><span class="k">건립</span><span class="v"><b>${h.year_built||'-'}년</b></span></div>
+        <div class="row"><span class="k">문화재</span><span class="v">${h.cultural_property||'-'}</span></div>
+        <div class="row"><span class="k">종가</span><span class="v">${h.owner_clan||'-'}</span></div>
+        <div class="row"><span class="k">규모</span><span class="v">${h.rooms||'-'}실 · 최대 ${h.max_guests||'-'}명</span></div>
+        <div class="story">${h.story||''}</div>
+        ${h.highlight ? `<div class="hl">✨ ${h.highlight}</div>` : ''}
+        ${exps ? `<div class="exp">${exps}</div>` : ''}
+      </div>
+    `;
+    card.addEventListener('click', () => {
+      if(map && h.lat && h.lng){
+        map.setCenter(new kakao.maps.LatLng(h.lat, h.lng));
+        map.setLevel(6);
+      }
+    });
+    grid.appendChild(card);
+  });
+}
+
+function initMap(){
+  if(!window.kakao || !kakao.maps){
+    document.getElementById('gotaekMap').innerHTML = '<div style="padding:30px;text-align:center;color:#888">카카오맵 로드 실패</div>';
+    return;
+  }
+  kakao.maps.load(() => {
+    map = new kakao.maps.Map(document.getElementById('gotaekMap'), {
+      center: new kakao.maps.LatLng(36.3, 127.8), level: 13
+    });
+    houses.forEach(h => {
+      if(!h.lat || !h.lng) return;
+      const m = new kakao.maps.Marker({
+        position: new kakao.maps.LatLng(h.lat, h.lng),
+        image: new kakao.maps.MarkerImage(
+          'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"><circle cx="13" cy="13" r="10" fill="#E8192C" stroke="#fff" stroke-width="2.5"/></svg>'),
+          new kakao.maps.Size(26,26), {offset: new kakao.maps.Point(13,13)}
+        ),
+        title: h.name_ko, map
+      });
+      const iw = new kakao.maps.InfoWindow({
+        content:`<div style="padding:10px;min-width:200px;font-size:12px">
+          <div style="font-weight:800;color:#E8192C">🏛️ ${h.name_ko}</div>
+          <div style="color:#666;margin:4px 0">${h.city} · ${h.cultural_property||''}</div>
+          <a href="#${h.id}" style="color:#E8192C;font-weight:700">자세히 →</a>
+        </div>`
+      });
+      kakao.maps.event.addListener(m,'click', ()=>iw.open(map, m));
+    });
+  });
+}
+
+load();
+</script>
+<script src="/static/ai-widget.js"></script>
+<script src="/static/feedback-widget.js"></script>
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>한옥(韓屋) 종합 소개 · 정의·역사·구조·문화 | K-STAY</title>
+<meta name="description" content="한옥(韓屋)의 정의·역사·건축 구조·온돌·마루·기와·풍수·생활 문화를 10장(章)으로 정리한 종합 가이드. 한옥에 머물기 전·머무는 동안 읽기 좋은 한국 전통 가옥 입문서."/>
+<meta name="keywords" content="한옥, 한옥 소개, 한옥 역사, 온돌, 마루, 기와, 한식 가옥, 풍수, 사랑채, 안채, hanok introduction, Korean traditional house"/>
+<link rel="canonical" href="https://k-stay.ai/hanok/intro"/>
+<meta property="og:title" content="한옥(韓屋) 종합 소개 | K-STAY"/>
+<meta property="og:description" content="한옥의 정의·역사·구조·문화를 10장으로 정리한 한국 전통 가옥 입문서."/>
+<meta property="og:url" content="https://k-stay.ai/hanok/intro"/>
+<meta property="og:image" content="https://k-stay.ai/og-image.png"/>
+<meta property="og:site_name" content="K-STAY"/>
+<meta name="theme-color" content="#3D2817"/>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;background:#FAF7F2;color:#1a1a1a;line-height:1.8}
+header{background:#fff;border-bottom:1px solid #ececec;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-size:20px;font-weight:800}.logo em{color:#FF6B35;font-style:normal}
+.logo small{font-size:12px;font-weight:400;color:#888;margin-left:6px}
+.nav{display:flex;gap:12px;font-size:13px;flex-wrap:wrap}
+.nav a{color:#555;text-decoration:none;padding:5px 10px;border-radius:6px}
+.nav a:hover{background:#FAF0DC;color:#3D2817}
+.nav a.active{background:#3D2817;color:#fff}
+
+.hero{padding:80px 32px 50px;text-align:center;background:linear-gradient(180deg,#FAF7F2,#fff);position:relative;overflow:hidden}
+.hero::before{content:'韓';position:absolute;font-size:600px;opacity:.03;top:-100px;right:-50px;font-family:serif;font-weight:900;line-height:1;color:#3D2817}
+.hero .pre{font-size:11px;font-weight:700;color:#8B4513;letter-spacing:4px;margin-bottom:14px;position:relative}
+.hero h1{font-size:54px;font-weight:900;letter-spacing:-2px;color:#3D2817;margin-bottom:14px;position:relative;font-family:'Noto Serif KR',serif}
+.hero h1 em{color:#8B4513;font-style:normal;font-family:serif}
+.hero .lead{color:#555;font-size:17px;max-width:660px;margin:0 auto 16px;position:relative;line-height:1.7}
+.hero .biblio{font-size:11px;color:#999;margin-top:18px;position:relative}
+
+.toc{max-width:740px;margin:30px auto;padding:24px 28px;background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.toc h3{font-size:13px;color:#8B4513;letter-spacing:2px;margin-bottom:12px;text-transform:uppercase;font-weight:800}
+.toc ol{list-style:none;counter-reset:ch;display:grid;grid-template-columns:1fr 1fr;gap:6px 18px}
+.toc ol li{counter-increment:ch;padding:6px 0;font-size:13px;color:#444}
+.toc ol li::before{content:counter(ch,decimal-leading-zero) '.';color:#8B4513;font-weight:800;margin-right:8px;font-family:serif}
+.toc ol li a{color:#3D2817;text-decoration:none}
+.toc ol li a:hover{color:#8B4513}
+
+.chapter{max-width:740px;margin:0 auto;padding:50px 28px 20px;scroll-margin-top:70px}
+.chapter .ch-num{font-size:11px;color:#8B4513;font-weight:800;letter-spacing:3px;margin-bottom:6px}
+.chapter h2{font-size:30px;font-weight:900;color:#3D2817;margin-bottom:18px;letter-spacing:-1px;font-family:'Noto Serif KR',serif;line-height:1.2}
+.chapter h2 em{color:#8B4513;font-style:normal}
+.chapter p{font-size:15.5px;color:#3D2817;margin-bottom:14px;line-height:1.85}
+.chapter p b{color:#8B4513}
+.chapter .pull{background:#FAF0DC;border-left:4px solid #8B4513;padding:14px 20px;margin:18px 0;border-radius:0 8px 8px 0;font-style:italic;color:#3D2817}
+.chapter .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0}
+.chapter .grid2 .col{background:#fff;border-radius:10px;padding:18px 20px;border-top:3px solid #8B4513}
+.chapter .grid2 .col h4{font-size:14px;color:#3D2817;margin-bottom:6px;font-weight:800}
+.chapter .grid2 .col p{font-size:13px;color:#555;margin:0}
+.chapter ul{margin:14px 0 14px 20px;color:#3D2817}
+.chapter ul li{margin:6px 0;font-size:14.5px}
+.chapter ul li b{color:#8B4513}
+
+.cta{max-width:740px;margin:50px auto 0;padding:36px;background:linear-gradient(135deg,#3D2817,#8B4513);color:#fff;border-radius:16px;text-align:center}
+.cta h3{font-size:22px;font-weight:800;margin-bottom:8px;letter-spacing:-.5px}
+.cta p{color:rgba(255,255,255,.8);margin-bottom:20px;font-size:14px}
+.cta .links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.cta .links a{padding:9px 16px;background:#FFD89C;color:#3D2817;border-radius:8px;font-weight:700;text-decoration:none;font-size:13px}
+.cta .links a.alt{background:transparent;color:#FFD89C;border:1px solid #FFD89C}
+
+footer{background:#3D2817;color:#fff;padding:30px;text-align:center;font-size:12px;margin-top:40px}
+footer a{color:#FFD89C;text-decoration:none}
+
+@media (max-width:720px){
+  .hero h1{font-size:34px}
+  .toc ol{grid-template-columns:1fr}
+  .chapter h2{font-size:22px}
+  .chapter .grid2{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><em>K</em>-STAY <small>한옥 소개</small></div>
+  <nav class="nav">
+    <a href="/">진단</a>
+    <a href="/hanok">한옥</a>
+    <a href="/hanok/villages">한옥마을</a>
+    <a href="/hanok/meongpum-gotaek">명품고택</a>
+    <a href="/hanok/intro" class="active">한옥 소개</a>
+    <a href="/about">소개</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="pre">▎韓屋 · HANOK · 한국 전통 가옥</div>
+  <h1><em>한옥</em>이란 무엇인가</h1>
+  <p class="lead">자연을 거스르지 않고 함께 사는 집. 천년의 지혜를 담은 한국의 전통 건축을 10장(章)으로 안내합니다.</p>
+  <div class="biblio">참고: 문화재청 「한옥건축 백서」, 국립민속박물관 한옥자료실, KTO 한옥홍보 자료 · K-STAY 큐레이션</div>
+</section>
+
+<section class="toc">
+  <h3>▎차례 · Table of Contents</h3>
+  <ol>
+    <li><a href="#ch1">한옥의 정의</a></li>
+    <li><a href="#ch2">한옥의 역사</a></li>
+    <li><a href="#ch3">한옥의 공간 구성</a></li>
+    <li><a href="#ch4">온돌(溫突)</a></li>
+    <li><a href="#ch5">마루(板房)</a></li>
+    <li><a href="#ch6">기와와 지붕</a></li>
+    <li><a href="#ch7">자연과 풍수</a></li>
+    <li><a href="#ch8">한옥 생활 문화</a></li>
+    <li><a href="#ch9">한옥에서의 체험</a></li>
+    <li><a href="#ch10">현대의 한옥</a></li>
+  </ol>
+</section>
+
+<section class="chapter" id="ch1">
+  <div class="ch-num">CHAPTER 01</div>
+  <h2><em>한옥</em>의 정의</h2>
+  <p>
+    한옥(韓屋)은 한국의 전통 건축 양식으로 지어진 집입니다. 단순히 옛집을 뜻하지 않고
+    <b>한반도의 기후·풍토·생활 방식에 최적화된 건축 체계</b>를 의미합니다.
+    조선시대 이전까지 거슬러 올라가는 양반·서민 가옥의 통칭이며, 1985년 「한옥건축물 보존조례」에서 처음 공식 용어로 등장했습니다.
+  </p>
+  <div class="pull">
+    "한옥은 자연을 거스르지 않고 함께 사는 집이다. 추울 때 따뜻하고 더울 때 시원한 — 그것이 한옥이다."
+  </div>
+  <p>
+    현대 법적으로 한옥은 「건축법 시행령」 별표1에 따라 <b>주요 구조부(기둥·보·서까래)가 목조이고 한식 기와 또는 너와로 마감된 건축물</b>로 정의됩니다.
+    한국관광공사가 인증하는 <b>한옥체험업</b>은 이 정의에 부합하는 건물을 숙박·체험 용도로 운영하는 합법 카테고리입니다.
+  </p>
+</section>
+
+<section class="chapter" id="ch2">
+  <div class="ch-num">CHAPTER 02</div>
+  <h2>한옥의 <em>역사</em></h2>
+  <p>
+    한옥의 원형은 <b>삼국시대(BC 57~AD 668)</b> 고구려·백제·신라의 주거지에서 발견됩니다.
+    경주 안압지·익산 미륵사지 등의 발굴 자료가 초기 한옥 구조를 보여줍니다.
+  </p>
+  <div class="grid2">
+    <div class="col"><h4>고려 (918-1392)</h4><p>귀족 저택과 사찰 건축이 발달. 팔작지붕·다포양식 등장.</p></div>
+    <div class="col"><h4>조선 (1392-1910)</h4><p>유교 질서에 따른 안채·사랑채 분리. 양반 종택 양식 확립.</p></div>
+    <div class="col"><h4>일제강점기 (1910-1945)</h4><p>도시한옥(북촌 등) 등장. 적산가옥과 혼재.</p></div>
+    <div class="col"><h4>현대 (1990~)</h4><p>한옥 보존지구·신한옥 운동. 도시 재생과 결합.</p></div>
+  </div>
+  <p>특히 <b>도시한옥</b>은 1920~30년대 인구가 폭증한 서울에서 양반가의 큰 종택을 소형화·표준화해 골목길 단위로 지은 형태로,
+    오늘날 북촌·익선동·서촌의 한옥들이 대부분 이 시기에 지어진 것입니다.</p>
+</section>
+
+<section class="chapter" id="ch3">
+  <div class="ch-num">CHAPTER 03</div>
+  <h2>한옥의 <em>공간 구성</em></h2>
+  <p>전통 한옥은 신분과 가족 위계에 따라 공간이 명확히 구분되었습니다.</p>
+  <ul>
+    <li><b>사랑채</b> — 남자 주인이 손님을 맞이하고 공부하는 공간. 보통 마당 정면에 위치.</li>
+    <li><b>안채</b> — 여자들의 공간이자 가정 살림의 중심. 사랑채와 중문(中門)으로 분리.</li>
+    <li><b>행랑채</b> — 노비·하인의 거처와 부속 공간(곳간·외양간 등). 대문 옆.</li>
+    <li><b>별당</b> — 자녀나 손님이 머무는 별채. 큰 종택에만 존재.</li>
+    <li><b>사당</b> — 조상을 모시는 공간. 안채 뒤편 별도 영역에 배치.</li>
+    <li><b>마당</b> — 외부지만 공간 구성의 핵심. 안마당·뒤뜰·바깥마당 구분.</li>
+  </ul>
+  <p>이러한 위계는 1970년대 이후 핵가족화로 사라지고, 현대 한옥숙박에서는 <b>안채를 손님용으로 개방</b>하고 사랑채를 공동 거실로 활용하는 방식이 일반적입니다.</p>
+</section>
+
+<section class="chapter" id="ch4">
+  <div class="ch-num">CHAPTER 04</div>
+  <h2><em>온돌</em>(溫突) · 바닥난방의 천 년 지혜</h2>
+  <p>
+    온돌은 <b>한반도 고유의 바닥 난방 시스템</b>으로 청동기시대부터 존재한 가장 오래된 난방 기술 중 하나입니다.
+    아궁이에서 나무를 때서 만든 열기가 구들장(돌판) 아래 고래(연도)를 따라 흐르며 방 전체를 데우고,
+    굴뚝을 통해 연기만 배출하는 구조입니다.
+  </p>
+  <div class="pull">"발이 따뜻하면 머리가 시원하다(足溫頭涼)" — 한의학 양생법의 핵심을 건축으로 구현한 것이 온돌이다.</div>
+  <p>
+    1948년 UN 식량농업기구(FAO)는 온돌을 <b>"세계에서 가장 효율적인 난방"</b>으로 평가했으며,
+    2018년 국가무형문화재 제135호로 지정되었습니다.
+    현대 한옥숙박에서는 전통 아궁이 대신 <b>전기·가스 보일러로 데우는 신온돌(현대 온돌)</b>이 일반적이지만,
+    명품고택 일부는 여전히 장작 아궁이를 운영해 진정한 온돌 체험을 제공합니다.
+  </p>
+</section>
+
+<section class="chapter" id="ch5">
+  <div class="ch-num">CHAPTER 05</div>
+  <h2><em>마루</em>(板房) · 여름을 위한 공간</h2>
+  <p>
+    마루는 <b>나무 판자로 만든 바닥</b>으로 온돌이 깔린 방과 대조되는 공간입니다.
+    한국의 더운 여름에 시원한 통풍을 제공하고, 가족의 공동 공간·식사 공간·접객 공간으로 쓰였습니다.
+  </p>
+  <ul>
+    <li><b>대청마루(大廳)</b> — 안채와 사랑채를 잇는 가장 큰 마루. 여름 거실.</li>
+    <li><b>툇마루(退廳)</b> — 방 앞에 좁게 덧붙인 마루. 신발을 벗고 앉기 좋은 곳.</li>
+    <li><b>누마루(樓房)</b> — 한 단 높여서 지은 정자형 마루. 경치 좋은 곳에 배치.</li>
+  </ul>
+  <p>한옥은 <b>온돌 + 마루의 이중 시스템</b>으로 한 채의 집이 겨울과 여름 모두를 해결합니다.
+    이는 사계절이 뚜렷한 한반도 기후에 대한 가장 정교한 건축적 답안이라고 평가받습니다.</p>
+</section>
+
+<section class="chapter" id="ch6">
+  <div class="ch-num">CHAPTER 06</div>
+  <h2><em>기와</em>와 지붕의 미학</h2>
+  <p>
+    한옥 지붕의 특징은 <b>처마의 곡선</b>입니다. 일본 가옥의 직선적 지붕, 중국 가옥의 과장된 솟구침과 달리
+    한옥은 <b>완만하게 휘어진 처마 끝</b>이 하늘과 부드럽게 만나는 형태입니다.
+  </p>
+  <div class="grid2">
+    <div class="col"><h4>맞배지붕</h4><p>가장 단순한 형태. 책을 엎어놓은 모양. 서민 가옥에 많음.</p></div>
+    <div class="col"><h4>우진각지붕</h4><p>네 면이 모두 경사. 비바람에 강해 부엌·창고에 사용.</p></div>
+    <div class="col"><h4>팔작지붕</h4><p>가장 화려한 형태. 맞배와 우진각의 결합. 양반 종택 주류.</p></div>
+    <div class="col"><h4>육모·팔모지붕</h4><p>정자(亭)에 사용되는 다각형 지붕. 누마루·정자형 별당.</p></div>
+  </div>
+  <p>기와는 진흙을 구워 만든 <b>한식 기와(韓式瓦)</b>로, 비를 빠르게 흘려보내면서도 단열 기능을 합니다.
+    명품고택의 기와는 100년 이상 된 것도 있으며, 매년 깨진 기와를 교체하는 보수가 한옥 운영의 가장 큰 비용입니다.</p>
+</section>
+
+<section class="chapter" id="ch7">
+  <div class="ch-num">CHAPTER 07</div>
+  <h2>자연과 <em>풍수</em></h2>
+  <p>
+    한옥 건축에서 가장 중요한 결정은 <b>좌향(坐向, 집이 바라보는 방향)</b>과 <b>입지</b>입니다.
+    "배산임수(背山臨水) — 산을 등지고 물을 바라본다"는 한옥 입지의 첫 번째 원칙으로,
+    뒤쪽 산이 바람을 막아 겨울을 따뜻하게 하고, 앞쪽 물(개울·연못)이 여름 더위를 식혀줍니다.
+  </p>
+  <div class="pull">한옥은 짓는 것이 아니라 <b>자연 속에 놓는 것</b>이다. 마당의 풀 한 포기, 담 너머 산 능선이 모두 건축의 일부다.</div>
+  <p>
+    이 때문에 같은 양식의 한옥도 입지가 다르면 전혀 다른 분위기를 띱니다.
+    안동 하회마을의 한옥은 낙동강 굽이를 따라 배치되었고, 경주 양동마을은 산 사이에 자리 잡았으며,
+    북촌은 도시 한복판이지만 인왕산을 등지는 좌향을 지키고 있습니다.
+  </p>
+</section>
+
+<section class="chapter" id="ch8">
+  <div class="ch-num">CHAPTER 08</div>
+  <h2>한옥 <em>생활 문화</em></h2>
+  <p>한옥은 단순한 거주 공간이 아니라 <b>유교적 가족 질서·계절 의례·손님 응대 문화</b>가 작동하는 사회 시스템이었습니다.</p>
+  <ul>
+    <li><b>제례(祭禮)</b> — 사당에서 조상께 음식을 올리는 의식. 명절·기일에 반드시.</li>
+    <li><b>다도(茶道)</b> — 사랑채에서 손님을 차로 환대하는 예법. 자세·말투까지 규정.</li>
+    <li><b>장(醬)</b> — 마당 한쪽 장독대. 된장·간장·고추장을 가족이 직접 빚고 햇볕에 발효.</li>
+    <li><b>김장</b> — 11월 늦가을 가족·이웃이 모여 겨울 김치를 담그는 공동체 의식.</li>
+    <li><b>혼례(婚禮)</b> — 마당 중앙에 차일을 치고 진행. 안채와 사랑채를 잇는 가장 큰 행사.</li>
+  </ul>
+  <p>오늘날 명품고택의 종부(宗婦, 종가 며느리)들은 이런 전통을 직접 체험 프로그램으로 운영해 방문객에게 전수하고 있습니다.</p>
+</section>
+
+<section class="chapter" id="ch9">
+  <div class="ch-num">CHAPTER 09</div>
+  <h2>한옥에서의 <em>체험</em></h2>
+  <p>한옥숙박은 단순히 자는 것이 아니라 <b>한국 전통 문화를 몸으로 배우는 시간</b>입니다. 한옥체험업·명품고택에서 자주 운영하는 프로그램:</p>
+  <div class="grid2">
+    <div class="col"><h4>🍵 다도 체험</h4><p>전통 차 예법을 배우고 정원을 바라보며 차를 마시는 시간.</p></div>
+    <div class="col"><h4>🎼 국악 공연</h4><p>가야금·대금·판소리 등 전통 음악 미니 공연.</p></div>
+    <div class="col"><h4>🖌️ 서예 · 한지 공예</h4><p>붓글씨·한지 공예·매듭 등 손으로 하는 전통 공예.</p></div>
+    <div class="col"><h4>🍯 전통 음식</h4><p>아침은 종부가 직접 차린 한정식, 떡·전 만들기 체험.</p></div>
+    <div class="col"><h4>👘 한복 체험</h4><p>한복을 입고 마당·후원을 거닐며 사진 촬영.</p></div>
+    <div class="col"><h4>📜 종가 이야기</h4><p>종손이 직접 들려주는 가문의 역사·문화재의 사연.</p></div>
+  </div>
+</section>
+
+<section class="chapter" id="ch10">
+  <div class="ch-num">CHAPTER 10</div>
+  <h2><em>현대</em>의 한옥</h2>
+  <p>
+    2000년대 이후 한옥은 새로운 르네상스를 맞고 있습니다.
+    서울시 한옥보존지구 정책, 전주·안동·경주 등 지역의 한옥 관광 인프라 확충, 신축 한옥 운동이 결합해
+    <b>"옛것을 지키면서 새것을 만드는"</b> 흐름이 자리 잡았습니다.
+  </p>
+  <ul>
+    <li><b>한옥체험업 등록</b> 2018년 1,452곳 → 2026년 <b>2,522곳</b>(K-STAY 데이터)</li>
+    <li>서울 북촌·익선동·서촌은 도시 재생의 모범 사례로 국제 학계가 주목</li>
+    <li>전통 목수·번와장(瓦匠) 보존을 위한 국가무형문화재 지정 확대</li>
+    <li>현대 건축 거장들(승효상·민현식)의 신한옥 작업이 활발히 진행 중</li>
+  </ul>
+  <p>
+    한옥은 더 이상 보존만 해야 하는 유산이 아니라, 한국인이 미래에도 함께 살 수 있는 <b>지속가능한 건축 양식</b>으로 발전하고 있습니다.
+    한옥숙박은 그 변화의 가장 직접적인 접점이며, 방문객 한 명 한 명의 발걸음이 한옥의 다음 천 년을 만듭니다.
+  </p>
+</section>
+
+<section class="cta">
+  <h3>한옥에 한 번 머물러 보세요</h3>
+  <p>K-STAY는 전국 한옥체험업 영업장과 명품고택·한옥마을의 모든 정보를 무료로 제공합니다.</p>
+  <div class="links">
+    <a href="/hanok">🗺️ 한옥 지도 보기</a>
+    <a href="/hanok/villages">🏘️ 한옥마을 20곳</a>
+    <a href="/hanok/meongpum-gotaek">🏛️ 명품고택 20곳</a>
+    <a href="/regulation" class="alt">⚖️ 한옥체험업 등록</a>
+  </div>
+</section>
+
+<div data-feedback="hanok-intro" data-feedback-block style="max-width:740px;margin:0 auto;padding:20px 28px"></div>
+
+<footer>
+  © 2026 wehome, Inc. · K-STAY · 참고 자료: 문화재청·국립민속박물관·KTO·각 종가 공식 자료
+</footer>
+
+<script src="/static/ai-widget.js"></script>
+<script src="/static/feedback-widget.js"></script>
+</body>
+</html>

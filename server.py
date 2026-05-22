@@ -378,6 +378,105 @@ def api_report_publish():
     except Exception as e:
         return jsonify({'ok': False, 'error': str(e)}), 500
 
+@app.route('/hanok')
+def hanok_page():
+    return send_from_directory('.', 'hanok.html')
+
+@app.route('/hanok/villages')
+def hanok_villages_page():
+    return send_from_directory('.', 'hanok-villages.html')
+
+@app.route('/hanok/meongpum-gotaek')
+@app.route('/hanok/meongpum')
+def hanok_meongpum_page():
+    return send_from_directory('.', 'hanok-meongpum.html')
+
+@app.route('/hanok/intro')
+def hanok_intro_page():
+    return send_from_directory('.', 'hanok-intro.html')
+
+@app.route('/api/hanok/stats')
+def api_hanok_stats():
+    """한옥체험업 종합 통계 (DB 기반)."""
+    conn = get_db()
+    row = conn.execute("""
+        SELECT COUNT(*) total,
+               SUM(CASE WHEN status_name='영업/정상' THEN 1 ELSE 0 END) active,
+               SUM(CASE WHEN status_name='휴업'      THEN 1 ELSE 0 END) pause,
+               SUM(CASE WHEN status_name='폐업'      THEN 1 ELSE 0 END) closed,
+               COUNT(DISTINCT sigungu) district_count,
+               MAX(update_at) last_update
+          FROM listings WHERE category='hanok_experience'
+    """).fetchone()
+    by_sido = [dict(r) for r in conn.execute("""
+        SELECT sido, COUNT(*) c
+          FROM listings WHERE category='hanok_experience' AND status_name='영업/정상'
+         GROUP BY sido ORDER BY c DESC
+    """).fetchall()]
+    by_sigungu = [dict(r) for r in conn.execute("""
+        SELECT sigungu, sido, COUNT(*) c
+          FROM listings WHERE category='hanok_experience' AND status_name='영업/정상'
+         GROUP BY sigungu, sido ORDER BY c DESC LIMIT 20
+    """).fetchall()]
+    by_year = [dict(r) for r in conn.execute("""
+        SELECT SUBSTR(license_date,1,4) y, COUNT(*) c
+          FROM listings WHERE category='hanok_experience'
+            AND license_date >= '2018-01-01' AND license_date < '2027-01-01'
+         GROUP BY y ORDER BY y
+    """).fetchall()]
+    conn.close()
+    return jsonify({
+        'overview': dict(row),
+        'by_sido': by_sido,
+        'by_sigungu_top20': by_sigungu,
+        'by_year': by_year,
+    })
+
+@app.route('/api/hanok/listings')
+def api_hanok_listings():
+    """한옥체험업 영업장 좌표·이름 (카카오맵용)."""
+    sido = request.args.get('sido', '').strip()
+    sigungu = request.args.get('sigungu', '').strip()
+    limit = min(int(request.args.get('limit', '3000')), 5000)
+    cond = ["category='hanok_experience'", "status_name='영업/정상'", "x>0", "y>0"]
+    params = []
+    if sido:
+        cond.append("sido=?"); params.append(sido)
+    if sigungu:
+        cond.append("sigungu=?"); params.append(sigungu)
+    where = " AND ".join(cond)
+    conn = get_db()
+    rows = conn.execute(f"""
+        SELECT biz_name, sido, sigungu, road_address, x, y, license_date
+          FROM listings WHERE {where}
+         LIMIT ?
+    """, params + [limit]).fetchall()
+    out = []
+    for r in rows:
+        lat, lng = to_latlng(r['x'], r['y'])
+        if lat and lng:
+            out.append({
+                'name': r['biz_name'], 'sido': r['sido'], 'sigungu': r['sigungu'],
+                'address': r['road_address'], 'lat': lat, 'lng': lng,
+                'license_date': r['license_date'],
+            })
+    conn.close()
+    return jsonify({'count': len(out), 'listings': out})
+
+@app.route('/api/hanok/villages')
+def api_hanok_villages():
+    """한옥마을 20곳 (KTO·문화재청·지자체 공인)."""
+    path = os.path.join(os.path.dirname(__file__), 'data', 'hanok', 'villages.json')
+    with open(path, 'r', encoding='utf-8') as f:
+        return jsonify(json.load(f))
+
+@app.route('/api/hanok/meongpum')
+def api_hanok_meongpum():
+    """한국관광공사 명품고택 20곳."""
+    path = os.path.join(os.path.dirname(__file__), 'data', 'hanok', 'meongpum-gotaek.json')
+    with open(path, 'r', encoding='utf-8') as f:
+        return jsonify(json.load(f))
+
 @app.route('/pricing')
 def pricing_page():
     return send_from_directory('.', 'pricing.html')

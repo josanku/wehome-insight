@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>한옥마을 20곳 | K-STAY</title>
+<meta name="description" content="전국 한옥마을 20곳 종합 안내. 서울 북촌·전주 한옥마을·안동 하회마을·경주 양동마을 등 보존지구·관광지. 위치·역사·특징·추천 동선."/>
+<meta name="keywords" content="한옥마을, 북촌한옥마을, 전주한옥마을, 안동 하회마을, 양동마을, 외암마을, hanok village Korea"/>
+<link rel="canonical" href="https://k-stay.ai/hanok/villages"/>
+<meta property="og:title" content="한옥마을 20곳 | K-STAY"/>
+<meta property="og:description" content="전국 한옥마을 20곳 종합 안내 — 보존지구·관광지·역사 마을."/>
+<meta property="og:url" content="https://k-stay.ai/hanok/villages"/>
+<meta property="og:image" content="https://k-stay.ai/og-image.png"/>
+<meta property="og:site_name" content="K-STAY"/>
+<meta name="theme-color" content="#C9A84C"/>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;background:#FAF7F2;color:#1a1a1a;line-height:1.65}
+header{background:#fff;border-bottom:1px solid #ececec;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-size:20px;font-weight:800}.logo em{color:#FF6B35;font-style:normal}
+.logo small{font-size:12px;font-weight:400;color:#888;margin-left:6px}
+.nav{display:flex;gap:12px;font-size:13px;flex-wrap:wrap}
+.nav a{color:#555;text-decoration:none;padding:5px 10px;border-radius:6px}
+.nav a:hover{background:#FFF8E7;color:#C9A84C}
+.nav a.active{background:#C9A84C;color:#fff}
+
+.hero{padding:50px 32px 28px;text-align:center;background:linear-gradient(180deg,#fff,#FFF8E7)}
+.hero .pre{font-size:11px;font-weight:700;color:#C9A84C;letter-spacing:3px;margin-bottom:10px}
+.hero h1{font-size:38px;font-weight:900;letter-spacing:-1.2px;margin-bottom:10px;color:#3D2817}
+.hero h1 em{color:#C9A84C;font-style:normal}
+.hero p{color:#555;font-size:15px;max-width:680px;margin:0 auto}
+
+main{max-width:1200px;margin:0 auto;padding:24px}
+
+#villageMap{width:100%;height:420px;border-radius:12px;background:#f3ecde;margin-bottom:20px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;align-items:center}
+.filters select{padding:7px 12px;border:1px solid #d8dde6;border-radius:8px;background:#fff;font-size:12px;font-weight:600}
+.filters .count{font-size:12px;color:#888;margin-left:auto}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.vcard{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.06);transition:transform .2s,box-shadow .2s;cursor:pointer;border-top:4px solid #C9A84C}
+.vcard:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(201,168,76,.18)}
+.vcard .head{padding:18px 20px 10px}
+.vcard .badge{display:inline-block;padding:3px 9px;background:#FFF8E7;color:#C9A84C;border-radius:10px;font-size:10px;font-weight:800;letter-spacing:.5px;margin-bottom:8px}
+.vcard h3{font-size:18px;font-weight:800;color:#3D2817;margin-bottom:3px}
+.vcard .en{font-size:11px;color:#888}
+.vcard .city{font-size:12px;color:#8B4513;font-weight:700;margin-top:6px}
+.vcard .body{padding:8px 20px 18px}
+.vcard .row{display:flex;font-size:12px;color:#555;margin:6px 0;gap:8px}
+.vcard .row .k{color:#888;min-width:60px;font-size:11px}
+.vcard .row .v{flex:1}
+.vcard .hl{font-size:13px;color:#3D2817;line-height:1.65;margin-top:10px;padding-top:10px;border-top:1px dashed #f0e8d4}
+.vcard .tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.vcard .tag{font-size:10px;padding:3px 8px;background:#FAF0DC;color:#8B4513;border-radius:8px}
+
+footer{background:#3D2817;color:#fff;padding:30px;text-align:center;font-size:12px;margin-top:40px}
+footer a{color:#FFD89C;text-decoration:none}
+
+@media (max-width:720px){
+  .hero h1{font-size:26px}
+  #villageMap{height:300px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><em>K</em>-STAY <small>한옥마을</small></div>
+  <nav class="nav">
+    <a href="/">진단</a>
+    <a href="/hanok">한옥</a>
+    <a href="/hanok/villages" class="active">한옥마을</a>
+    <a href="/hanok/meongpum-gotaek">명품고택</a>
+    <a href="/hanok/intro">한옥 소개</a>
+    <a href="/about">소개</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="pre">▎HANOK VILLAGES · 전통 한옥마을</div>
+  <h1>전국 <em>한옥마을</em> 20곳</h1>
+  <p>보존지구·관광지·역사 마을로 지정된 한옥 군집을 한 곳에서. 위치·역사·특징·추천 동선까지.</p>
+</section>
+
+<main>
+  <div id="villageMap"></div>
+
+  <div class="filters">
+    <select id="cityFilter"><option value="">전체 도시</option></select>
+    <select id="statusFilter">
+      <option value="">전체 지정</option>
+      <option value="보존">보존지구</option>
+      <option value="관광">관광지/마을</option>
+      <option value="민속">민속마을</option>
+    </select>
+    <span class="count" id="count">- 곳</span>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <div data-feedback="hanok-villages" data-feedback-block style="margin-top:24px"></div>
+</main>
+
+<footer>
+  © 2026 wehome, Inc. · K-STAY · 출처: 문화재청·관광공사·각 지자체 공개 자료 + K-STAY 큐레이션
+</footer>
+
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d57298b5648cef7e88c9f7bec9b24e74&autoload=false"></script>
+<script>
+let map, villages = [];
+
+async function load(){
+  const data = await fetch('/api/hanok/villages').then(r=>r.json());
+  villages = data.villages;
+  populateFilters();
+  render();
+  initMap();
+}
+
+function populateFilters(){
+  const cities = [...new Set(villages.map(v=>v.city))].sort();
+  const sel = document.getElementById('cityFilter');
+  cities.forEach(c => {
+    const o = document.createElement('option'); o.value=c; o.textContent=c; sel.appendChild(o);
+  });
+  document.getElementById('cityFilter').addEventListener('change', render);
+  document.getElementById('statusFilter').addEventListener('change', render);
+}
+
+function filtered(){
+  const city = document.getElementById('cityFilter').value;
+  const stat = document.getElementById('statusFilter').value;
+  return villages.filter(v => {
+    if(city && v.city !== city) return false;
+    if(stat){
+      const s = (v.status||'') + ' ' + (v.designation||'');
+      if(!s.includes(stat)) return false;
+    }
+    return true;
+  });
+}
+
+function render(){
+  const list = filtered();
+  document.getElementById('count').textContent = `${list.length} 곳`;
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  list.forEach(v => {
+    const card = document.createElement('div');
+    card.className = 'vcard';
+    card.id = v.id;
+    const tags = (v.best_for || []).slice(0,4).map(t => `<span class="tag">${t}</span>`).join('');
+    card.innerHTML = `
+      <div class="head">
+        <span class="badge">${v.status||'한옥마을'}</span>
+        <h3>${v.name_ko}</h3>
+        <div class="en">${v.name_en||''}</div>
+        <div class="city">📍 ${v.city}</div>
+      </div>
+      <div class="body">
+        <div class="row"><span class="k">규모</span><span class="v">${v.scale||'-'}</span></div>
+        <div class="row"><span class="k">조성</span><span class="v">${v.founded||'-'}</span></div>
+        <div class="row"><span class="k">지정</span><span class="v">${v.designation||'-'}</span></div>
+        <div class="hl">${v.highlight||''}</div>
+        ${tags ? `<div class="tags">${tags}</div>` : ''}
+      </div>
+    `;
+    card.addEventListener('click', () => {
+      if(map && v.lat && v.lng){
+        map.setCenter(new kakao.maps.LatLng(v.lat, v.lng));
+        map.setLevel(7);
+      }
+    });
+    grid.appendChild(card);
+  });
+}
+
+function initMap(){
+  if(!window.kakao || !kakao.maps){
+    document.getElementById('villageMap').innerHTML = '<div style="padding:30px;text-align:center;color:#888">카카오맵 로드 실패</div>';
+    return;
+  }
+  kakao.maps.load(() => {
+    map = new kakao.maps.Map(document.getElementById('villageMap'), {
+      center: new kakao.maps.LatLng(36.3, 127.8),
+      level: 13
+    });
+    villages.forEach(v => {
+      if(!v.lat || !v.lng) return;
+      const m = new kakao.maps.Marker({
+        position: new kakao.maps.LatLng(v.lat, v.lng),
+        image: new kakao.maps.MarkerImage(
+          'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"><circle cx="13" cy="13" r="10" fill="#C9A84C" stroke="#fff" stroke-width="2.5"/></svg>'),
+          new kakao.maps.Size(26,26), {offset: new kakao.maps.Point(13,13)}
+        ),
+        title: v.name_ko, map
+      });
+      const iw = new kakao.maps.InfoWindow({
+        content:`<div style="padding:10px;min-width:200px;font-size:12px">
+          <div style="font-weight:800;color:#C9A84C">${v.name_ko}</div>
+          <div style="color:#666;margin:4px 0">${v.city} · ${v.scale||''}</div>
+          <a href="#${v.id}" style="color:#8B4513;font-weight:700">카드로 →</a>
+        </div>`
+      });
+      kakao.maps.event.addListener(m,'click', ()=>iw.open(map, m));
+    });
+  });
+}
+
+load();
+</script>
+<script src="/static/ai-widget.js"></script>
+<script src="/static/feedback-widget.js"></script>
+</body>
+</html>
