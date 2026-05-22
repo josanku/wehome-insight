@@ -599,9 +599,13 @@ def api_data_sources():
     with open(path, 'r', encoding='utf-8') as f:
         return jsonify(json.load(f))
 
-# Open API 문서 + OpenAPI 스펙
+# Open API 문서 + OpenAPI 스펙 + 개발자 허브
 @app.route('/docs')
 def docs_page(): return send_from_directory('.', 'docs.html')
+
+@app.route('/developer')
+@app.route('/developers')
+def developer_page(): return send_from_directory('.', 'developer.html')
 
 @app.route('/openapi.json')
 def openapi_spec():

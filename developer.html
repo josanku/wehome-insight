@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>개발자 가이드 · K-STAY MCP & API | K-STAY · 한국 숙소 종합 AI 비서</title>
+<meta name="description" content="K-STAY MCP 서버 + Open API 개발자 매뉴얼. Claude Desktop·Cursor·Continue.dev에 5분 설치. 실제 사용 시나리오 7가지 + 보급 전략 가이드."/>
+<meta name="keywords" content="K-STAY MCP, Model Context Protocol, Claude Desktop, Korea API, 한국 관광 API, 개발자 가이드, developer guide"/>
+<link rel="canonical" href="https://k-stay.ai/developer"/>
+<meta property="og:title" content="개발자 가이드 · K-STAY MCP & API"/>
+<meta property="og:description" content="Claude·Cursor에 5분 설치. 16개 도구로 한국 숙박·관광 데이터를 자연어로."/>
+<meta property="og:url" content="https://k-stay.ai/developer"/>
+<meta property="og:image" content="https://k-stay.ai/og-image.png"/>
+<meta property="og:site_name" content="K-STAY"/>
+<meta name="theme-color" content="#0d1f45"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;background:#f4f7fc;color:#1a2b4a;line-height:1.65}
+header{background:#0d1f45;color:#fff;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-size:20px;font-weight:800}.logo em{color:#FF6B35;font-style:normal}
+.logo small{font-size:11px;font-weight:400;opacity:.65;margin-left:8px}
+.nav{display:flex;gap:10px;font-size:12px;flex-wrap:wrap}
+.nav a{color:rgba(255,255,255,.85);text-decoration:none;padding:5px 9px;border-radius:6px}
+.nav a:hover{background:rgba(255,255,255,.1);color:#fff}
+.nav a.active{background:#FF6B35;color:#fff}
+
+.hero{padding:70px 32px 50px;text-align:center;background:linear-gradient(135deg,#0d1f45 0%,#1a52cc 50%,#FF6B35 200%);color:#fff;position:relative;overflow:hidden}
+.hero::before{content:'</>';position:absolute;font-size:300px;opacity:.04;top:-30px;right:-20px;font-family:'SF Mono',monospace;font-weight:900}
+.hero .pre{font-size:11px;font-weight:700;color:#FF6B35;letter-spacing:3px;margin-bottom:12px}
+.hero h1{font-size:44px;font-weight:900;letter-spacing:-1.5px;margin-bottom:12px;line-height:1.15}
+.hero h1 em{color:#FF6B35;font-style:normal}
+.hero .lead{color:rgba(255,255,255,.9);font-size:16px;max-width:740px;margin:0 auto 20px}
+.hero .cta-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+.hero .cta{padding:12px 22px;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px;transition:transform .15s}
+.hero .cta.primary{background:#FF6B35;color:#fff}
+.hero .cta.primary:hover{background:#e55a25;transform:translateY(-2px)}
+.hero .cta.alt{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.3)}
+.hero .cta.alt:hover{background:rgba(255,255,255,.2)}
+
+main{max-width:1100px;margin:0 auto;padding:30px 24px}
+
+.quickstart{background:#fff;border-radius:14px;box-shadow:0 4px 20px rgba(0,0,0,.06);padding:30px;margin-bottom:24px;border-top:4px solid #FF6B35}
+.quickstart h2{font-size:22px;color:#0d1f45;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.quickstart .desc{font-size:13px;color:#6b7280;margin-bottom:20px}
+.step-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}
+.step{background:#f7f9fc;border-radius:10px;padding:18px 16px;border-left:3px solid #1a52cc;position:relative}
+.step .num{position:absolute;top:-12px;left:14px;background:#1a52cc;color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+.step .t{font-size:13px;font-weight:800;color:#0d1f45;margin:8px 0 4px}
+.step .d{font-size:11.5px;color:#666;line-height:1.55}
+.step code{display:block;background:#0d1f45;color:#9eccff;padding:6px 8px;border-radius:5px;font-size:10.5px;margin-top:6px;font-family:'SF Mono',monospace;overflow-x:auto}
+
+.card{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.04);padding:24px 28px;margin-bottom:16px}
+.card h2{font-size:20px;color:#0d1f45;margin-bottom:6px;letter-spacing:-.3px;display:flex;align-items:center;gap:10px}
+.card h3{font-size:15px;color:#0d1f45;margin:14px 0 6px;font-weight:800}
+.card p{font-size:13.5px;color:#444;margin-bottom:8px;line-height:1.75}
+.card ul{margin-left:20px;font-size:13px;color:#444}
+.card ul li{margin:5px 0}
+.card code{background:#f0f2f6;color:#0d1f45;padding:1px 6px;border-radius:4px;font-family:'SF Mono',monospace;font-size:12px}
+
+pre{background:#0d1f45;color:#9eccff;padding:14px 18px;border-radius:8px;overflow-x:auto;font-size:12px;line-height:1.6;font-family:'SF Mono',monospace;margin:8px 0;position:relative}
+pre .o{color:#FFA500}.pre.s{color:#a3d977}.pre.c{color:#88c}
+
+.scenario{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.04);padding:24px 26px;margin-bottom:14px;border-left:4px solid var(--c,#1a52cc)}
+.scenario .tag{display:inline-block;font-size:10px;font-weight:800;color:var(--c,#1a52cc);background:var(--cl,rgba(26,82,204,.1));padding:3px 9px;border-radius:5px;letter-spacing:.5px;margin-bottom:8px}
+.scenario h3{font-size:18px;color:#0d1f45;margin-bottom:8px;letter-spacing:-.3px}
+.scenario .user-msg{background:#FFF8EC;padding:10px 14px;border-radius:8px;font-size:13px;color:#5d4500;margin:10px 0;font-style:italic;border-left:3px solid #FFA500}
+.scenario .user-msg::before{content:'👤 ';margin-right:4px}
+.scenario .flow{background:#f7f9fc;padding:10px 14px;border-radius:8px;font-size:12px;color:#444;margin:8px 0;line-height:1.7}
+.scenario .flow b{color:#1a52cc}
+.scenario .result{background:#eef9f0;padding:12px 14px;border-radius:8px;font-size:12.5px;color:#155724;margin:10px 0;border-left:3px solid #27ae60}
+.scenario .result::before{content:'🤖 ';margin-right:4px;font-weight:bold}
+
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0}
+.cmp .col{padding:14px 16px;border-radius:8px;font-size:12.5px}
+.cmp .col.bad{background:#fdecea;color:#a72219;border:1px solid #f8b4ad}
+.cmp .col.good{background:#e7f7ec;color:#1b5e2c;border:1px solid #a8e0b5}
+.cmp .col h4{font-size:13px;margin-bottom:6px;font-weight:800}
+
+.tool-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}
+.tool{background:#f7f9fc;border:1px solid #e5e9f0;border-radius:8px;padding:10px 12px}
+.tool .nm{font-family:'SF Mono',monospace;font-size:11.5px;font-weight:800;color:#0d1f45}
+.tool .ds{font-size:11px;color:#666;margin-top:3px;line-height:1.5}
+
+.promo-card{background:linear-gradient(135deg,#FF6B35,#e74c3c);color:#fff;border-radius:14px;padding:30px;margin-bottom:14px}
+.promo-card h2{color:#fff;font-size:22px;margin-bottom:8px}
+.promo-card p{color:rgba(255,255,255,.92);font-size:13px;margin-bottom:14px}
+.promo-card .ch-list{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.promo-card .ch{background:rgba(255,255,255,.12);padding:12px 14px;border-radius:8px}
+.promo-card .ch .ic{font-size:20px;margin-bottom:4px}
+.promo-card .ch .t{font-weight:800;font-size:13px}
+.promo-card .ch .d{font-size:11px;opacity:.85;margin-top:3px}
+
+footer{background:#0d1f45;color:#fff;padding:30px;text-align:center;font-size:12px;margin-top:30px}
+footer a{color:#FF6B35;text-decoration:none}
+
+@media (max-width:880px){
+  .step-grid{grid-template-columns:1fr 1fr}
+  .cmp{grid-template-columns:1fr}
+  .tool-grid{grid-template-columns:1fr}
+  .promo-card .ch-list{grid-template-columns:1fr 1fr}
+  .hero h1{font-size:30px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><em>K</em>-STAY <small>Developer Hub</small></div>
+  <nav class="nav">
+    <a href="/">홈</a><a href="/docs">API 문서</a>
+    <a href="/developer" class="active">개발자 가이드</a>
+    <a href="https://github.com/josanku/wehome-insight" target="_blank">GitHub</a>
+    <a href="/about">소개</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="pre">▎FOR DEVELOPERS · LLM · DATA ENGINEERS</div>
+  <h1>K-STAY를 <em>당신의 AI</em>에 연결</h1>
+  <p class="lead">한국 외도민업 9,922곳 · 한옥체험 2,522곳 · 호텔·호스텔·템플·축제·외국인 통계까지.<br/>16개 도구로 <b>5분</b> 안에 Claude·Cursor·Continue에 통합.</p>
+  <div class="cta-row">
+    <a href="#quickstart" class="cta primary">🚀 5분 빠른 시작</a>
+    <a href="https://github.com/josanku/wehome-insight/blob/main/mcp-server/DEVELOPER_GUIDE.md" target="_blank" class="cta alt">📘 전체 매뉴얼</a>
+    <a href="/docs" class="cta alt">🔌 REST API 문서</a>
+  </div>
+</section>
+
+<main>
+
+  <div class="quickstart" id="quickstart">
+    <h2>🚀 5분 빠른 시작 — Claude Desktop에 연결</h2>
+    <div class="desc">아직 사용해본 적 없어도 괜찮습니다. 4단계만 따라하세요.</div>
+
+    <div class="step-grid">
+      <div class="step">
+        <div class="num">1</div>
+        <div class="t">Node.js 설치</div>
+        <div class="d">한 번만. macOS는 <code>brew install node</code>, Windows는 nodejs.org에서 LTS.</div>
+        <code>node --version</code>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div class="t">K-STAY 클론·빌드</div>
+        <div class="d">로컬에 설치 (npm publish 후엔 생략 가능).</div>
+        <code>git clone https://github.com/josanku/wehome-insight.git ~/k-stay
+cd ~/k-stay/mcp-server
+npm install && npm run build</code>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div class="t">Claude 설정에 추가</div>
+        <div class="d"><code>~/Library/Application Support/Claude/claude_desktop_config.json</code> (macOS) 편집.</div>
+        <code>{"mcpServers":{"k-stay":{
+ "command":"node",
+ "args":["~/k-stay/mcp-server/dist/index.js"]
+}}}</code>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <div class="t">재시작 → 사용</div>
+        <div class="d">Cmd+Q로 완전 종료 후 다시 실행. 🔌 아이콘 확인.</div>
+        <code>"10월 한국 축제 알려줘"</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🎯 MCP가 뭐고 왜 쓰나?</h2>
+    <p><b>MCP (Model Context Protocol)</b>는 Anthropic이 2024년 11월 공개한 오픈 표준입니다. LLM이 외부 데이터·도구를 native 함수처럼 호출하게 해줍니다.</p>
+
+    <div class="cmp">
+      <div class="col bad">
+        <h4>❌ MCP 없이 (WebFetch)</h4>
+        사용자: "한옥체험업 통계 줘"<br/>
+        Claude: WebFetch로 URL 수동 입력<br/>
+        → 응답 파싱<br/>
+        → 매번 URL 기억해야 함<br/>
+        → 느림 (2-3초)
+      </div>
+      <div class="col good">
+        <h4>✅ MCP 있을 때</h4>
+        사용자: "한옥체험업 통계 줘"<br/>
+        Claude: <code>get_hanok_stats()</code> 자동 호출<br/>
+        → 결과를 바로 분석<br/>
+        → URL·인자·파싱 모두 자동<br/>
+        → 빠름 (0.5초)
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>💬 실제 사용 시나리오 7가지</h2>
+    <p>실제로 어떻게 쓰는지가 가장 중요합니다. 자연어로 물어보면 Claude가 알아서 도구를 호출합니다.</p>
+  </div>
+
+  <div class="scenario" style="--c:#1a52cc;--cl:rgba(26,82,204,.1)">
+    <div class="tag">🧳 시나리오 1 · 여행자</div>
+    <h3>한국 갈건데, 10월 외국인 추천 축제 + 근처 한옥숙박</h3>
+    <div class="user-msg">"10월에 한국 갈건데, 외국인이 좋아할 만한 축제 3개랑 그 근처 한옥숙박 추천해줘"</div>
+    <div class="flow">
+      → Claude가 자동으로 <b>get_festivals(month=10)</b> 호출<br/>
+      → 진주남강유등·안동탈춤·부산국제영화제 발견<br/>
+      → 각 축제 인근 <b>search_hanok_listings(sido=...)</b> 호출<br/>
+      → 통합 답변 생성
+    </div>
+    <div class="result">진주남강유등(10/1-15, 280만명) → 진주 한옥체험관 / 안동탈춤(9/26-10/5) → 하회마을 충효당·양진당 / 부산국제영화제(10/2-11) → 광안리 호텔</div>
+  </div>
+
+  <div class="scenario" style="--c:#FF6B35;--cl:rgba(255,107,53,.1)">
+    <div class="tag">🏠 시나리오 2 · 예비 공유숙박 호스트</div>
+    <h3>내 동네 시장 분석</h3>
+    <div class="user-msg">"마포구에서 외도민업 시작하려는데, 현재 영업중 호스트가 몇 명이고 신규 등록 추이는?"</div>
+    <div class="flow">
+      → <b>get_stats(sido='서울특별시')</b> + <b>get_registrations_monthly(year='2026')</b><br/>
+      → 마포구 1,752곳·월 60건 신규<br/>
+      → 시장 포화도 + 트렌드 분석
+    </div>
+    <div class="result">마포구 1,752곳 영업중 (전국 17.6%) · 월평균 신규 60건. 지속 성장세 — 입지 좋으면 진입 가능.</div>
+  </div>
+
+  <div class="scenario" style="--c:#27ae60;--cl:rgba(39,174,96,.1)">
+    <div class="tag">📊 시나리오 3 · 데이터 저널리스트</div>
+    <h3>코로나 이전 대비 회복률 국가별 분석</h3>
+    <div class="user-msg">"코로나 이전(2019)과 비교해서 외국인 관광객 회복률을 국가별로 분석해줘"</div>
+    <div class="flow">
+      → <b>get_inbound_tourism()</b><br/>
+      → 2019-2025 연간 + 국가별 yoy<br/>
+      → 회복률 = 2025/2019 계산
+    </div>
+    <div class="result">중국 78%·일본 105%·베트남 113%·미국 124%·인도 129%. 동남아·서구권 완전 회복, 중국만 정체.</div>
+  </div>
+
+  <div class="scenario" style="--c:#8B4513;--cl:rgba(139,69,19,.1)">
+    <div class="tag">🏯 시나리오 4 · 한옥 마니아</div>
+    <h3>보물 등급 종택 + 종부 운영</h3>
+    <div class="user-msg">"보물로 지정된 한옥 종택만 알려줘. 종부가 직접 운영하는 곳 우선"</div>
+    <div class="flow">
+      → <b>get_meongpum_gotaek()</b><br/>
+      → cultural_property에 '보물' 필터<br/>
+      → experiences에 '종부 이야기' 우선 정렬
+    </div>
+    <div class="result">임청각(보물 182호)·양진당(306호)·향단(412호)·관가정(442호)·운조루(국가민속8호)</div>
+  </div>
+
+  <div class="scenario" style="--c:#FF1493;--cl:rgba(255,20,147,.1)">
+    <div class="tag">🎤 시나리오 5 · K-Pop 팬 (외국인)</div>
+    <h3>BTS 팬 서울 투어</h3>
+    <div class="user-msg">"I'm a BTS fan visiting Seoul. Where should I go?"</div>
+    <div class="flow">
+      → <b>get_kculture_hotspots()</b><br/>
+      → category='k-pop' + fandom='ARMY' 필터<br/>
+      → 동선 추천
+    </div>
+    <div class="result">HYBE 사옥(용산)·SMTOWN coexartium(강남)·BTS 마이크드롭 신촌·BTS 인더숲(제주)</div>
+  </div>
+
+  <div class="scenario" style="--c:#9b59b6;--cl:rgba(155,89,182,.1)">
+    <div class="tag">💻 시나리오 6 · 개발자</div>
+    <h3>Next.js + 카카오맵 한옥 지도</h3>
+    <div class="user-msg">"Next.js 프로젝트에서 한옥 지도 만들고 싶어. API 호출 코드 짜줘"</div>
+    <div class="flow">
+      → <b>get_hanok_villages()</b> 데이터 구조 파악<br/>
+      → <b>search_hanok_listings(limit=500)</b> 좌표 확인<br/>
+      → Next.js + Kakao Maps 통합 코드 생성
+    </div>
+    <div class="result">완성된 React 컴포넌트(서버 컴포넌트 + 클라이언트 맵) + tailwind 스타일 + 카카오 SDK 로딩 코드 일체 제공</div>
+  </div>
+
+  <div class="scenario" style="--c:#16a085;--cl:rgba(22,160,133,.1)">
+    <div class="tag">📚 시나리오 7 · 연구자</div>
+    <h3>학술 논문용 데이터셋</h3>
+    <div class="user-msg">"한옥체험업의 연도별 등록 추이를 그래프로 그릴 수 있는 데이터 줘"</div>
+    <div class="flow">
+      → <b>get_hanok_stats()</b> by_year 필드<br/>
+      → CSV·Python pandas/matplotlib 코드<br/>
+      → 학술 인용 형식 제공
+    </div>
+    <div class="result">2018: 1,452 → 2026: 2,522곳. 인용: "Data from K-STAY (k-stay.ai) · 행정안전부 인허가, 2026"</div>
+  </div>
+
+  <div class="card">
+    <h2>🛠️ 16개 도구 한눈에</h2>
+    <p>자연어로 물으면 Claude가 알아서 호출합니다. 직접 호출도 가능.</p>
+    <div class="tool-grid">
+      <div class="tool"><div class="nm">get_stats</div><div class="ds">외도민업 종합 통계 · sido/category 필터</div></div>
+      <div class="tool"><div class="nm">get_categories_overview</div><div class="ds">5종 카테고리 요약</div></div>
+      <div class="tool"><div class="nm">get_registrations_monthly</div><div class="ds">지역별 월간 신규 등록</div></div>
+      <div class="tool"><div class="nm">get_hanok_stats</div><div class="ds">한옥체험업 (2,522곳)</div></div>
+      <div class="tool"><div class="nm">search_hanok_listings</div><div class="ds">한옥 영업장 검색 (좌표 포함)</div></div>
+      <div class="tool"><div class="nm">get_hanok_villages</div><div class="ds">한옥마을 51곳</div></div>
+      <div class="tool"><div class="nm">get_meongpum_gotaek</div><div class="ds">KTO 명품고택 55곳</div></div>
+      <div class="tool"><div class="nm">get_temple_stays</div><div class="ds">템플스테이 사찰 130+</div></div>
+      <div class="tool"><div class="nm">search_lodging</div><div class="ds">호텔/호스텔/농어촌/펜션 검색</div></div>
+      <div class="tool"><div class="nm">get_lodging_stats</div><div class="ds">카테고리별 통계</div></div>
+      <div class="tool"><div class="nm">get_inbound_tourism</div><div class="ds">외국인 관광객 (월·국가·연령)</div></div>
+      <div class="tool"><div class="nm">get_kculture_hotspots</div><div class="ds">K-Pop·Drama·Food·Beauty 35곳</div></div>
+      <div class="tool"><div class="nm">get_korea100</div><div class="ds">한국관광 100선 (연도별)</div></div>
+      <div class="tool"><div class="nm">get_festivals</div><div class="ds">전국 축제 44개 · 월 필터</div></div>
+      <div class="tool"><div class="nm">get_data_sources</div><div class="ds">데이터 출처 카탈로그</div></div>
+      <div class="tool"><div class="nm">get_monthly_report</div><div class="ds">월간 시장 리포트</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📦 다른 도구 연결 (Cursor·Continue·Cline)</h2>
+
+    <h3>Cursor</h3>
+    <p>Settings → Features → MCP Servers → Add new server:</p>
+    <pre><span class="o">name:</span> k-stay
+<span class="o">type:</span> command
+<span class="o">command:</span> node /path/to/mcp-server/dist/index.js</pre>
+
+    <h3>Claude Code (CLI)</h3>
+    <pre><span class="o">claude</span> mcp add k-stay -- node /path/to/mcp-server/dist/index.js
+<span class="o">claude</span>
+&gt; /mcp     <span style="color:#88c"># 등록된 MCP 도구 목록 확인</span>
+&gt; 서울 한옥 5개 추천해줘</pre>
+
+    <h3>Cline (VS Code)</h3>
+    <pre><span class="o">.vscode/cline_mcp_settings.json</span>:
+{
+  "mcpServers": {
+    "k-stay": {
+      "command": "node",
+      "args": ["/path/to/mcp-server/dist/index.js"]
+    }
+  }
+}</pre>
+  </div>
+
+  <div class="promo-card">
+    <h2>📣 K-STAY MCP를 알리는 데 도움을 주세요</h2>
+    <p>오픈소스로 만든 만큼 많은 분들이 쓸 수 있게 알려주세요. 1초 액션:</p>
+    <div class="ch-list">
+      <a href="https://github.com/josanku/wehome-insight" target="_blank" style="text-decoration:none;color:inherit"><div class="ch">
+        <div class="ic">⭐</div><div class="t">GitHub Star</div><div class="d">github.com/josanku/wehome-insight</div>
+      </div></a>
+      <a href="https://twitter.com/intent/tweet?text=K-STAY%20MCP%20%EC%84%9C%EB%B2%84%20%EC%B6%9C%EC%8B%9C%20-%20%ED%95%9C%EA%B5%AD%20%EA%B4%80%EA%B4%91%20%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%A5%BC%20Claude%EC%97%90%20%EC%97%B0%EA%B2%B0%EF%BC%9A%20https%3A//k-stay.ai/developer" target="_blank" style="text-decoration:none;color:inherit"><div class="ch">
+        <div class="ic">🐦</div><div class="t">Tweet</div><div class="d">한 줄로 공유</div>
+      </div></a>
+      <a href="https://news.ycombinator.com/submit" target="_blank" style="text-decoration:none;color:inherit"><div class="ch">
+        <div class="ic">🟧</div><div class="t">HN Show</div><div class="d">제목: Show HN: K-STAY MCP</div>
+      </div></a>
+      <a href="https://reddit.com/r/ClaudeAI/submit" target="_blank" style="text-decoration:none;color:inherit"><div class="ch">
+        <div class="ic">🤖</div><div class="t">Reddit</div><div class="d">r/ClaudeAI 250k 멤버</div>
+      </div></a>
+      <a href="https://smithery.ai" target="_blank" style="text-decoration:none;color:inherit"><div class="ch">
+        <div class="ic">🔌</div><div class="t">Smithery</div><div class="d">MCP 디렉토리 1위</div>
+      </div></a>
+      <a href="mailto:api@k-stay.ai?subject=K-STAY%20MCP%20%ED%98%91%EB%A0%A5" style="text-decoration:none;color:inherit"><div class="ch">
+        <div class="ic">📧</div><div class="t">제안 메일</div><div class="d">api@k-stay.ai</div>
+      </div></a>
+    </div>
+    <p style="margin-top:18px;font-size:12px"><b>보급 전략 전체 가이드</b>: <a href="https://github.com/josanku/wehome-insight/blob/main/mcp-server/PROMOTION.md" target="_blank" style="color:#fff;text-decoration:underline">github.com/josanku/wehome-insight/blob/main/mcp-server/PROMOTION.md</a></p>
+  </div>
+
+  <div class="card">
+    <h2>🔧 트러블슈팅</h2>
+    <ul>
+      <li><b>Claude Desktop에 🔌 아이콘이 안 보임</b> → 설정 파일 JSON 문법 확인(jsonlint.com), Cmd+Q로 완전 종료 후 재시작, 로그 확인 <code>~/Library/Logs/Claude/mcp*.log</code></li>
+      <li><b>"Cannot find module" 오류</b> → <code>cd mcp-server && npm install && npm run build</code> 재실행</li>
+      <li><b>Korean 응답이 깨짐</b> → 터미널 <code>export LANG=ko_KR.UTF-8</code></li>
+      <li><b>API가 느림</b> → 첫 호출 cold start, 이후 5분 캐시</li>
+      <li><b>데이터가 오래됨</b> → 매일 04:00 KST 자동 갱신, 즉시 확인: <code>get_data_sources</code></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>📚 더 깊이 알아보기</h2>
+    <ul>
+      <li>📘 <a href="https://github.com/josanku/wehome-insight/blob/main/mcp-server/DEVELOPER_GUIDE.md" target="_blank">전체 개발자 가이드 (9개 섹션, 도구 16개 상세 레퍼런스)</a></li>
+      <li>📣 <a href="https://github.com/josanku/wehome-insight/blob/main/mcp-server/PROMOTION.md" target="_blank">보급 전략 가이드 (운영자용)</a></li>
+      <li>🔌 <a href="/docs">REST API 인터랙티브 문서</a></li>
+      <li>📜 <a href="/openapi.json">OpenAPI 3.0 스펙</a></li>
+      <li>🗂️ <a href="/api/data-sources">데이터 출처 카탈로그</a></li>
+      <li>📖 <a href="https://modelcontextprotocol.io" target="_blank">MCP 공식 문서 (Anthropic)</a></li>
+    </ul>
+  </div>
+</main>
+
+<footer>
+  © 2026 wehome, Inc. · K-STAY · 개발자 가이드 · <a href="mailto:api@k-stay.ai">api@k-stay.ai</a>
+</footer>
+
+<script src="/static/ai-widget.js"></script>
+<script src="/static/feedback-widget.js"></script>
+</body>
+</html>
