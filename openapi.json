@@ -1,0 +1,122 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "K-STAY Open API",
+    "version": "1.0.0",
+    "description": "한국 모든 합법 숙박업·관광·문화 데이터를 제공하는 Open API. 외도민업·한옥·호텔·호스텔·템플스테이·축제·외국인 통계 등 종합 데이터.",
+    "contact": {"name":"wehome, Inc.","url":"https://wehome.me","email":"api@k-stay.ai"},
+    "license": {"name":"비상업적 활용 시 출처 표시","url":"https://k-stay.ai/about"}
+  },
+  "servers": [{"url":"https://k-stay.ai","description":"Production"}],
+  "tags": [
+    {"name":"meta","description":"메타 정보"},
+    {"name":"lodging","description":"숙박 카테고리별 데이터"},
+    {"name":"hanok","description":"한옥 관련"},
+    {"name":"culture","description":"K-Culture·축제·관광 100선"},
+    {"name":"tourism","description":"외국인 관광 통계"}
+  ],
+  "paths": {
+    "/api/data-sources": {
+      "get": {"tags":["meta"],"summary":"데이터 소스 카탈로그",
+        "description":"K-STAY가 사용하는 모든 데이터셋의 출처·갱신 주기·대체 후보·신뢰도",
+        "responses":{"200":{"description":"OK"}}}
+    },
+    "/api/stats": {
+      "get": {"tags":["meta"],"summary":"외도민업 종합 통계",
+        "parameters":[
+          {"name":"sido","in":"query","schema":{"type":"string"},"example":"서울특별시"},
+          {"name":"category","in":"query","schema":{"type":"string"},"example":"foreigner_city_homestays"}
+        ],
+        "responses":{"200":{"description":"OK"}}}
+    },
+    "/api/categories": {
+      "get": {"tags":["meta"],"summary":"5종 카테고리 통계 요약","responses":{"200":{"description":"OK"}}}
+    },
+    "/api/registrations/monthly": {
+      "get": {"tags":["meta"],"summary":"월별 신규 등록 추이",
+        "parameters":[
+          {"name":"year","in":"query","schema":{"type":"string"},"example":"2026"},
+          {"name":"sidos","in":"query","schema":{"type":"string"},"example":"서울특별시,부산광역시"}
+        ],
+        "responses":{"200":{"description":"OK"}}}
+    },
+    "/api/hanok/stats": {
+      "get": {"tags":["hanok"],"summary":"한옥체험업 종합 통계 (DB 기반, 2,522곳 영업중)","responses":{"200":{"description":"OK"}}}
+    },
+    "/api/hanok/listings": {
+      "get": {"tags":["hanok"],"summary":"한옥체험업 영업장 좌표 목록 (카카오맵용)",
+        "parameters":[
+          {"name":"sido","in":"query","schema":{"type":"string"}},
+          {"name":"sigungu","in":"query","schema":{"type":"string"}},
+          {"name":"limit","in":"query","schema":{"type":"integer","maximum":5000,"default":3000}}
+        ],
+        "responses":{"200":{"description":"OK"}}}
+    },
+    "/api/hanok/villages": {
+      "get": {"tags":["hanok"],"summary":"한옥마을 51곳 (보존지구·민속마을·UNESCO)","responses":{"200":{"description":"OK"}}}
+    },
+    "/api/hanok/meongpum": {
+      "get": {"tags":["hanok"],"summary":"한국관광공사 명품고택 55곳 (KTO 인증 + 문화재청 지정)","responses":{"200":{"description":"OK"}}}
+    },
+    "/api/temple": {
+      "get": {"tags":["lodging"],"summary":"템플스테이 운영 사찰 130+곳",
+        "description":"한국불교문화사업단 + 조계종 25교구 본사 + 주요 운영 사찰",
+        "responses":{"200":{"description":"OK"}}}
+    },
+    "/api/coliving": {
+      "get": {"tags":["lodging"],"summary":"한국 코리빙(Co-living) 운영사 12곳","responses":{"200":{"description":"OK"}}}
+    },
+    "/api/residence": {
+      "get": {"tags":["lodging"],"summary":"생활형 숙박시설(레지던스) 산업 안내","responses":{"200":{"description":"OK"}}}
+    },
+    "/api/glamping": {
+      "get": {"tags":["lodging"],"summary":"글램핑(야영장업) 산업 + 지역 핫스팟","responses":{"200":{"description":"OK"}}}
+    },
+    "/api/motel": {
+      "get": {"tags":["lodging"],"summary":"여관·모텔(일반숙박업) 산업 안내","responses":{"200":{"description":"OK"}}}
+    },
+    "/api/lodging/stats": {
+      "get": {"tags":["lodging"],"summary":"카테고리별 통계 (DB 기반)",
+        "parameters":[{"name":"kind","in":"query","required":true,"schema":{"type":"string","enum":["hotel","hostel","rural","pension"]}}],
+        "responses":{"200":{"description":"OK"}}}
+    },
+    "/api/lodging/listings": {
+      "get": {"tags":["lodging"],"summary":"카테고리별 영업장 좌표 (DB)",
+        "parameters":[
+          {"name":"kind","in":"query","required":true,"schema":{"type":"string","enum":["hotel","hostel","rural","pension"]}},
+          {"name":"sido","in":"query","schema":{"type":"string"}},
+          {"name":"sigungu","in":"query","schema":{"type":"string"}},
+          {"name":"limit","in":"query","schema":{"type":"integer","maximum":5000}}
+        ],
+        "responses":{"200":{"description":"OK"}}}
+    },
+    "/api/tourism/inbound": {
+      "get": {"tags":["tourism"],"summary":"한국 외국인 관광객 통계 (월별·연도별·국가별)",
+        "description":"KTO 데이터랩 + 법무부 출입국 통계 기반. 2025년 1,876만명 + 20개 송출국 + 목적/연령/성별/체류기간",
+        "responses":{"200":{"description":"OK"}}}
+    },
+    "/api/culture/hotspots": {
+      "get": {"tags":["culture"],"summary":"K-Culture 핫스팟 35곳",
+        "description":"K-Pop/Drama/Movie/Food/Beauty 명소. HYBE·SM·JYP·YG·드라마 촬영지·광장시장·강남 미용 등",
+        "responses":{"200":{"description":"OK"}}}
+    },
+    "/api/korea100": {
+      "get": {"tags":["culture"],"summary":"한국관광공사 한국관광 100선 (연도별)",
+        "description":"2025-2026 + 아카이브. 카테고리별 분포·좌표 포함",
+        "responses":{"200":{"description":"OK"}}}
+    },
+    "/api/festivals": {
+      "get": {"tags":["culture"],"summary":"전국 주요 축제 캘린더 44개",
+        "description":"월별·카테고리별 분류. 진해 군항제·보령머드·부산국제영화제 등",
+        "responses":{"200":{"description":"OK"}}}
+    },
+    "/api/reports": {
+      "get": {"tags":["meta"],"summary":"월간 시장 리포트 목록","responses":{"200":{"description":"OK"}}}
+    },
+    "/api/report/{ym}": {
+      "get": {"tags":["meta"],"summary":"특정 월의 시장 리포트 상세",
+        "parameters":[{"name":"ym","in":"path","required":true,"schema":{"type":"string"},"example":"2026-05"}],
+        "responses":{"200":{"description":"OK"}}}
+    }
+  }
+}

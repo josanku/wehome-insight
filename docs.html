@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Open API 문서 | K-STAY · 한국 숙소 종합 AI 비서</title>
+<meta name="description" content="한국을 여행하는 모든 분(내국인·외국인)이 꼭 찾는 숙소 종합 가이드. AI 비서가 내게 최적의 숙소를 추천합니다. 외도민업·한옥·호텔·호스텔·템플스테이·축제까지 한국 숙박 정보의 가장 최신·정확한 출처. Wehome 인증 합법 호스트 운영."/>
+<link rel="canonical" href="https://k-stay.ai/docs"/>
+<meta property="og:title" content="Open API 문서 | K-STAY · 한국 숙소 종합 AI 비서"/>
+<meta property="og:url" content="https://k-stay.ai/docs"/>
+<meta property="og:image" content="https://k-stay.ai/og-image.png"/>
+<meta property="og:site_name" content="K-STAY"/>
+<meta name="theme-color" content="#0d1f45"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;background:#f4f7fc;color:#1a2b4a;line-height:1.6}
+header{background:#0d1f45;color:#fff;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-size:20px;font-weight:800}.logo em{color:#FF6B35;font-style:normal}
+.logo small{font-size:11px;font-weight:400;opacity:.65;margin-left:8px}
+.nav{display:flex;gap:10px;font-size:12px;flex-wrap:wrap}
+.nav a{color:rgba(255,255,255,.8);text-decoration:none;padding:5px 9px;border-radius:6px}
+.nav a:hover{background:rgba(255,255,255,.1);color:#fff}
+.nav a.active{background:#FF6B35;color:#fff}
+
+.hero{padding:60px 32px 36px;text-align:center;background:linear-gradient(135deg,#0d1f45,#1a52cc);color:#fff}
+.hero .pre{font-size:11px;font-weight:700;color:#FF6B35;letter-spacing:3px;margin-bottom:12px}
+.hero h1{font-size:40px;font-weight:900;letter-spacing:-1.2px;margin-bottom:10px}
+.hero h1 em{color:#FF6B35;font-style:normal}
+.hero .lead{color:rgba(255,255,255,.85);font-size:15px;max-width:720px;margin:0 auto 18px}
+.hero .badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.hero .b{background:rgba(255,255,255,.1);padding:6px 14px;border-radius:14px;font-size:12px;font-weight:600}
+.hero .b em{color:#FF6B35;font-style:normal;font-weight:800}
+
+main{max-width:1180px;margin:0 auto;padding:24px}
+
+.card{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.04);padding:22px 26px;margin-bottom:14px}
+.card h2{font-size:18px;color:#0d1f45;margin-bottom:6px;letter-spacing:-.3px}
+.card h3{font-size:14px;color:#0d1f45;margin:12px 0 6px}
+.card p{font-size:13.5px;color:#444;line-height:1.7;margin-bottom:8px}
+.card ul{margin-left:18px;font-size:13px;color:#444}
+.card ul li{margin:4px 0}
+.card code{background:#f0f2f6;color:#0d1f45;padding:1px 6px;border-radius:4px;font-family:'SF Mono','Monaco','Menlo',monospace;font-size:12px}
+
+pre{background:#0d1f45;color:#9eccff;padding:14px 18px;border-radius:8px;overflow-x:auto;font-size:12px;line-height:1.55;font-family:'SF Mono','Monaco','Menlo',monospace;margin:8px 0}
+pre .k{color:#FFA500}.pre.c{color:#88c}.pre.s{color:#a3d977}
+
+.toc{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.toc a{padding:8px 12px;background:#f7f9fc;border-radius:8px;text-decoration:none;color:#0d1f45;font-size:12px;font-weight:600;border:1px solid #e5e9f0;text-align:center}
+.toc a:hover{background:#eef4ff;border-color:#1a52cc}
+
+.ep{background:#fff;border:1px solid #e5e9f0;border-radius:10px;margin-bottom:8px;overflow:hidden}
+.ep-head{padding:11px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;background:#fafbfd}
+.ep-head:hover{background:#f0f5ff}
+.ep-method{font-size:10px;font-weight:800;background:#27ae60;color:#fff;padding:3px 8px;border-radius:5px;letter-spacing:.5px;flex-shrink:0}
+.ep-path{font-family:'SF Mono','Monaco',monospace;font-size:13px;font-weight:600;color:#0d1f45;flex:1}
+.ep-summary{font-size:12px;color:#6b7280}
+.ep-toggle{font-size:14px;color:#888;transition:transform .2s}
+.ep.open .ep-toggle{transform:rotate(90deg)}
+.ep-body{display:none;padding:16px 18px;border-top:1px solid #f0f0f0}
+.ep.open .ep-body{display:block}
+.ep-desc{font-size:12.5px;color:#444;margin-bottom:10px;line-height:1.7}
+.ep-params{margin-bottom:10px}
+.ep-params .pl{font-size:11px;color:#888;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
+.ep-params table{width:100%;font-size:12px;border-collapse:collapse}
+.ep-params th,.ep-params td{padding:5px 8px;text-align:left;border-bottom:1px solid #f0f0f0}
+.ep-params th{background:#f7f9fc;font-weight:700;font-size:11px;color:#0d1f45}
+.ep-try{display:flex;gap:8px;margin-top:10px}
+.ep-try input{flex:1;padding:7px 10px;border:1px solid #d8dde6;border-radius:6px;font-family:'SF Mono','Monaco',monospace;font-size:12px}
+.ep-try button{padding:7px 14px;background:#1a52cc;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer}
+.ep-try button:hover{background:#0d1f45}
+.ep-resp{margin-top:8px;background:#0d1f45;color:#9eccff;padding:12px 14px;border-radius:6px;font-family:'SF Mono','Monaco',monospace;font-size:11px;line-height:1.5;max-height:300px;overflow:auto;display:none;white-space:pre-wrap}
+.ep-resp.show{display:block}
+
+.tabs{display:flex;gap:4px;margin-bottom:8px;border-bottom:2px solid #f0f2f6}
+.tabs button{padding:8px 14px;background:transparent;border:none;font-size:13px;font-weight:600;color:#888;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px}
+.tabs button.active{color:#1a52cc;border-color:#1a52cc}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+.copy-btn{float:right;background:rgba(255,255,255,.1);color:#9eccff;border:none;padding:3px 9px;border-radius:4px;font-size:10px;cursor:pointer}
+.copy-btn:hover{background:rgba(255,255,255,.2)}
+
+footer{background:#0d1f45;color:#fff;padding:24px;text-align:center;font-size:12px;margin-top:30px}
+footer a{color:#FF6B35;text-decoration:none}
+
+@media (max-width:880px){
+  .toc{grid-template-columns:1fr 1fr}
+  .hero h1{font-size:28px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><em>K</em>-STAY <small>Open API · 문서</small></div>
+  <nav class="nav">
+    <a href="/">홈</a><a href="/hanok">한옥</a><a href="/tourism">외국인 통계</a>
+    <a href="/culture">K-Culture</a><a href="/festival">축제</a>
+    <a href="/docs" class="active">API 문서</a><a href="/about">소개</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="pre">▎K-STAY OPEN API · v1.0</div>
+  <h1>한국 모든 숙박·관광·문화 <em>데이터 API</em></h1>
+  <p class="lead">외도민업 9,922곳 · 한옥체험업 2,522곳 · 호텔·호스텔·템플스테이·축제·외국인 통계까지.<br/>무료, 회원가입 불필요, CORS 허용 — 즉시 사용 가능합니다.</p>
+  <div class="badges">
+    <div class="b"><em>20+</em> 엔드포인트</div>
+    <div class="b"><em>50,000+</em> 영업장 데이터</div>
+    <div class="b"><em>CORS</em> 허용</div>
+    <div class="b"><em>매일 04:00</em> 자동 갱신</div>
+    <div class="b"><em>JSON</em> 표준</div>
+  </div>
+</section>
+
+<main>
+  <div class="card">
+    <h2>🚀 빠른 시작 (Quick Start)</h2>
+    <p>K-STAY API는 <b>지금 즉시 사용 가능</b>합니다. API 키 불필요, 인증 불필요. 모든 응답은 JSON.</p>
+    <h3>가장 간단한 예시</h3>
+    <pre><span style="color:#FFA500">curl</span> <span style="color:#a3d977">https://k-stay.ai/api/stats</span></pre>
+    <p style="margin-top:10px"><b>응답:</b></p>
+    <pre>{
+  <span style="color:#FFA500">"active"</span>: 9922,
+  <span style="color:#FFA500">"closed"</span>: 3014,
+  <span style="color:#FFA500">"total"</span>: 13087,
+  <span style="color:#FFA500">"last_update"</span>: <span style="color:#a3d977">"2026-05-17 13:41:00"</span>
+}</pre>
+  </div>
+
+  <div class="card">
+    <h2>🤖 Claude Code · LLM 통합 가이드</h2>
+    <p>K-STAY API는 Claude Code·Cursor·ChatGPT 등 어떤 LLM 도구에서도 즉시 사용 가능합니다. <b>별도 CLI나 SDK는 필수가 아닙니다</b>.</p>
+
+    <div class="tabs">
+      <button class="active" data-tab="claude">Claude Code</button>
+      <button data-tab="curl">curl</button>
+      <button data-tab="js">JavaScript</button>
+      <button data-tab="py">Python</button>
+      <button data-tab="mcp">MCP 서버</button>
+    </div>
+
+    <div class="tab-content active" id="tab-claude">
+      <h3>방법 1: Claude Code의 WebFetch 도구 사용 (가장 간단)</h3>
+      <p>Claude Code에 다음과 같이 요청하면 됩니다:</p>
+      <pre><span style="color:#a3d977">"K-STAY API에서 한옥체험업 영업중 통계 가져와서 분석해줘:
+ https://k-stay.ai/api/hanok/stats"</span></pre>
+      <p style="margin-top:10px">Claude Code가 WebFetch 도구로 자동 호출 후 분석합니다.</p>
+
+      <h3>방법 2: Bash + jq 조합</h3>
+      <pre><span style="color:#FFA500">curl -s</span> https://k-stay.ai/api/tourism/inbound | <span style="color:#FFA500">jq</span> <span style="color:#a3d977">'.by_country_2025[:5]'</span></pre>
+
+      <h3>방법 3: 시스템 프롬프트에 API 등록</h3>
+      <p>CLAUDE.md 또는 시스템 프롬프트에 추가:</p>
+      <pre>K-STAY Open API는 한국 숙박·관광 데이터를 제공합니다.
+- Base: https://k-stay.ai/api
+- 인증: 불필요
+- 주요 엔드포인트:
+  - /stats (외도민업 통계)
+  - /hanok/stats (한옥체험업)
+  - /tourism/inbound (외국인 관광객)
+  - /festivals (전국 축제)
+- 자세한 스펙: https://k-stay.ai/openapi.json</pre>
+    </div>
+
+    <div class="tab-content" id="tab-curl">
+      <pre><span style="color:#FFA500"># 외도민업 종합 통계</span>
+curl https://k-stay.ai/api/stats
+
+<span style="color:#FFA500"># 서울 한옥체험업만</span>
+curl <span style="color:#a3d977">"https://k-stay.ai/api/hanok/listings?sido=서울특별시&limit=100"</span>
+
+<span style="color:#FFA500"># 외국인 관광객 통계</span>
+curl https://k-stay.ai/api/tourism/inbound
+
+<span style="color:#FFA500"># 이번 달 축제</span>
+curl https://k-stay.ai/api/festivals</pre>
+    </div>
+
+    <div class="tab-content" id="tab-js">
+      <pre><span style="color:#88c">// Node.js / 브라우저 동일</span>
+<span style="color:#FFA500">const</span> res = <span style="color:#FFA500">await</span> fetch(<span style="color:#a3d977">'https://k-stay.ai/api/hanok/stats'</span>);
+<span style="color:#FFA500">const</span> data = <span style="color:#FFA500">await</span> res.json();
+console.log(data.overview.active); <span style="color:#88c">// 2522</span>
+
+<span style="color:#88c">// 카카오맵 + K-STAY API</span>
+<span style="color:#FFA500">const</span> listings = <span style="color:#FFA500">await</span> fetch(
+  <span style="color:#a3d977">'https://k-stay.ai/api/hanok/listings?sido=경상북도&limit=500'</span>
+).then(r =&gt; r.json());
+
+listings.listings.forEach(h =&gt; {
+  <span style="color:#FFA500">new</span> kakao.maps.Marker({
+    position: <span style="color:#FFA500">new</span> kakao.maps.LatLng(h.lat, h.lng),
+    title: h.name
+  });
+});</pre>
+    </div>
+
+    <div class="tab-content" id="tab-py">
+      <pre><span style="color:#FFA500">import</span> requests
+
+<span style="color:#88c"># 한옥체험업 통계</span>
+data = requests.get(<span style="color:#a3d977">'https://k-stay.ai/api/hanok/stats'</span>).json()
+print(<span style="color:#a3d977">f"영업중: {data['overview']['active']}곳"</span>)
+
+<span style="color:#88c"># 외국인 관광객 — pandas로 분석</span>
+<span style="color:#FFA500">import</span> pandas <span style="color:#FFA500">as</span> pd
+tourism = requests.get(<span style="color:#a3d977">'https://k-stay.ai/api/tourism/inbound'</span>).json()
+df = pd.DataFrame(tourism[<span style="color:#a3d977">'by_country_2025'</span>])
+print(df.nlargest(<span style="color:#FFA500">5</span>, <span style="color:#a3d977">'visitors'</span>))</pre>
+    </div>
+
+    <div class="tab-content" id="tab-mcp">
+      <h3>MCP (Model Context Protocol) 서버 — 진정한 네이티브 통합</h3>
+      <p>Claude Desktop·Claude Code에서 K-STAY API를 <b>native 도구처럼</b> 사용하려면 MCP 서버를 추가하면 됩니다.</p>
+      <p><b>현재 상태:</b> K-STAY는 표준 REST API만 제공. MCP 서버는 다음 단계로 검토 중.</p>
+      <h3>임시 해법: 직접 MCP 서버 작성 (개발자용)</h3>
+      <pre><span style="color:#88c"># package.json</span>
+{
+  <span style="color:#FFA500">"name"</span>: <span style="color:#a3d977">"k-stay-mcp"</span>,
+  <span style="color:#FFA500">"dependencies"</span>: {
+    <span style="color:#FFA500">"@modelcontextprotocol/sdk"</span>: <span style="color:#a3d977">"latest"</span>
+  }
+}
+
+<span style="color:#88c"># Claude Desktop config (~/.config/claude/claude_desktop_config.json)</span>
+{
+  <span style="color:#FFA500">"mcpServers"</span>: {
+    <span style="color:#FFA500">"k-stay"</span>: {
+      <span style="color:#FFA500">"command"</span>: <span style="color:#a3d977">"node"</span>,
+      <span style="color:#FFA500">"args"</span>: [<span style="color:#a3d977">"./k-stay-mcp/index.js"</span>]
+    }
+  }
+}</pre>
+      <p style="margin-top:10px"><b>로드맵:</b> Q3 2026 — K-STAY 공식 MCP 서버 npm 패키지 출시 예정. <code>npx @k-stay/mcp-server</code> 한 줄로 통합 가능하게.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📋 엔드포인트 목록</h2>
+    <p>총 <b>20+개 엔드포인트</b>. 카테고리별로 탐색하거나 클릭해서 즉시 호출(Try it).</p>
+
+    <h3 style="color:#FF6B35;margin-top:16px">▎메타 (Meta)</h3>
+    <div id="ep-meta"></div>
+
+    <h3 style="color:#FF6B35;margin-top:16px">▎한옥 (Hanok)</h3>
+    <div id="ep-hanok"></div>
+
+    <h3 style="color:#FF6B35;margin-top:16px">▎숙박 (Lodging)</h3>
+    <div id="ep-lodging"></div>
+
+    <h3 style="color:#FF6B35;margin-top:16px">▎관광·문화 (Tourism · Culture)</h3>
+    <div id="ep-culture"></div>
+  </div>
+
+  <div class="card">
+    <h2>📜 OpenAPI 스펙 (OAS 3.0)</h2>
+    <p>완전한 OpenAPI 3.0 스펙을 다운로드해서 Postman·Insomnia·Swagger Editor·CLI 도구에 즉시 임포트할 수 있습니다.</p>
+    <pre><span style="color:#FFA500">curl</span> -o openapi.json https://k-stay.ai/openapi.json</pre>
+    <p style="margin-top:10px">또는 Swagger UI에서 시각적으로 탐색:</p>
+    <p><a href="https://petstore.swagger.io/?url=https://k-stay.ai/openapi.json" target="_blank" style="color:#1a52cc;font-weight:700">→ Swagger Editor에서 열기</a> · <a href="/openapi.json" target="_blank" style="color:#1a52cc;font-weight:700">→ 스펙 JSON 보기</a></p>
+  </div>
+
+  <div class="card">
+    <h2>🔐 인증 · 사용 제한 (Rate Limit)</h2>
+    <p><b>현재(v1):</b> 인증 불필요, 사용 제한 없음. CORS 허용.</p>
+    <p><b>향후 로드맵:</b></p>
+    <ul>
+      <li><b>2026 Q3</b> — API 키 발급 페이지 + Free/Pro/Enterprise 티어</li>
+      <li><b>2026 Q4</b> — Rate Limit 적용 (Free: 1,000 req/day, 10 req/min)</li>
+      <li><b>2027 Q1</b> — 유료 결제 (Stripe/Toss) + 사용량 대시보드</li>
+    </ul>
+    <p>지금 사용 중이신 분들은 <a href="mailto:api@k-stay.ai" style="color:#1a52cc;font-weight:700">api@k-stay.ai</a>로 사용 사례를 알려주시면, 정식 키 발급 시 우선 발급해드립니다.</p>
+  </div>
+
+  <div class="card">
+    <h2>📡 데이터 출처 · 라이선스</h2>
+    <ul>
+      <li><b>DB 데이터</b> (외도민업·한옥체험업·호텔·호스텔·농어촌·관광펜션): 행정안전부 지방행정 인허가 데이터. 공공누리 제4유형(출처표시·상업적이용금지·변경금지). 매일 04:00 KST 자동 갱신.</li>
+      <li><b>큐레이션 데이터</b> (한옥마을·명품고택·템플스테이·코리빙·축제·K-Culture): K-STAY 큐레이션 (KTO·문화재청·한국불교문화사업단·각 운영사 공개 자료). 비상업적 활용 시 출처 표시 권장.</li>
+      <li><b>외국인 통계</b>: KTO 데이터랩 + 법무부 출입국 통계연보.</li>
+      <li><b>데이터 카탈로그</b>: <a href="/api/data-sources" style="color:#1a52cc">/api/data-sources</a> — 각 데이터셋의 출처·갱신 주기·대체 후보 전체 정리.</li>
+    </ul>
+    <p>API 응답을 인용하실 때는 "Data from K-STAY (k-stay.ai) · 행정안전부/KTO 공공데이터"로 표기 부탁드립니다.</p>
+  </div>
+
+  <div class="card">
+    <h2>💬 문의 · 피드백</h2>
+    <p>API에 대한 문의, 새 엔드포인트 요청, 사용 사례 공유, 데이터 오류 신고는 환영합니다.</p>
+    <ul>
+      <li>📧 이메일: <a href="mailto:api@k-stay.ai" style="color:#1a52cc">api@k-stay.ai</a></li>
+      <li>🐛 GitHub Issues: <a href="https://github.com/josanku/wehome-insight/issues" target="_blank" style="color:#1a52cc">github.com/josanku/wehome-insight</a></li>
+      <li>💬 피드백 폼: <a href="/about#feedback" style="color:#1a52cc">k-stay.ai/about</a></li>
+    </ul>
+  </div>
+</main>
+
+<footer>
+  © 2026 wehome, Inc. · K-STAY Open API v1.0 · <a href="/about">소개</a> · <a href="/openapi.json">OpenAPI 스펙</a> · <a href="/api/data-sources">데이터 출처</a>
+</footer>
+
+<script>
+const ENDPOINTS = {
+  meta: [
+    {p:'/api/stats', s:'외도민업 종합 통계 (영업/휴업/폐업 + 시군구 수)', params:[
+      {n:'sido', d:'시도명 (예: 서울특별시)', t:'string'},
+      {n:'category', d:'카테고리 코드 (default: foreigner_city_homestays)', t:'string'}
+    ]},
+    {p:'/api/categories', s:'5종 카테고리 통계 요약 (외도민업·한옥체험업·관광숙박업·농어촌민박·관광펜션)'},
+    {p:'/api/registrations/monthly', s:'월별 신규 등록 추이', params:[
+      {n:'year', d:'4자리 연도 (default: 2026)', t:'string'},
+      {n:'sidos', d:'콤마구분 시도 (default: 서울특별시,부산광역시)', t:'string'}
+    ]},
+    {p:'/api/national', s:'전국 5종 카테고리 통합 통계'},
+    {p:'/api/districts', s:'시군구별 외도민업 분포'},
+    {p:'/api/reports', s:'월간 시장 리포트 목록'},
+    {p:'/api/data-sources', s:'데이터 소스 카탈로그 (각 데이터셋 출처·갱신 주기)'},
+  ],
+  hanok: [
+    {p:'/api/hanok/stats', s:'한옥체험업 종합 통계 (DB 기반, 2,522곳 영업중)'},
+    {p:'/api/hanok/listings', s:'한옥체험업 영업장 좌표 (카카오맵용)', params:[
+      {n:'sido', d:'시도 필터', t:'string'},
+      {n:'sigungu', d:'시군구 필터', t:'string'},
+      {n:'limit', d:'최대 5000 (default 3000)', t:'integer'}
+    ]},
+    {p:'/api/hanok/villages', s:'한옥마을 51곳 큐레이션 (UNESCO·민속마을·보존지구)'},
+    {p:'/api/hanok/meongpum', s:'한국관광공사 명품고택 55곳 큐레이션'},
+  ],
+  lodging: [
+    {p:'/api/temple', s:'템플스테이 운영 사찰 130+곳 (조계종 25교구 + 주요)'},
+    {p:'/api/coliving', s:'한국 코리빙(Co-living) 운영사 12곳'},
+    {p:'/api/residence', s:'생활형숙박(레지던스) 산업 안내'},
+    {p:'/api/glamping', s:'글램핑(야영장업) 산업 + 지역 핫스팟'},
+    {p:'/api/motel', s:'여관·모텔(일반숙박업) 산업 안내'},
+    {p:'/api/lodging/stats', s:'카테고리별 통계', params:[
+      {n:'kind', d:'hotel | hostel | rural | pension', t:'string', required:true}
+    ]},
+    {p:'/api/lodging/listings', s:'카테고리별 영업장 좌표', params:[
+      {n:'kind', d:'hotel | hostel | rural | pension', t:'string', required:true},
+      {n:'sido', d:'시도 필터', t:'string'},
+      {n:'sigungu', d:'시군구 필터', t:'string'},
+      {n:'limit', d:'최대 5000', t:'integer'}
+    ]},
+  ],
+  culture: [
+    {p:'/api/tourism/inbound', s:'한국 외국인 관광객 통계 (월별·연도별·국가별·목적·연령)'},
+    {p:'/api/culture/hotspots', s:'K-Culture 핫스팟 35곳 (K-Pop·Drama·Food·Beauty)'},
+    {p:'/api/korea100', s:'한국관광공사 한국관광 100선 (연도별)'},
+    {p:'/api/festivals', s:'전국 주요 축제 캘린더 44개 (월별)'},
+  ]
+};
+
+function buildEp(group){
+  const container = document.getElementById('ep-'+group);
+  ENDPOINTS[group].forEach(ep => {
+    const id = ep.p.replace(/\//g,'_').replace(/[^a-z0-9_]/gi,'');
+    const paramHtml = ep.params ? `<div class="ep-params">
+      <div class="pl">Query Parameters</div>
+      <table><thead><tr><th>이름</th><th>타입</th><th>설명</th></tr></thead>
+      <tbody>${ep.params.map(p=>`<tr><td><code>${p.n}</code>${p.required?' <span style="color:#e74c3c">*</span>':''}</td><td>${p.t}</td><td>${p.d}</td></tr>`).join('')}</tbody></table>
+    </div>` : '';
+    container.insertAdjacentHTML('beforeend', `<div class="ep" id="${id}">
+      <div class="ep-head" onclick="this.parentElement.classList.toggle('open')">
+        <div class="ep-method">GET</div>
+        <div class="ep-path">${ep.p}</div>
+        <div class="ep-summary">${ep.s}</div>
+        <div class="ep-toggle">▶</div>
+      </div>
+      <div class="ep-body">
+        ${paramHtml}
+        <div class="ep-try">
+          <input type="text" value="https://k-stay.ai${ep.p}" data-base="${ep.p}"/>
+          <button onclick="tryEp(this)">Try it</button>
+        </div>
+        <div class="ep-resp"></div>
+      </div>
+    </div>`);
+  });
+}
+
+async function tryEp(btn){
+  const input = btn.previousElementSibling;
+  const resp = btn.parentElement.nextElementSibling;
+  resp.classList.add('show');
+  resp.textContent = '로딩 중...';
+  try {
+    const r = await fetch(input.value);
+    const data = await r.json();
+    const text = JSON.stringify(data, null, 2);
+    resp.innerHTML = `<button class="copy-btn" onclick="navigator.clipboard.writeText(this.parentElement.textContent.replace('Copy',''))">Copy</button>${text.length > 4000 ? text.substring(0,4000)+'\n\n... ('+text.length+' chars total)' : text}`;
+  } catch(e) {
+    resp.textContent = 'Error: ' + e.message;
+  }
+}
+
+// 탭 전환
+document.querySelectorAll('.tabs button').forEach(btn => {
+  btn.addEventListener('click', e => {
+    document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+    e.target.classList.add('active');
+    document.getElementById('tab-'+e.target.dataset.tab).classList.add('active');
+  });
+});
+
+['meta','hanok','lodging','culture'].forEach(buildEp);
+</script>
+<script src="/static/ai-widget.js"></script>
+<script src="/static/feedback-widget.js"></script>
+</body>
+</html>

@@ -599,6 +599,16 @@ def api_data_sources():
     with open(path, 'r', encoding='utf-8') as f:
         return jsonify(json.load(f))
 
+# Open API 문서 + OpenAPI 스펙
+@app.route('/docs')
+def docs_page(): return send_from_directory('.', 'docs.html')
+
+@app.route('/openapi.json')
+def openapi_spec():
+    path = os.path.join(os.path.dirname(__file__), 'openapi.json')
+    with open(path, 'r', encoding='utf-8') as f:
+        return jsonify(json.load(f))
+
 # DB 기반 통계 (호텔·호스텔·농촌 — DB의 tourist_accommodations / rural_homestays 활용)
 @app.route('/api/lodging/stats')
 def api_lodging_stats():
@@ -1412,10 +1422,16 @@ def sitemap_xml():
 @app.route('/llms.txt')
 def llms_txt():
     """AI crawlers 위한 사이트 안내 (AIEO 표준)"""
-    txt = """# K-STAY (k-stay.ai)
+    txt = """# K-STAY · Get the best stay for you in Korea | Powered by Wehome
 
-> 한국 공유숙박 합법 호스트를 위한 종합 포털. 외국인관광도시민박업(외도민업) 등록 진단·시장 인사이트·커뮤니티·뉴스레터·교육·AI 어시스턴트.
-> The data platform for Korean short-term rental hosts. Free tools for legal registration diagnosis, market analysis, and pricing.
+> K-STAY는 한국을 여행하는 모든 분(내국인·외국인)이 꼭 찾는 숙소 종합 가이드입니다. AI 비서가 내게 최적의 숙소를 추천하며, 외도민업·한옥·호텔·호스텔·템플스테이·축제까지 한국 숙박 정보의 가장 최신·정확한 출처입니다. Powered by Wehome — 한국 최초 인증 합법 공유숙박 플랫폼.
+> K-STAY is the comprehensive accommodation guide for everyone (locals & foreigners) traveling Korea. AI assistant finds the best stay for you. The most up-to-date and accurate Korean lodging information — hanok, hotel, hostel, temple stay, festivals. Powered by Wehome, certified home sharing of Korea.
+
+## Open API
+- 모든 데이터는 `/api/*` 경로로 JSON 제공 (CORS 허용, 인증 불필요)
+- 인터랙티브 문서: https://k-stay.ai/docs
+- OpenAPI 3.0 스펙: https://k-stay.ai/openapi.json
+- 데이터 소스 카탈로그: https://k-stay.ai/api/data-sources
 
 ## 운영 주체 / Operator
 - 위홈 (wehome, Inc.) — https://wehome.me
