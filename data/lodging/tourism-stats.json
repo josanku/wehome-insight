@@ -1,0 +1,100 @@
+{
+  "meta": {
+    "name": "한국 외래관광객(외국인 방문) 통계",
+    "description": "법무부 출입국통계 + 한국관광공사 데이터랩 기반 외래관광객 입국 추이",
+    "as_of": "2026-05",
+    "source": "한국관광공사 datalab.visitkorea.or.kr + 법무부 출입국·외국인정책본부 통계연보 + K-STAY 큐레이션",
+    "update_cycle": "월 1회 (KTO 데이터랩 갱신 주기 따름)",
+    "license": "출처 표시 시 비상업적 활용 가능"
+  },
+  "annual_totals": [
+    {"year":2019,"total":17502756,"note":"코로나 이전 최고치"},
+    {"year":2020,"total":2519118,"note":"코로나 -86%"},
+    {"year":2021,"total":967003,"note":"코로나 지속"},
+    {"year":2022,"total":3198405,"note":"단계적 회복"},
+    {"year":2023,"total":11031665,"note":"비자 면제·중국 단체관광 재개"},
+    {"year":2024,"total":16374625,"note":"2019년의 93.6%"},
+    {"year":2025,"total":18760000,"note":"역대 최고 추정"}
+  ],
+  "monthly_2026": [
+    {"month":"2026-01","total":1485000,"yoy":1.085},
+    {"month":"2026-02","total":1532000,"yoy":1.092},
+    {"month":"2026-03","total":1842000,"yoy":1.106},
+    {"month":"2026-04","total":1925000,"yoy":1.118},
+    {"month":"2026-05","total":1670000,"yoy":1.083,"note":"부분 집계"}
+  ],
+  "monthly_2025": [
+    {"month":"2025-01","total":1369000},
+    {"month":"2025-02","total":1403000},
+    {"month":"2025-03","total":1665000},
+    {"month":"2025-04","total":1721000},
+    {"month":"2025-05","total":1542000},
+    {"month":"2025-06","total":1576000},
+    {"month":"2025-07","total":1654000},
+    {"month":"2025-08","total":1638000},
+    {"month":"2025-09","total":1485000},
+    {"month":"2025-10","total":1612000},
+    {"month":"2025-11","total":1481000},
+    {"month":"2025-12","total":1614000}
+  ],
+  "by_country_2025": [
+    {"country":"중국","country_en":"China","code":"CN","visitors":4720000,"share":0.252,"yoy":1.18,"region":"동아시아","color":"#E60012"},
+    {"country":"일본","country_en":"Japan","code":"JP","visitors":3450000,"share":0.184,"yoy":1.09,"region":"동아시아","color":"#BC002D"},
+    {"country":"대만","country_en":"Taiwan","code":"TW","visitors":1480000,"share":0.079,"yoy":1.14,"region":"동아시아","color":"#FE0000"},
+    {"country":"미국","country_en":"USA","code":"US","visitors":1290000,"share":0.069,"yoy":1.06,"region":"북미","color":"#3C3B6E"},
+    {"country":"베트남","country_en":"Vietnam","code":"VN","visitors":620000,"share":0.033,"yoy":1.22,"region":"동남아","color":"#DA251D"},
+    {"country":"태국","country_en":"Thailand","code":"TH","visitors":580000,"share":0.031,"yoy":0.96,"region":"동남아","color":"#A51931"},
+    {"country":"필리핀","country_en":"Philippines","code":"PH","visitors":540000,"share":0.029,"yoy":1.11,"region":"동남아","color":"#0038A8"},
+    {"country":"홍콩","country_en":"Hong Kong","code":"HK","visitors":520000,"share":0.028,"yoy":1.08,"region":"동아시아","color":"#DE2910"},
+    {"country":"싱가포르","country_en":"Singapore","code":"SG","visitors":410000,"share":0.022,"yoy":1.10,"region":"동남아","color":"#EE2536"},
+    {"country":"인도네시아","country_en":"Indonesia","code":"ID","visitors":380000,"share":0.020,"yoy":1.07,"region":"동남아","color":"#FF0000"},
+    {"country":"말레이시아","country_en":"Malaysia","code":"MY","visitors":370000,"share":0.020,"yoy":1.05,"region":"동남아","color":"#010066"},
+    {"country":"영국","country_en":"UK","code":"GB","visitors":260000,"share":0.014,"yoy":1.03,"region":"유럽","color":"#012169"},
+    {"country":"독일","country_en":"Germany","code":"DE","visitors":220000,"share":0.012,"yoy":1.04,"region":"유럽","color":"#000000"},
+    {"country":"호주","country_en":"Australia","code":"AU","visitors":250000,"share":0.013,"yoy":1.07,"region":"오세아니아","color":"#00008B"},
+    {"country":"인도","country_en":"India","code":"IN","visitors":180000,"share":0.010,"yoy":1.25,"region":"남아시아","color":"#FF9933"},
+    {"country":"프랑스","country_en":"France","code":"FR","visitors":190000,"share":0.010,"yoy":1.05,"region":"유럽","color":"#0055A4"},
+    {"country":"러시아","country_en":"Russia","code":"RU","visitors":150000,"share":0.008,"yoy":0.92,"region":"유럽","color":"#0033A0"},
+    {"country":"캐나다","country_en":"Canada","code":"CA","visitors":160000,"share":0.009,"yoy":1.06,"region":"북미","color":"#FF0000"},
+    {"country":"몽골","country_en":"Mongolia","code":"MN","visitors":140000,"share":0.007,"yoy":1.12,"region":"동아시아","color":"#C4272F"},
+    {"country":"기타","country_en":"Others","code":"OT","visitors":1610000,"share":0.085,"yoy":1.08,"region":"기타","color":"#888888"}
+  ],
+  "by_purpose_2025": [
+    {"purpose":"관광","share":0.762},
+    {"purpose":"방문(친지·친구)","share":0.094},
+    {"purpose":"사업","share":0.063},
+    {"purpose":"공무","share":0.018},
+    {"purpose":"유학·연수","share":0.022},
+    {"purpose":"기타","share":0.041}
+  ],
+  "by_age_2025": [
+    {"age":"20대","share":0.241},
+    {"age":"30대","share":0.234},
+    {"age":"40대","share":0.182},
+    {"age":"50대","share":0.143},
+    {"age":"60대 이상","share":0.108},
+    {"age":"10대 이하","share":0.092}
+  ],
+  "by_gender_2025": [
+    {"gender":"여성","share":0.527},
+    {"gender":"남성","share":0.473}
+  ],
+  "stay_duration_2025": {
+    "average_days": 5.4,
+    "median_days": 4,
+    "distribution": [
+      {"range":"1-3일","share":0.288},
+      {"range":"4-6일","share":0.395},
+      {"range":"7-13일","share":0.241},
+      {"range":"14일+","share":0.076}
+    ]
+  },
+  "highlights": [
+    "2025년 외래관광객 1,876만명 추정 — 역대 최고",
+    "중국 25.2%·일본 18.4% 두 나라가 전체의 44%",
+    "동남아(베트남·태국·필리핀·싱가포르·인도네시아·말레이시아) 합계 13.5%",
+    "여성 비중 52.7%로 남성 추월",
+    "관광 목적 76.2% + 비즈니스 6.3% + 친지 방문 9.4%",
+    "평균 체류 5.4일 — 4-6일이 가장 많음"
+  ]
+}

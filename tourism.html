@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>한국 외국인 관광객 통계 | K-STAY</title>
+<meta name="description" content="한국 입국 외래관광객 월별·연도별·국가별 통계. 2025년 1,876만명. 중국·일본·동남아 비중 시각화. KTO 데이터랩 + 법무부 출입국 통계 기반."/>
+<meta name="keywords" content="외래관광객, 외국인 방문, 한국 관광 통계, 한류, KTO 데이터랩, inbound tourism Korea"/>
+<link rel="canonical" href="https://k-stay.ai/tourism"/>
+<meta property="og:title" content="한국 외국인 관광객 통계 | K-STAY"/>
+<meta property="og:url" content="https://k-stay.ai/tourism"/>
+<meta property="og:image" content="https://k-stay.ai/og-image.png"/>
+<meta property="og:site_name" content="K-STAY"/>
+<meta name="theme-color" content="#1a52cc"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;background:#f4f7fc;color:#1a2b4a}
+header{background:#fff;border-bottom:1px solid #ececec;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-size:20px;font-weight:800}.logo em{color:#FF6B35;font-style:normal}
+.logo small{font-size:12px;font-weight:400;color:#888;margin-left:6px}
+.nav{display:flex;gap:10px;font-size:12px;flex-wrap:wrap}
+.nav a{color:#555;text-decoration:none;padding:5px 9px;border-radius:6px}
+.nav a:hover{background:#eef4ff;color:#1a52cc}
+.nav a.active{background:#1a52cc;color:#fff}
+
+.hero{padding:55px 32px 30px;text-align:center;background:linear-gradient(180deg,#fff,#eef4ff)}
+.hero .pre{font-size:11px;font-weight:700;color:#1a52cc;letter-spacing:3px;margin-bottom:10px}
+.hero h1{font-size:38px;font-weight:900;letter-spacing:-1.2px;margin-bottom:10px}
+.hero h1 em{color:#1a52cc;font-style:normal}
+.hero .lead{color:#555;font-size:15px;max-width:720px;margin:0 auto}
+
+main{max-width:1180px;margin:0 auto;padding:24px}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.kpi{background:#fff;border-radius:12px;padding:16px 18px;box-shadow:0 2px 8px rgba(0,0,0,.04);border-left:4px solid var(--c,#1a52cc)}
+.kpi .num{font-size:26px;font-weight:800;color:#0d1f45;letter-spacing:-.5px}
+.kpi .num small{font-size:12px;color:#888;font-weight:500}
+.kpi .label{font-size:11px;color:#6b7280;margin-top:3px;font-weight:600}
+.kpi .sub{font-size:11px;color:#27ae60;font-weight:600;margin-top:4px}
+
+.card{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.04);padding:22px 24px;margin-bottom:16px}
+.card h2{font-size:16px;color:#0d1f45;margin-bottom:6px}
+.card .desc{font-size:12px;color:#6b7280;margin-bottom:14px}
+
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.chart-wrap{position:relative;height:320px}
+
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{padding:8px 10px;text-align:right;border-bottom:1px solid #f0f0f0}
+th{background:#f7f9fc;color:#0d1f45;font-weight:700;font-size:11px;text-transform:uppercase}
+th:first-child,td:first-child{text-align:left}
+.bar{display:inline-block;background:#1a52cc;height:14px;border-radius:3px;vertical-align:middle;margin-right:6px}
+.yoy{font-size:11px;font-weight:600;color:#27ae60}.yoy.dn{color:#e74c3c}
+
+.source-card{background:#FFF8EC;border-radius:10px;padding:14px 18px;font-size:12px;color:#5d4500;border-left:4px solid #FFA500;margin-bottom:14px}
+
+footer{background:#0d1f45;color:#fff;padding:24px;text-align:center;font-size:12px;margin-top:30px}
+footer a{color:#FF6B35;text-decoration:none}
+
+@media (max-width:880px){
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .chart-grid{grid-template-columns:1fr}
+  .hero h1{font-size:26px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><em>K</em>-STAY <small>외국인 관광 통계</small></div>
+  <nav class="nav">
+    <a href="/">홈</a><a href="/hanok">한옥</a><a href="/temple">템플</a>
+    <a href="/hotel">호텔</a><a href="/culture">K-Culture</a><a href="/festival">축제</a>
+    <a href="/tourism" class="active">외국인 통계</a><a href="/about">소개</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="pre">▎INBOUND TOURISM · 외래관광객 통계</div>
+  <h1>한국 <em>외국인 관광객</em> 통계</h1>
+  <p class="lead">한국관광공사 데이터랩 + 법무부 출입국 통계 기반 월별·국가별·연도별 외래관광객 추이.</p>
+</section>
+
+<main>
+  <div class="kpi-grid">
+    <div class="kpi" style="--c:#FF6B35"><div class="num" id="total2025">-<small> 만명</small></div><div class="label">2025년 외래관광객</div><div class="sub" id="total2025Note">-</div></div>
+    <div class="kpi" style="--c:#1a52cc"><div class="num" id="topCountry">-</div><div class="label">최대 송출국</div><div class="sub" id="topCountrySub">-</div></div>
+    <div class="kpi" style="--c:#27ae60"><div class="num" id="avgStay">-<small> 일</small></div><div class="label">평균 체류</div><div class="sub">중앙값 4일</div></div>
+    <div class="kpi" style="--c:#FF1493"><div class="num" id="purposeTourism">-</div><div class="label">관광 목적 비중</div></div>
+  </div>
+
+  <div class="chart-grid">
+    <div class="card"><h2>📅 월별 추이 (2025-2026)</h2><div class="desc">월별 입국자 수</div><div class="chart-wrap"><canvas id="monthlyChart"></canvas></div></div>
+    <div class="card"><h2>📊 연간 추이 (2019-2025)</h2><div class="desc">코로나 전후 회복</div><div class="chart-wrap"><canvas id="annualChart"></canvas></div></div>
+  </div>
+
+  <div class="chart-grid">
+    <div class="card"><h2>🌍 Top 10 송출국 (2025)</h2><div class="chart-wrap"><canvas id="countryChart"></canvas></div></div>
+    <div class="card"><h2>🎯 방문 목적 (2025)</h2><div class="chart-wrap"><canvas id="purposeChart"></canvas></div></div>
+  </div>
+
+  <div class="card">
+    <h2>🌐 국가별 상세 통계</h2>
+    <div class="desc">2025년 국가별 입국자 + 전년 대비 증감률</div>
+    <table>
+      <thead><tr><th>순위</th><th>국가</th><th>입국자</th><th>비중</th><th>분포</th><th>전년 대비</th></tr></thead>
+      <tbody id="countryTbody"></tbody>
+    </table>
+  </div>
+
+  <div class="card"><h2>📌 핵심 인사이트</h2><ul id="highlightUl" style="margin-left:18px;font-size:13.5px;color:#444;line-height:1.9"></ul></div>
+
+  <div class="source-card" id="sourceInfo">불러오는 중…</div>
+</main>
+
+<footer>
+  © 2026 wehome, Inc. · K-STAY · 출처: <a href="https://datalab.visitkorea.or.kr" target="_blank">한국관광공사 데이터랩</a> + <a href="https://www.immigration.go.kr" target="_blank">법무부 출입국·외국인정책본부</a>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<script>
+Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif";
+Chart.defaults.font.size = 11;
+const fmt = n => (n||0).toLocaleString('ko-KR');
+
+async function load(){
+  const data = await fetch('/api/tourism/inbound').then(r=>r.json());
+
+  // KPI
+  const t2025 = (data.annual_totals.find(r=>r.year===2025)||{}).total||0;
+  document.getElementById('total2025').innerHTML = (Math.round(t2025/10000)).toLocaleString()+'<small> 만명</small>';
+  document.getElementById('total2025Note').textContent = '역대 최고 추정';
+  const top = data.by_country_2025[0];
+  document.getElementById('topCountry').textContent = top.country;
+  document.getElementById('topCountrySub').textContent = fmt(top.visitors)+' 명 ('+(Math.round(top.share*1000)/10)+'%)';
+  document.getElementById('avgStay').innerHTML = data.stay_duration_2025.average_days+'<small> 일</small>';
+  document.getElementById('purposeTourism').textContent = Math.round(data.by_purpose_2025[0].share*100)+'%';
+
+  // 월별
+  const months = [...data.monthly_2025, ...data.monthly_2026];
+  new Chart(document.getElementById('monthlyChart'),{
+    type:'bar',
+    data:{labels:months.map(r=>r.month),
+          datasets:[{label:'입국자', data:months.map(r=>r.total/10000), backgroundColor:'#1a52cc', borderRadius:5}]},
+    options:{maintainAspectRatio:false, plugins:{legend:{display:false},
+             tooltip:{callbacks:{label:c=>` ${(c.parsed.y).toFixed(1)}만명`}}},
+             scales:{y:{ticks:{callback:v=>v+'만'}}}}
+  });
+  // 연간
+  new Chart(document.getElementById('annualChart'),{
+    type:'line',
+    data:{labels:data.annual_totals.map(r=>r.year),
+          datasets:[{label:'연간 외래관광객(만명)', data:data.annual_totals.map(r=>r.total/10000),
+                     borderColor:'#FF6B35', backgroundColor:'rgba(255,107,53,.15)', fill:true, tension:.35}]},
+    options:{maintainAspectRatio:false, scales:{y:{ticks:{callback:v=>v+'만'}}}}
+  });
+  // 국가
+  const top10 = data.by_country_2025.slice(0,10);
+  new Chart(document.getElementById('countryChart'),{
+    type:'bar',
+    data:{labels:top10.map(c=>c.country),
+          datasets:[{data:top10.map(c=>c.visitors), backgroundColor:top10.map(c=>c.color), borderRadius:4}]},
+    options:{indexAxis:'y', maintainAspectRatio:false, plugins:{legend:{display:false}},
+             scales:{x:{ticks:{callback:v=>(v/10000).toFixed(0)+'만'}}}}
+  });
+  // 목적
+  new Chart(document.getElementById('purposeChart'),{
+    type:'doughnut',
+    data:{labels:data.by_purpose_2025.map(p=>p.purpose),
+          datasets:[{data:data.by_purpose_2025.map(p=>p.share*100),
+                     backgroundColor:['#FF6B35','#1a52cc','#27ae60','#9b59b6','#e67e22','#888']}]},
+    options:{maintainAspectRatio:false, plugins:{legend:{position:'right'}}}
+  });
+
+  // 표
+  const tb = document.getElementById('countryTbody');
+  const maxV = data.by_country_2025[0].visitors;
+  data.by_country_2025.forEach((c,i)=>{
+    const yoy = ((c.yoy-1)*100).toFixed(1);
+    const cls = c.yoy >= 1 ? '' : 'dn';
+    const w = Math.round(c.visitors/maxV*150);
+    tb.insertAdjacentHTML('beforeend', `<tr>
+      <td>${i+1}</td><td><b>${c.country}</b> <span style="color:#888">${c.country_en}</span></td>
+      <td>${fmt(c.visitors)}</td><td>${(c.share*100).toFixed(1)}%</td>
+      <td><span class="bar" style="width:${w}px;background:${c.color}"></span></td>
+      <td><span class="yoy ${cls}">${c.yoy>=1?'+':''}${yoy}%</span></td>
+    </tr>`);
+  });
+
+  // 핫스팟
+  document.getElementById('highlightUl').innerHTML = data.highlights.map(h=>`<li>${h}</li>`).join('');
+
+  // 출처
+  document.getElementById('sourceInfo').innerHTML = `<b>📡 데이터 출처</b> · ${data.meta.source}<br/>갱신 주기: ${data.meta.update_cycle} · 데이터 카탈로그: <a href="/api/data-sources" style="color:#1a52cc">/api/data-sources</a>`;
+}
+load();
+</script>
+<script src="/static/ai-widget.js"></script>
+<script src="/static/feedback-widget.js"></script>
+</body>
+</html>

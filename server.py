@@ -7,6 +7,16 @@ import sqlite3, os, math, requests, json
 from pyproj import Transformer
 
 app = Flask(__name__, static_folder='.')
+
+# Open API: 모든 /api/* 응답에 CORS 허용 (외부 사용 가능)
+@app.after_request
+def add_cors_headers(response):
+    if request.path.startswith('/api/'):
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+        response.headers['Cache-Control'] = 'public, max-age=300'
+    return response
 DB_PATH = os.path.join(os.path.dirname(__file__), "data", "urbanstay.db")
 
 KAKAO_REST_KEY = os.environ.get("KAKAO_REST_API_KEY", "38f1a234dae3bda5d0ae231f5f738f9b")
@@ -465,17 +475,220 @@ def api_hanok_listings():
 
 @app.route('/api/hanok/villages')
 def api_hanok_villages():
-    """한옥마을 20곳 (KTO·문화재청·지자체 공인)."""
+    """한옥마을 (문화재청·UNESCO·지자체 공인)."""
     path = os.path.join(os.path.dirname(__file__), 'data', 'hanok', 'villages.json')
     with open(path, 'r', encoding='utf-8') as f:
         return jsonify(json.load(f))
 
 @app.route('/api/hanok/meongpum')
 def api_hanok_meongpum():
-    """한국관광공사 명품고택 20곳."""
+    """한국관광공사 명품고택."""
     path = os.path.join(os.path.dirname(__file__), 'data', 'hanok', 'meongpum-gotaek.json')
     with open(path, 'r', encoding='utf-8') as f:
         return jsonify(json.load(f))
+
+# ────────────────────────────────────────────────────────────────────────
+# 종합 숙박 카테고리: 템플스테이·호텔·호스텔·농촌·글램핑·모텔·레지던스·코리빙
+# ────────────────────────────────────────────────────────────────────────
+
+# 페이지 라우트 — 모두 동적 lodging.html (JS가 path 인식해서 콘텐츠 렌더)
+@app.route('/temple')
+def temple_page(): return send_from_directory('.', 'lodging.html')
+
+@app.route('/hotel')
+def hotel_page(): return send_from_directory('.', 'lodging.html')
+
+@app.route('/hostel')
+def hostel_page(): return send_from_directory('.', 'lodging.html')
+
+@app.route('/rural')
+def rural_page(): return send_from_directory('.', 'lodging.html')
+
+@app.route('/pension')
+def pension_page(): return send_from_directory('.', 'lodging.html')
+
+@app.route('/glamping')
+def glamping_page(): return send_from_directory('.', 'lodging.html')
+
+@app.route('/motel')
+def motel_page(): return send_from_directory('.', 'lodging.html')
+
+@app.route('/residence')
+def residence_page(): return send_from_directory('.', 'lodging.html')
+
+@app.route('/coliving')
+def coliving_page(): return send_from_directory('.', 'lodging.html')
+
+@app.route('/lodging')
+def lodging_index(): return send_from_directory('.', 'lodging.html')
+
+# JSON 큐레이션 데이터
+@app.route('/api/temple')
+def api_temple_data():
+    path = os.path.join(os.path.dirname(__file__), 'data', 'temple', 'temples.json')
+    with open(path, 'r', encoding='utf-8') as f:
+        return jsonify(json.load(f))
+
+@app.route('/api/coliving')
+def api_coliving_data():
+    path = os.path.join(os.path.dirname(__file__), 'data', 'lodging', 'coliving.json')
+    with open(path, 'r', encoding='utf-8') as f:
+        return jsonify(json.load(f))
+
+@app.route('/api/residence')
+def api_residence_data():
+    path = os.path.join(os.path.dirname(__file__), 'data', 'lodging', 'residence.json')
+    with open(path, 'r', encoding='utf-8') as f:
+        return jsonify(json.load(f))
+
+@app.route('/api/glamping')
+def api_glamping_data():
+    path = os.path.join(os.path.dirname(__file__), 'data', 'lodging', 'glamping.json')
+    with open(path, 'r', encoding='utf-8') as f:
+        return jsonify(json.load(f))
+
+@app.route('/api/motel')
+def api_motel_data():
+    path = os.path.join(os.path.dirname(__file__), 'data', 'lodging', 'motel-info.json')
+    with open(path, 'r', encoding='utf-8') as f:
+        return jsonify(json.load(f))
+
+# ── 외국인 관광·문화·축제·관광 100선 ──────────────────────────────
+@app.route('/tourism')
+def tourism_page(): return send_from_directory('.', 'tourism.html')
+
+@app.route('/culture')
+@app.route('/k-culture')
+def culture_page(): return send_from_directory('.', 'lodging.html')
+
+@app.route('/korea100')
+def korea100_page(): return send_from_directory('.', 'lodging.html')
+
+@app.route('/festival')
+@app.route('/festivals')
+def festival_page(): return send_from_directory('.', 'lodging.html')
+
+@app.route('/api/tourism/inbound')
+def api_tourism_inbound():
+    path = os.path.join(os.path.dirname(__file__), 'data', 'lodging', 'tourism-stats.json')
+    with open(path, 'r', encoding='utf-8') as f:
+        return jsonify(json.load(f))
+
+@app.route('/api/culture/hotspots')
+def api_culture_hotspots():
+    path = os.path.join(os.path.dirname(__file__), 'data', 'culture', 'kculture-hotspots.json')
+    with open(path, 'r', encoding='utf-8') as f:
+        return jsonify(json.load(f))
+
+@app.route('/api/korea100')
+def api_korea100():
+    path = os.path.join(os.path.dirname(__file__), 'data', 'culture', 'korea-tourism-100.json')
+    with open(path, 'r', encoding='utf-8') as f:
+        return jsonify(json.load(f))
+
+@app.route('/api/festivals')
+def api_festivals():
+    path = os.path.join(os.path.dirname(__file__), 'data', 'culture', 'festivals.json')
+    with open(path, 'r', encoding='utf-8') as f:
+        return jsonify(json.load(f))
+
+@app.route('/api/data-sources')
+def api_data_sources():
+    """데이터 소스 카탈로그 (각 데이터셋의 출처·갱신 주기·대체 후보)."""
+    path = os.path.join(os.path.dirname(__file__), 'data', 'data-sources.json')
+    with open(path, 'r', encoding='utf-8') as f:
+        return jsonify(json.load(f))
+
+# DB 기반 통계 (호텔·호스텔·농촌 — DB의 tourist_accommodations / rural_homestays 활용)
+@app.route('/api/lodging/stats')
+def api_lodging_stats():
+    """카테고리별 통계.
+    Query: kind = hotel | hostel | rural | pension
+    """
+    kind = request.args.get('kind', 'hotel')
+    conn = get_db()
+    base_where = "status_name='영업/정상'"
+    if kind == 'hotel':
+        cat = "category='tourist_accommodations'"
+        sub = "(biz_name LIKE '%호텔%' OR biz_name LIKE '%Hotel%' OR biz_name LIKE '%HOTEL%')"
+        where = f"{cat} AND {base_where} AND {sub}"
+    elif kind == 'hostel':
+        cat = "category='tourist_accommodations'"
+        sub = "(biz_name LIKE '%호스텔%' OR biz_name LIKE '%게스트하우스%' OR biz_name LIKE '%Hostel%' OR biz_name LIKE '%Guest%')"
+        where = f"{cat} AND {base_where} AND {sub}"
+    elif kind == 'rural':
+        where = f"category='rural_homestays' AND status_name='정상'"
+    elif kind == 'pension':
+        where = f"category='tourist_pensions' AND {base_where}"
+    else:
+        return jsonify({'error': 'invalid kind'}), 400
+
+    row = conn.execute(f"""
+        SELECT COUNT(*) active,
+               COUNT(DISTINCT sigungu) district_count,
+               MAX(update_at) last_update
+          FROM listings WHERE {where}
+    """).fetchone()
+    by_sido = [dict(r) for r in conn.execute(f"""
+        SELECT sido, COUNT(*) c FROM listings WHERE {where}
+        GROUP BY sido ORDER BY c DESC
+    """).fetchall()]
+    by_sigungu = [dict(r) for r in conn.execute(f"""
+        SELECT sigungu, sido, COUNT(*) c FROM listings WHERE {where}
+        GROUP BY sigungu, sido ORDER BY c DESC LIMIT 20
+    """).fetchall()]
+    conn.close()
+    return jsonify({
+        'kind': kind,
+        'overview': dict(row),
+        'by_sido': by_sido,
+        'by_sigungu_top20': by_sigungu,
+    })
+
+@app.route('/api/lodging/listings')
+def api_lodging_listings():
+    """카테고리별 영업장 좌표 목록 (카카오맵용).
+    Query: kind, sido, sigungu, limit (max 5000)
+    """
+    kind = request.args.get('kind', 'hotel')
+    sido = request.args.get('sido', '').strip()
+    sigungu = request.args.get('sigungu', '').strip()
+    limit = min(int(request.args.get('limit', '1500')), 5000)
+
+    base = ["status_name IN ('영업/정상','정상')", "x>0", "y>0"]
+    if kind == 'hotel':
+        base += ["category='tourist_accommodations'",
+                 "(biz_name LIKE '%호텔%' OR biz_name LIKE '%Hotel%' OR biz_name LIKE '%HOTEL%')"]
+    elif kind == 'hostel':
+        base += ["category='tourist_accommodations'",
+                 "(biz_name LIKE '%호스텔%' OR biz_name LIKE '%게스트하우스%' OR biz_name LIKE '%Hostel%' OR biz_name LIKE '%Guest%')"]
+    elif kind == 'rural':
+        base += ["category='rural_homestays'"]
+    elif kind == 'pension':
+        base += ["category='tourist_pensions'"]
+    else:
+        return jsonify({'error': 'invalid kind'}), 400
+
+    params = []
+    if sido:
+        base.append("sido=?"); params.append(sido)
+    if sigungu:
+        base.append("sigungu=?"); params.append(sigungu)
+    where = " AND ".join(base)
+    conn = get_db()
+    rows = conn.execute(f"""
+        SELECT biz_name, sido, sigungu, road_address, x, y, license_date
+          FROM listings WHERE {where} LIMIT ?
+    """, params + [limit]).fetchall()
+    out = []
+    for r in rows:
+        lat, lng = to_latlng(r['x'], r['y'])
+        if lat and lng:
+            out.append({'name': r['biz_name'], 'sido': r['sido'], 'sigungu': r['sigungu'],
+                        'address': r['road_address'], 'lat': lat, 'lng': lng,
+                        'license_date': r['license_date']})
+    conn.close()
+    return jsonify({'kind': kind, 'count': len(out), 'listings': out})
 
 @app.route('/pricing')
 def pricing_page():

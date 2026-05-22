@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "name": "한국의 코리빙(Co-living) 종합",
+    "description": "1인 가구·청년·디지털 노마드를 위한 공유 주거. 개인 룸 + 공동 거실·주방·라운지 + 커뮤니티 프로그램.",
+    "category_code": "coliving",
+    "as_of": "2026-05",
+    "source": "각 운영사 공식 홈페이지 + 언론 보도 + K-STAY 큐레이션"
+  },
+  "intro": "코리빙(Co-living)은 2010년대 후반부터 한국 도심에서 빠르게 성장한 새로운 주거 형태입니다. 1인 가구·청년·외국인·디지털 노마드가 개인 객실(스튜디오)을 임차하면서 공동 거실·주방·라운지·코워킹 공간을 공유합니다. 단순 셰어하우스와 달리 운영사가 청소·관리·커뮤니티 이벤트를 책임지며, 호텔과 셰어하우스의 중간 형태입니다.",
+  "operators": [
+    {"id":"mangrove","name":"맹그로브 (Mangrove)","operator":"맹그로브","sites":["맹그로브 동대문","맹그로브 신설","맹그로브 숭인","맹그로브 신촌"],"city":"Seoul","capacity":"4지점 총 약 800실","price_monthly":"110~250만원","tagline":"가장 큰 한국 코리빙. 도심·청년·외국인 친화","website":"mangrovecoliving.com","features":["커뮤니티 이벤트","코워킹","피트니스","루프탑","외국인 친화"]},
+    {"id":"borderless","name":"보더리스하우스 (Borderless House)","operator":"보더리스","sites":["서울 홍대","신촌","건대","강남","역삼"],"city":"Seoul","capacity":"수십 지점 다국적 셰어하우스","price_monthly":"60~120만원","tagline":"한국·일본·대만 다국적 코리빙. 외국인 절반","website":"borderless-house.kr","features":["국제 교류","언어 교환","한국·일본·대만"]},
+    {"id":"locallabs","name":"로컬랩스 (Local Labs)","operator":"로컬랩스","sites":["서울 성수"],"city":"Seoul","capacity":"성수동 코리빙","price_monthly":"100~200만원","tagline":"크리에이터·스타트업 코리빙","website":"locallabs.co.kr","features":["크리에이터 친화","코워킹","스타트업"]},
+    {"id":"epoch","name":"에포크 (Epoch)","operator":"에포크","sites":["서울 강남"],"city":"Seoul","capacity":"강남 럭셔리","price_monthly":"200~400만원","tagline":"강남 프리미엄 코리빙","website":"epoch.kr","features":["럭셔리","컨시어지","피트니스"]},
+    {"id":"thesharehouse","name":"더쉐어하우스 (The Share House)","operator":"더쉐어하우스","sites":["서울 강남","마포","송파"],"city":"Seoul","capacity":"수십 지점","price_monthly":"50~120만원","tagline":"한국 셰어하우스 시장 1위","website":"thesharehouse.kr","features":["다양한 가격대","청년·여성"]},
+    {"id":"colive","name":"콜리브 (Colive)","operator":"콜리브","sites":["서울 마포·강남","제주"],"city":"Multi","capacity":"수십 지점","price_monthly":"70~180만원","tagline":"도시+제주 멀티 거점 코리빙","website":"colive.kr","features":["도시·제주","워케이션"]},
+    {"id":"thecore","name":"더코어 (The Core)","operator":"더코어","sites":["서울 강남"],"city":"Seoul","capacity":"강남 단지","price_monthly":"150~300만원","tagline":"강남 프리미엄","features":["럭셔리","외국인"]},
+    {"id":"hivecoliving","name":"하이브 코리빙","operator":"하이브","sites":["서울 마포"],"city":"Seoul","capacity":"마포 단지","price_monthly":"90~150만원","tagline":"마포 청년","features":["청년 친화","커뮤니티"]},
+    {"id":"yourplace","name":"유어플레이스 (Your Place)","operator":"유어플레이스","sites":["서울 강북·노원"],"city":"Seoul","capacity":"강북 지점","price_monthly":"50~100만원","tagline":"청년·여성 코리빙","features":["여성 전용","청년"]},
+    {"id":"comma","name":"콤마 (Comma)","operator":"콤마","sites":["서울 마포","송파"],"city":"Seoul","capacity":"2지점","price_monthly":"80~140만원","tagline":"디자인 코리빙","features":["디자인 인테리어","청년"]},
+    {"id":"locallounge","name":"로컬라운지","operator":"로컬라운지","sites":["부산 광안리","제주"],"city":"Busan/Jeju","capacity":"해변 거점","price_monthly":"70~150만원","tagline":"해변 워케이션 코리빙","features":["해변","워케이션","서핑"]},
+    {"id":"jejucamp","name":"제주코리빙","operator":"제주코리빙 운영사","sites":["제주 애월","서귀포"],"city":"Jeju","capacity":"수십 지점","price_monthly":"80~200만원","tagline":"제주 한 달 살기 코리빙","features":["제주","한 달 살기","디지털 노마드"]}
+  ],
+  "highlights": [
+    {"title":"가격대","detail":"보증금 0~500만원 + 월세 50~400만원. 위치·등급·면적별 차이 큼."},
+    {"title":"체류 기간","detail":"통상 최소 1개월~12개월. 일부는 1주일 단위 단기."},
+    {"title":"포함 서비스","detail":"가구·가전·청소·관리비·Wi-Fi·라운지·코워킹 + 커뮤니티 이벤트"},
+    {"title":"타깃","detail":"청년·1인가구·외국인·디지털 노마드·스타트업 임직원"}
+  ],
+  "for_hosts": [
+    "코리빙 운영은 「관광진흥법」 또는 「공중위생관리법」 등록 없이 가능 — 단, 1개월 미만 단기는 불가",
+    "위탁운영 또는 직접운영. 직접운영 시 임차인 관리·시설 유지 부담",
+    "외도민업·생활형숙박과는 별개 카테고리",
+    "분양형 단지를 통째로 운영하는 모델이 가장 안정적"
+  ],
+  "trends": [
+    "2020-2026 시장 4배 성장. 코로나 이후 1인가구 증가",
+    "외국인 디지털 노마드 비자(2024 시행) → 외국인 수요 급증",
+    "강남·홍대·성수 도심 + 제주·부산 해안 워케이션 양극화"
+  ]
+}

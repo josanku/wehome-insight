@@ -1,0 +1,225 @@
+{
+  "meta": {
+    "name": "K-STAY 데이터 소스 카탈로그",
+    "purpose": "각 데이터셋의 출처·갱신 주기·신뢰도·대체 후보를 한 곳에 기록해 향후 변화에 효율적으로 대응. 더 좋은 소스를 찾았을 때 이 파일을 업데이트하면 운영자가 즉시 교체 가능.",
+    "version": "1.0",
+    "last_review": "2026-05-22",
+    "maintainer": "K-STAY (wehome, Inc.)"
+  },
+  "datasets": [
+    {
+      "id": "foreigner_city_homestays",
+      "name": "외국인관광도시민박업 등록 영업장",
+      "current_source": {
+        "name": "행정안전부 지방행정 인허가 데이터",
+        "url": "https://file.localdata.go.kr/file/download/foreigner_city_homestays/info",
+        "format": "CSV (CP949)",
+        "license": "공공누리 제4유형 (출처표시·상업적이용금지·변경금지)"
+      },
+      "update_cycle": "매일 04:00 KST (cron) — D-2 데이터",
+      "active_count": "약 9,922곳 영업중",
+      "alternative_sources": [
+        {"name":"data.go.kr OpenAPI","url":"https://www.data.go.kr","status":"구독 완료하나 API -3 오류 빈발. 백업용"},
+        {"name":"서울스테이 (서울만)","url":"https://stay.visitseoul.net","status":"서울만, 보완"}
+      ],
+      "fields": ["mgt_no","biz_name","status_name","license_date","road_address","x","y","sido","sigungu","dong"],
+      "notes": "각 row가 개별 업체의 등록·휴업·폐업 이벤트. 동일 업체가 여러 row를 가질 수 있음. (mgt_no + road_address) 복합키로 분류 권장."
+    },
+    {
+      "id": "hanok_experience",
+      "name": "한옥체험업 등록 영업장",
+      "current_source": {
+        "name": "행정안전부 지방행정 인허가 데이터",
+        "url": "https://file.localdata.go.kr/file/download/hanok_experience/info",
+        "format": "CSV",
+        "license": "공공누리 제4유형"
+      },
+      "update_cycle": "매일 04:00 KST",
+      "active_count": "약 2,522곳 영업중",
+      "alternative_sources": [
+        {"name":"KTO 한옥홍보 hanok.visitkorea.or.kr","url":"https://hanok.visitkorea.or.kr","status":"명품고택·인증 한옥 보강용 — 403 제한 잦음"},
+        {"name":"문화재청 국가민속문화재 DB","url":"https://www.cha.go.kr","status":"문화재 한옥 보강"}
+      ]
+    },
+    {
+      "id": "tourist_accommodations",
+      "name": "관광숙박업 (호텔·호스텔·게스트하우스)",
+      "current_source": {
+        "name": "행정안전부 지방행정 인허가 데이터",
+        "url": "https://file.localdata.go.kr/file/download/tourist_accommodations/info",
+        "format": "CSV"
+      },
+      "update_cycle": "매일 04:00 KST",
+      "active_count": "약 3,257곳 영업중 (호텔 1,229 / 호스텔 397 + 기타)",
+      "sub_categorization": "biz_name 패턴(호텔/호스텔/게스트하우스) 키워드 매칭으로 분류 중 — 향후 detail_status 필드 활용 권장",
+      "alternative_sources": [
+        {"name":"문체부 호텔등급결정 DB","url":"https://www.hotelrating.or.kr","status":"호텔 등급 보강"}
+      ]
+    },
+    {
+      "id": "rural_homestays",
+      "name": "농어촌민박",
+      "current_source": {
+        "name": "행정안전부 지방행정 인허가 데이터",
+        "url": "https://file.localdata.go.kr/file/download/rural_homestays/info"
+      },
+      "update_cycle": "매일 04:00 KST",
+      "active_count": "약 36,361곳",
+      "alternative_sources": [
+        {"name":"농촌체험휴양마을 — 농림축산식품부 welchon.invil.org","url":"https://welchon.invil.org","status":"마을 단위 데이터 보강"}
+      ]
+    },
+    {
+      "id": "tourist_pensions",
+      "name": "관광펜션업",
+      "current_source": {"name":"행정안전부 인허가 데이터","url":"https://file.localdata.go.kr/file/download/tourist_pensions/info"},
+      "update_cycle":"매일 04:00 KST",
+      "active_count": "약 1,300곳"
+    },
+    {
+      "id": "hanok_villages",
+      "name": "한옥마을 50곳 큐레이션",
+      "current_source": {
+        "name": "K-STAY 큐레이션 (문화재청·UNESCO·KTO·각 지자체 공개 자료 종합)",
+        "file": "data/hanok/villages.json",
+        "manual": true
+      },
+      "update_cycle": "분기 1회 수동 검토 (지자체 신규 지정 시 추가)",
+      "active_count": "51곳",
+      "alternative_sources": [
+        {"name":"문화재청 국가민속문화재","url":"https://www.cha.go.kr","status":"민속마을 보강"},
+        {"name":"위키백과 한옥마을","url":"https://ko.wikipedia.org/wiki/한옥마을","status":"교차 검증"},
+        {"name":"한국에서 가장 아름다운 마을연합","url":"http://www.beautifulvillages.kr","status":"보강"}
+      ]
+    },
+    {
+      "id": "meongpum_gotaek",
+      "name": "한국관광공사 명품고택",
+      "current_source": {
+        "name": "KTO 한옥홍보 명품고택 + 문화재청 국가민속문화재 종택 큐레이션",
+        "file": "data/hanok/meongpum-gotaek.json",
+        "manual": true
+      },
+      "update_cycle": "매년 5월 KTO 발표 후 갱신",
+      "active_count": "55곳",
+      "alternative_sources": [
+        {"name":"한국관광공사 명품고택 hanok.visitkorea.or.kr","url":"https://hanok.visitkorea.or.kr/kor/hanok/house/house_list.do","status":"공식 명단 (현재 403 제한 — VPN/우회 또는 KTO 협력 데이터셋 요청 필요)"},
+        {"name":"문화재청 국가민속문화재 DB","url":"https://www.cha.go.kr","status":"종택 보강"}
+      ],
+      "improvement_notes": "KTO 공식 사이트 직접 크롤링 가능해지면 100+ 곳까지 확장 가능"
+    },
+    {
+      "id": "temple_stay",
+      "name": "템플스테이 운영 사찰",
+      "current_source": {
+        "name": "한국불교문화사업단 templestay.com + 조계종 25교구 본사 + K-STAY 큐레이션",
+        "file": "data/temple/temples.json",
+        "manual": true
+      },
+      "update_cycle": "분기 1회 — 신규 운영사찰 발표 시 갱신",
+      "active_count": "약 130곳 큐레이션 (전체 171곳 중)",
+      "alternative_sources": [
+        {"name":"한국불교문화사업단 templestay.com","url":"https://www.templestay.com/fe/MI000000000000000019/temple/list.do","status":"공식 — 29페이지 페이징, 자동화 크롤링 권장"},
+        {"name":"조계종 본사 사이트","url":"https://www.buddhism.or.kr","status":"교구별 사찰 보강"}
+      ]
+    },
+    {
+      "id": "tourism_inbound",
+      "name": "외래관광객(외국인 방문) 통계",
+      "current_source": {
+        "name": "K-STAY 큐레이션 (KTO 데이터랩 + 법무부 출입국 통계연보)",
+        "file": "data/lodging/tourism-stats.json",
+        "manual": true
+      },
+      "update_cycle": "월 1회 — 매월 25일경 KTO 전월 통계 발표 후 갱신",
+      "alternative_sources": [
+        {"name":"한국관광공사 데이터랩","url":"https://datalab.visitkorea.or.kr","status":"공식 통계 — 월별 갱신"},
+        {"name":"법무부 출입국·외국인정책본부","url":"https://www.immigration.go.kr","status":"출입국 통계연보"},
+        {"name":"KOSIS 국가통계포털","url":"https://kosis.kr","status":"통합 통계"},
+        {"name":"KTO Open API","url":"https://api.visitkorea.or.kr","status":"자동 연동 후보"}
+      ],
+      "improvement_notes": "KTO Open API 키 발급 시 매일 자동 갱신 가능"
+    },
+    {
+      "id": "coliving",
+      "name": "코리빙 운영사",
+      "current_source": {
+        "name": "각 운영사 공식 홈페이지 + 언론 보도 + K-STAY 큐레이션",
+        "file": "data/lodging/coliving.json",
+        "manual": true
+      },
+      "update_cycle": "반기 1회 — 신규 진입·폐업 점검",
+      "alternative_sources": [
+        {"name":"코리빙협회 (구상 중)","url":"-","status":"미발족"},
+        {"name":"맹그로브 / 보더리스 / 콜리브 등 개별 운영사","url":"각 사 홈페이지","status":"실시간"}
+      ]
+    },
+    {
+      "id": "residence",
+      "name": "생활형숙박시설 (레지던스)",
+      "current_source": {
+        "name": "국토교통부 + 각 시공사·운영사 + K-STAY 큐레이션",
+        "file": "data/lodging/residence.json",
+        "manual": true
+      },
+      "update_cycle": "반기 1회",
+      "alternative_sources": [
+        {"name":"국토교통부 부동산 통계","url":"https://stat.molit.go.kr","status":"공식"},
+        {"name":"부동산114·직방·다방","url":"분양 정보","status":"개별 단지 보강"}
+      ],
+      "improvement_notes": "30일 미만 단기 임대 불가(2023.12) 시행 후 시장 재편 중 — 정책 변화 모니터링 필요"
+    },
+    {
+      "id": "glamping",
+      "name": "글램핑 (야영장업)",
+      "current_source": {
+        "name": "K-STAY 큐레이션 (문체부 야영장업 등록 통계 + 주요 운영사)",
+        "file": "data/lodging/glamping.json",
+        "manual": true
+      },
+      "update_cycle": "반기 1회",
+      "alternative_sources": [
+        {"name":"문체부 야영장업 등록 현황","url":"https://www.mcst.go.kr","status":"공식"},
+        {"name":"행정안전부 인허가 데이터 (야영장)","url":"https://file.localdata.go.kr","status":"신규 카테고리 추가 가능 — fetch_data.py 확장 권장"}
+      ],
+      "improvement_notes": "fetch_data.py에 야영장업 카테고리 추가하면 DB 통합 가능"
+    },
+    {
+      "id": "motel_general",
+      "name": "여관·모텔 (일반숙박업)",
+      "current_source": {
+        "name": "K-STAY 큐레이션 (보건복지부 공중위생영업소 + 산업 자료)",
+        "file": "data/lodging/motel-info.json",
+        "manual": true
+      },
+      "update_cycle": "반기 1회",
+      "alternative_sources": [
+        {"name":"보건복지부 공중위생영업소 통계","url":"https://www.mohw.go.kr","status":"공식"},
+        {"name":"행정안전부 인허가 (일반숙박업)","url":"https://file.localdata.go.kr","status":"신규 카테고리 추가 가능"}
+      ],
+      "improvement_notes": "fetch_data.py에 일반숙박업 카테고리 추가 시 27,000곳 실데이터 통합 가능"
+    },
+    {
+      "id": "news_monitor",
+      "name": "공유숙박 관련 뉴스 모니터",
+      "current_source": {
+        "name": "Google News RSS + Naver News + YouTube",
+        "script": "news_monitor.py"
+      },
+      "update_cycle": "매일 06:00 KST (cron 설정 필요)",
+      "alternative_sources": [
+        {"name":"Daum News API","url":"https://developers.daum.net","status":"키 필요"},
+        {"name":"네이버 검색 API","url":"https://developers.naver.com","status":"신청 가능"}
+      ]
+    }
+  ],
+  "data_quality_checklist": [
+    "원본 출처 URL이 살아있는가?",
+    "갱신 주기가 명시되어 있는가?",
+    "라이선스가 명확한가? (공공누리·CC·상업이용 가능 여부)",
+    "더 권위 있는 1차 소스가 있는가?",
+    "자동 수집 스크립트가 있는가? 없다면 추가 가능한가?",
+    "마지막 검토 일자가 6개월 이내인가?"
+  ],
+  "evolution_policy": "더 좋은 소스를 발견하면 1) alternative_sources에 추가 → 2) 신뢰도 검증 → 3) current_source 교체 → 4) last_review 갱신. 이 파일을 PR로 변경하면 자동 배포되어 즉시 반영."
+}

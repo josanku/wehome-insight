@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "name": "K-Culture 핫스팟 (K-Pop · K-Drama · K-Movie · K-Food · K-Beauty)",
+    "description": "외국인 관광객이 방문하는 한국 대중문화 콘텐츠 명소 큐레이션. 촬영지·소속사·체험 공간 위주.",
+    "as_of": "2026-05",
+    "source": "K-STAY 큐레이션 (각 소속사 + 한국관광공사 한류관광 + 언론 보도)",
+    "update_cycle": "분기 1회",
+    "license": "비상업적 활용 시 출처 표시"
+  },
+  "intro": "K-Culture 핫스팟은 외국인 관광객이 한국을 방문하는 가장 큰 동기 중 하나입니다. K-Pop 소속사 사옥부터 K-Drama 촬영지·K-Movie 명장면 장소·K-Food 거리·K-Beauty 메카까지, 외래관광객의 약 41%가 한류 콘텐츠를 방문 목적으로 꼽고 있습니다(KTO 2025).",
+  "hotspots": [
+    {"id":"hybe-yongsan","name":"HYBE 사옥","name_en":"HYBE HQ","category":"k-pop","city":"Seoul","address":"서울특별시 용산구 한강대로 42","lat":37.5304,"lng":126.9658,"highlight":"BTS·세븐틴·뉴진스 등 보유. 1층 카페 + ARMY 성지","fandom":["ARMY","CARAT","BUNNIES"]},
+    {"id":"sm-seongsu","name":"SM Entertainment 사옥","name_en":"SM Town","category":"k-pop","city":"Seoul","address":"서울특별시 성동구 왕십리로 83-21","lat":37.5450,"lng":127.0567,"highlight":"NCT·에스파·라이즈. 성수동 코엑스 인근","fandom":["NCTzen","MY","BRIIZE"]},
+    {"id":"jyp-samsung","name":"JYP Entertainment 사옥","name_en":"JYP","category":"k-pop","city":"Seoul","address":"서울특별시 강동구 강동대로 217","lat":37.5475,"lng":127.1417,"highlight":"트와이스·스트레이키즈·ITZY·니쥬·엔믹스","fandom":["ONCE","STAY","MIDZY"]},
+    {"id":"yg-hapjeong","name":"YG Entertainment 사옥","name_en":"YG","category":"k-pop","city":"Seoul","address":"서울특별시 마포구 희우정로1길 3","lat":37.5547,"lng":126.9089,"highlight":"BLACKPINK·트레저·베이비몬스터. 합정 인근","fandom":["BLINK","TREASURE MAKER"]},
+    {"id":"hybe-island","name":"HYBE INSIGHT 박물관 (운영 종료)","name_en":"HYBE Insight Museum","category":"k-pop","city":"Seoul","address":"서울특별시 용산구 (운영 종료)","lat":37.5306,"lng":126.9661,"highlight":"HYBE 전시 박물관 (현재 운영 종료)"},
+    {"id":"sm-coex","name":"SM TOWN COEX Artium","name_en":"SMTOWN coexartium","category":"k-pop","city":"Seoul","address":"서울특별시 강남구 영동대로 513","lat":37.5119,"lng":127.0589,"highlight":"코엑스 SM 굿즈숍·카페. 강남 방문 코스","fandom":["NCTzen","MY"]},
+    {"id":"the-shilla-bts","name":"BTS 마이크드롭 신촌","name_en":"Sinchon BTS Spot","category":"k-pop","city":"Seoul","address":"서울특별시 서대문구 신촌","lat":37.5559,"lng":126.9362,"highlight":"BTS 마이크드롭 뮤직비디오 촬영지"},
+    {"id":"jeju-bts","name":"제주 BTS 인 더 숲","name_en":"BTS in the Soop Jeju","category":"k-pop","city":"Jeju","address":"제주특별자치도 한경면","lat":33.3439,"lng":126.2089,"highlight":"BTS 인더숲 시즌2 촬영지"},
+    {"id":"namsan-tower","name":"N서울타워","name_en":"N Seoul Tower","category":"k-drama","city":"Seoul","address":"서울특별시 용산구 남산공원길 105","lat":37.5512,"lng":126.9882,"highlight":"수많은 드라마 단골 장면. 자물쇠 명소. 야경"},
+    {"id":"itaewon","name":"이태원","name_en":"Itaewon","category":"k-drama","city":"Seoul","address":"서울특별시 용산구 이태원동","lat":37.5345,"lng":126.9947,"highlight":"이태원클라쓰·꽃보다남자·도깨비. 외국인 음식·문화 거리"},
+    {"id":"seoul-forest","name":"서울숲","name_en":"Seoul Forest","category":"k-drama","city":"Seoul","address":"서울특별시 성동구 뚝섬로 273","lat":37.5446,"lng":127.0378,"highlight":"청춘기록·서른이지만열일곱·이태원클라쓰 단골 촬영지"},
+    {"id":"bukchon-village","name":"북촌 한옥마을","name_en":"Bukchon Hanok Village","category":"k-drama","city":"Seoul","address":"서울특별시 종로구 가회동","lat":37.5826,"lng":126.9846,"highlight":"미스터선샤인·도깨비·구르미그린달빛. 한옥 드라마 단골"},
+    {"id":"jeonju-hanok-drama","name":"전주 한옥마을 (드라마)","name_en":"Jeonju Hanok (Drama)","category":"k-drama","city":"Jeonju","address":"전북 전주시 풍남동","lat":35.8154,"lng":127.1531,"highlight":"성균관스캔들·구르미그린달빛·미스터선샤인"},
+    {"id":"odusan","name":"DMZ 오두산통일전망대","name_en":"DMZ Odusan","category":"k-drama","city":"Paju","address":"경기 파주시 탄현면 필승로 369","lat":37.7972,"lng":126.6764,"highlight":"사랑의 불시착·태양의 후예 등 분단 드라마 단골"},
+    {"id":"pohang","name":"포항 영일대해수욕장","name_en":"Pohang Yeongildae Beach","category":"k-drama","city":"Pohang","address":"경북 포항시 북구 영일대","lat":36.0639,"lng":129.3756,"highlight":"동백꽃 필 무렵 촬영지. 옹산 모델"},
+    {"id":"chuncheon-namiseom","name":"춘천 남이섬","name_en":"Namiseom","category":"k-drama","city":"Chuncheon","address":"강원 춘천시 남산면 남이섬길 1","lat":37.7903,"lng":127.5253,"highlight":"겨울연가 메타피셜 명소. 한류 1세대 성지"},
+    {"id":"sokcho","name":"속초 아바이마을","name_en":"Sokcho Abai Village","category":"k-drama","city":"Sokcho","address":"강원 속초시 청호동","lat":38.1986,"lng":128.5944,"highlight":"가을동화 촬영지. 1세대 한류"},
+    {"id":"hwaseong","name":"수원화성","name_en":"Hwaseong Fortress","category":"k-drama","city":"Suwon","address":"경기 수원시 팔달구 정조로 825","lat":37.2853,"lng":127.0119,"highlight":"이산·해를품은달 사극 단골. UNESCO 세계유산"},
+    {"id":"changdeokgung","name":"창덕궁","name_en":"Changdeokgung","category":"k-drama","city":"Seoul","address":"서울 종로구 율곡로 99","lat":37.5826,"lng":126.9919,"highlight":"수많은 궁중 사극 촬영지. UNESCO. 한복 입장 무료"},
+    {"id":"gwangjang-market","name":"광장시장","name_en":"Gwangjang Market","category":"k-food","city":"Seoul","address":"서울 종로구 창경궁로 88","lat":37.5701,"lng":126.9994,"highlight":"빈대떡·마약김밥·육회. 외국인 1위 미식 코스. 넷플릭스 스트리트 푸드 파이터"},
+    {"id":"myeongdong","name":"명동","name_en":"Myeongdong","category":"k-food","city":"Seoul","address":"서울 중구 명동","lat":37.5635,"lng":126.9824,"highlight":"길거리 음식·치즈핫도그·딸기 모찌. 외국인 쇼핑·미식 1번지"},
+    {"id":"hongdae","name":"홍대","name_en":"Hongdae","category":"k-food","city":"Seoul","address":"서울 마포구 와우산로","lat":37.5563,"lng":126.9229,"highlight":"버스킹·클럽·트렌디 카페·치킨·맥주. MZ 핫플"},
+    {"id":"ikseondong-food","name":"익선동","name_en":"Ikseondong","category":"k-food","city":"Seoul","address":"서울 종로구 익선동","lat":37.5723,"lng":126.9897,"highlight":"한옥 카페·레스토랑 거리. 인스타그래머블"},
+    {"id":"seongsu","name":"성수동","name_en":"Seongsu","category":"k-food","city":"Seoul","address":"서울 성동구 성수동","lat":37.5443,"lng":127.0561,"highlight":"브루클린 스타일 카페·맥주. 핫플의 핫플"},
+    {"id":"busan-jagalchi","name":"부산 자갈치시장","name_en":"Busan Jagalchi","category":"k-food","city":"Busan","address":"부산 중구 자갈치해안로 52","lat":35.0964,"lng":129.0306,"highlight":"한국 최대 수산시장. 회·해물찜. 자갈치 아지매"},
+    {"id":"jeonju-food","name":"전주 한옥마을 음식","name_en":"Jeonju Hanok Food","category":"k-food","city":"Jeonju","address":"전북 전주시 풍남동","lat":35.8154,"lng":127.1531,"highlight":"전주비빔밥·콩나물국밥·길거리 음식. 음식 답사 1번지"},
+    {"id":"gangnam-beauty","name":"강남 미용성형거리","name_en":"Gangnam Beauty Belt","category":"k-beauty","city":"Seoul","address":"서울 강남구 압구정·신사·청담","lat":37.5172,"lng":127.0276,"highlight":"한국 미용성형 메카. 외국인 의료관광 1위. 압구정~신사 미용 거리"},
+    {"id":"myeongdong-cosmetic","name":"명동 화장품 거리","name_en":"Myeongdong K-Beauty","category":"k-beauty","city":"Seoul","address":"서울 중구 명동","lat":37.5635,"lng":126.9824,"highlight":"올리브영·이니스프리·에뛰드 플래그십. 외국인 쇼핑 1번지"},
+    {"id":"olive-young-meongdong","name":"올리브영 명동타운","name_en":"Olive Young Myeongdong Town","category":"k-beauty","city":"Seoul","address":"서울 중구 명동","lat":37.5635,"lng":126.9847,"highlight":"한국 최대 K-Beauty 매장. 외국인 결제 비중 80%+"},
+    {"id":"bts-busking","name":"홍대 버스킹 거리","name_en":"Hongdae Busking","category":"k-pop","city":"Seoul","address":"서울 마포구 어울마당로","lat":37.5567,"lng":126.9244,"highlight":"K-Pop 1세대부터 시작된 버스킹 본거지. 주말 댄스 커버 명소"},
+    {"id":"parasite-house","name":"기생충 촬영지 (강남·아현)","name_en":"Parasite Filming Spots","category":"k-movie","city":"Seoul","address":"서울 마포구 아현동","lat":37.5544,"lng":126.9569,"highlight":"오스카 작품상 기생충 촬영지. 아현동 골목·강남 부잣집"},
+    {"id":"squid-game-park","name":"오징어게임 촬영지 (영도)","name_en":"Squid Game (Yeongdo)","category":"k-drama","city":"Busan","address":"부산 영도구","lat":35.0791,"lng":129.0683,"highlight":"오징어게임 시즌2 부산 영도 촬영"},
+    {"id":"busan-haeundae","name":"부산 해운대","name_en":"Haeundae","category":"k-drama","city":"Busan","address":"부산 해운대구","lat":35.1586,"lng":129.1603,"highlight":"수많은 영화·드라마 촬영지. 부산국제영화제"},
+    {"id":"bukchon-experience","name":"한복 체험 (북촌·경복궁)","name_en":"Hanbok Experience","category":"k-culture","city":"Seoul","address":"서울 종로구 경복궁 일대","lat":37.5796,"lng":126.9770,"highlight":"한복 입고 궁궐 무료입장. 외국인 1위 한국 체험"},
+    {"id":"dmz-tour","name":"DMZ 투어","name_en":"DMZ Tour","category":"k-culture","city":"Paju","address":"경기 파주시 군내면","lat":37.9128,"lng":126.7106,"highlight":"공동경비구역·도라산전망대. 외국인 가장 신기해하는 코스"}
+  ],
+  "categories": [
+    {"id":"k-pop","name":"K-Pop","ico":"🎤","color":"#FF1493","count_target":"소속사·콘서트·MV 촬영지"},
+    {"id":"k-drama","name":"K-Drama","ico":"📺","color":"#1E90FF","count_target":"드라마 촬영지"},
+    {"id":"k-movie","name":"K-Movie","ico":"🎬","color":"#9370DB","count_target":"영화 촬영지·메가박스"},
+    {"id":"k-food","name":"K-Food","ico":"🍜","color":"#FF6347","count_target":"음식 명소·전통시장"},
+    {"id":"k-beauty","name":"K-Beauty","ico":"💄","color":"#FF69B4","count_target":"미용·성형·화장품"},
+    {"id":"k-culture","name":"K-Culture","ico":"🏛️","color":"#DAA520","count_target":"한복·궁궐·DMZ"}
+  ],
+  "highlights": [
+    {"title":"외국인 한류 관광객","detail":"2025년 외래관광객 1,876만명 중 약 41%(770만명)가 한류 콘텐츠를 방문 목적으로 응답 (KTO 2025)"},
+    {"title":"가장 많이 찾는 카테고리","detail":"K-Food (62%) > K-Beauty (45%) > K-Pop (38%) > K-Drama 촬영지 (29%) (복수응답)"},
+    {"title":"K-Pop 팬덤 투어","detail":"HYBE·SM·JYP·YG 사옥 + 콘서트장(고척스카이돔·KSPO돔) 순례가 정형 코스"},
+    {"title":"K-Drama 효과","detail":"드라마 한 편이 촬영지 방문객을 평균 30% 증가시킴 (2018-2024 KTO 분석)"}
+  ]
+}

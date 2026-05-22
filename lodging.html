@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title id="pageTitle">K-STAY 숙박 카테고리</title>
+<meta id="metaDesc" name="description" content="한국의 숙박 카테고리별 종합 정보. K-STAY는 모든 합법 숙박업의 데이터·시장 인사이트·운영 가이드를 한 곳에서 제공합니다."/>
+<link id="canonical" rel="canonical" href="https://k-stay.ai/lodging"/>
+<meta property="og:image" content="https://k-stay.ai/og-image.png"/>
+<meta property="og:site_name" content="K-STAY"/>
+<meta name="theme-color" content="#1a52cc"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;background:#f7f9fc;color:#1a2b4a;line-height:1.6}
+header{background:#fff;border-bottom:1px solid #ececec;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-size:20px;font-weight:800}.logo em{color:#FF6B35;font-style:normal}
+.logo small{font-size:12px;font-weight:400;color:#888;margin-left:6px}
+.nav{display:flex;gap:10px;font-size:12px;flex-wrap:wrap}
+.nav a{color:#555;text-decoration:none;padding:5px 9px;border-radius:6px}
+.nav a:hover{background:#f0f5ff;color:#1a52cc}
+.nav a.active{background:var(--accent,#1a52cc);color:#fff}
+
+.hero{padding:50px 32px 30px;text-align:center;background:linear-gradient(180deg,#fff,#eef4ff)}
+.hero .ico{font-size:48px;margin-bottom:6px}
+.hero .pre{font-size:11px;font-weight:700;letter-spacing:3px;margin-bottom:8px;color:var(--accent,#1a52cc)}
+.hero h1{font-size:36px;font-weight:900;letter-spacing:-1.2px;margin-bottom:10px}
+.hero h1 em{font-style:normal;color:var(--accent,#1a52cc)}
+.hero .lead{color:#555;font-size:15px;max-width:720px;margin:0 auto}
+
+main{max-width:1180px;margin:0 auto;padding:24px}
+
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.kpi{background:#fff;border-radius:12px;padding:16px 18px;box-shadow:0 2px 8px rgba(0,0,0,.04);border-left:4px solid var(--accent,#1a52cc)}
+.kpi .num{font-size:26px;font-weight:800;color:#0d1f45;letter-spacing:-.5px}
+.kpi .num small{font-size:12px;color:#888;font-weight:500}
+.kpi .label{font-size:11px;color:#6b7280;margin-top:3px;font-weight:600}
+
+.card{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.04);padding:20px 22px;margin-bottom:16px}
+.card h2{font-size:16px;color:#0d1f45;margin-bottom:6px;letter-spacing:-.3px}
+.card .desc{font-size:12px;color:#6b7280;margin-bottom:14px}
+.card p{font-size:13.5px;color:#444;margin-bottom:10px;line-height:1.7}
+
+#lodgingMap{width:100%;height:440px;border-radius:10px;background:#eef0f5}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center;font-size:12px}
+.filters select,.filters button{padding:6px 11px;border:1px solid #d8dde6;border-radius:7px;background:#fff;font-weight:600;cursor:pointer}
+.filters .meta{margin-left:auto;color:#888;font-size:11px}
+
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.chart-wrap{position:relative;height:300px}
+
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{padding:8px 10px;text-align:right;border-bottom:1px solid #f0f0f0}
+th{background:#f7f9fc;color:#0d1f45;font-weight:700;font-size:11px;text-transform:uppercase}
+th:first-child,td:first-child{text-align:left}
+
+.intro-block{font-size:14px;color:#444;line-height:1.8;margin-bottom:14px}
+.highlights{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:10px}
+.highlights .h-card{background:#f7f9fc;border-radius:8px;padding:14px;border-left:3px solid var(--accent,#1a52cc)}
+.highlights .h-card .t{font-size:12px;font-weight:800;color:#0d1f45;margin-bottom:4px}
+.highlights .h-card .d{font-size:12px;color:#666}
+
+.tag-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tag{font-size:11px;padding:3px 8px;background:#eef4ff;color:#1a52cc;border-radius:8px}
+
+.op-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.op-card{background:#fff;border-radius:10px;padding:14px 16px;border:1px solid #e8edf5;box-shadow:0 1px 4px rgba(0,0,0,.03)}
+.op-card .nm{font-size:14px;font-weight:800;color:#0d1f45;margin-bottom:3px}
+.op-card .tg{font-size:11px;color:#FF6B35;font-weight:700;margin-bottom:6px}
+.op-card .dt{font-size:11px;color:#666;line-height:1.55}
+.op-card .price{font-size:11px;color:#27ae60;font-weight:700;margin-top:5px}
+
+.source-card{background:#FFF8EC;border-radius:10px;padding:14px 18px;font-size:12px;color:#5d4500;border-left:4px solid #FFA500;margin-bottom:14px}
+.source-card b{color:#0d1f45}
+
+footer{background:#0d1f45;color:#fff;padding:24px;text-align:center;font-size:12px;margin-top:30px}
+footer a{color:#FF6B35;text-decoration:none}
+
+@media (max-width:880px){
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .chart-grid{grid-template-columns:1fr}
+  .hero h1{font-size:26px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><em>K</em>-STAY <small id="logoSub">숙박 카테고리</small></div>
+  <nav class="nav" id="topNav"></nav>
+</header>
+
+<section class="hero">
+  <div class="ico" id="heroIcon">🏨</div>
+  <div class="pre" id="preLabel"></div>
+  <h1 id="h1Title"></h1>
+  <p class="lead" id="leadText"></p>
+</section>
+
+<main id="mainContent"></main>
+
+<footer>
+  © 2026 wehome, Inc. · K-STAY · 출처: <a href="https://file.localdata.go.kr/" target="_blank">행정안전부 인허가 데이터</a> + 각 카테고리별 큐레이션
+</footer>
+
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d57298b5648cef7e88c9f7bec9b24e74&autoload=false&libraries=clusterer"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<script>
+// ─── 카테고리 정의 ──────────────────────────────────────────────────────
+const CATS = {
+  temple:    {ico:'🏯', name:'템플스테이', pre:'TEMPLE STAY · 한국 사찰 숙박', accent:'#8B4513',
+              lead:'전국 171곳 사찰에서 운영하는 1박2일 사찰 체험. 참선·발우공양·사찰음식·국악·간화선.',
+              type:'curated', json:'/api/temple', collKey:'temples'},
+  hotel:     {ico:'🏨', name:'호텔', pre:'HOTEL · 관광호텔업', accent:'#1a52cc',
+              lead:'관광진흥법 관광호텔업 등록 영업장. 전국 호텔 1,229곳 영업중. K-STAY 실시간 데이터 + 지도.',
+              type:'db', kind:'hotel'},
+  hostel:    {ico:'🛏️', name:'호스텔·게스트하우스', pre:'HOSTEL & GUESTHOUSE', accent:'#27ae60',
+              lead:'관광진흥법 호스텔업 + 게스트하우스. 전국 397곳 영업중. 배낭여행·외국인 친화.',
+              type:'db', kind:'hostel'},
+  rural:     {ico:'🌾', name:'농어촌민박·농촌체험', pre:'RURAL HOMESTAY · 농어촌정비법', accent:'#16a085',
+              lead:'농어촌정비법상 농어촌민박. 전국 36,361곳 영업중. 농촌·어촌 단독주택 한정.',
+              type:'db', kind:'rural'},
+  pension:   {ico:'🏞️', name:'관광펜션', pre:'TOURIST PENSION · 관광진흥법', accent:'#e67e22',
+              lead:'관광진흥법 관광펜션업. 전국 1,300곳 영업중. 농어촌·휴양지 가족 단위 펜션.',
+              type:'db', kind:'pension'},
+  glamping:  {ico:'⛺', name:'글램핑', pre:'GLAMPING · 야영장업', accent:'#9b59b6',
+              lead:'관광진흥법 야영장업. 전국 약 3,000곳 운영. 텐트·돔·카라반 자연 럭셔리.',
+              type:'curated', json:'/api/glamping', collKey:'regional_hotspots'},
+  motel:     {ico:'🛌', name:'여관·모텔', pre:'INN & MOTEL · 일반숙박업', accent:'#34495e',
+              lead:'공중위생관리법 일반숙박업. 전국 약 27,000곳. 모텔·여관·디자인 모텔 산업 안내.',
+              type:'curated', json:'/api/motel', collKey:'key_franchises'},
+  residence: {ico:'🏢', name:'생활형숙박 (레지던스)', pre:'RESIDENCE · 생활형숙박', accent:'#FF6B35',
+              lead:'건축법상 준주택. 호텔과 주거의 중간. 장기 비즈니스·외국인 임원·MICE.',
+              type:'curated', json:'/api/residence', collKey:'key_operators'},
+  coliving:  {ico:'🛋️', name:'코리빙', pre:'CO-LIVING · 공유 주거', accent:'#e74c3c',
+              lead:'1인 가구·청년·디지털 노마드 공유 주거. 맹그로브·보더리스·콜리브 등 12개 주요 운영사.',
+              type:'curated', json:'/api/coliving', collKey:'operators'},
+  culture:   {ico:'🎤', name:'K-Culture 핫스팟', pre:'K-POP · K-DRAMA · K-FOOD · K-BEAUTY', accent:'#FF1493',
+              lead:'외국인 관광객이 방문하는 한국 대중문화 명소. HYBE·SM·드라마 촬영지·광장시장·강남 미용 등.',
+              type:'curated', json:'/api/culture/hotspots', collKey:'hotspots', isCulture:true},
+  korea100:  {ico:'🏆', name:'한국관광 100선', pre:'KTO TOP 100 · 한국관광공사 공식 선정', accent:'#DAA520',
+              lead:'한국관광공사가 격년으로 발표하는 한국 대표 관광지 100선. 2025-2026 연도별 정리.',
+              type:'korea100', json:'/api/korea100'},
+  festival:  {ico:'🎊', name:'전국 축제 캘린더', pre:'FESTIVAL CALENDAR · 월별 전국 축제', accent:'#FF6347',
+              lead:'전국 주요 축제 50선. 기간·장소·관람객 규모. 월별·카테고리별 분류.',
+              type:'festival', json:'/api/festivals'},
+};
+
+const NAV_ITEMS = [
+  ['/','홈'],['/hanok','한옥'],['/temple','템플'],['/hotel','호텔'],['/hostel','호스텔'],
+  ['/rural','농촌'],['/pension','펜션'],['/glamping','글램핑'],['/motel','모텔'],
+  ['/residence','레지던스'],['/coliving','코리빙'],
+  ['/culture','K-Culture'],['/korea100','관광100선'],['/festival','축제'],
+  ['/tourism','외국인 통계'],['/about','소개']
+];
+
+function fmt(n){ return (n||0).toLocaleString('ko-KR'); }
+function pct(x){ return Math.round((x||0)*1000)/10 + '%'; }
+
+// 현재 카테고리 인식 (URL path)
+const path = window.location.pathname.replace(/\/+$/,'') || '/lodging';
+const key = path.replace('/','') || 'lodging';
+const cat = CATS[key] || {ico:'🏨', name:'숙박 카테고리', pre:'LODGING', accent:'#1a52cc',
+                          lead:'K-STAY는 한국의 모든 합법 숙박 카테고리를 한 곳에서 안내합니다.', type:'index'};
+
+// 동적 메타·헤더
+document.documentElement.style.setProperty('--accent', cat.accent);
+document.getElementById('pageTitle').textContent = `${cat.name} | K-STAY`;
+document.getElementById('metaDesc').setAttribute('content', cat.lead);
+document.getElementById('canonical').setAttribute('href', `https://k-stay.ai${path}`);
+document.getElementById('logoSub').textContent = cat.name;
+document.getElementById('heroIcon').textContent = cat.ico;
+document.getElementById('preLabel').textContent = '▎' + cat.pre;
+document.getElementById('h1Title').innerHTML = cat.name.replace(/([·\s])/g,'<em style="font-style:normal;color:'+cat.accent+'">$1</em>') ||
+   `<em style="color:${cat.accent}">${cat.name}</em>`;
+document.getElementById('h1Title').innerHTML = `<em style="font-style:normal;color:${cat.accent}">${cat.name}</em>`;
+document.getElementById('leadText').textContent = cat.lead;
+
+// 헤더 nav
+const nav = document.getElementById('topNav');
+NAV_ITEMS.forEach(([href, label]) => {
+  const a = document.createElement('a');
+  a.href = href; a.textContent = label;
+  if (href === path) a.className = 'active';
+  nav.appendChild(a);
+});
+
+const main = document.getElementById('mainContent');
+
+// ─── DB 기반 카테고리 ─────────────────────────────────────────────────
+async function renderDbCategory(){
+  const [statsRes, listingsRes] = await Promise.all([
+    fetch(`/api/lodging/stats?kind=${cat.kind}`).then(r=>r.json()),
+    fetch(`/api/lodging/listings?kind=${cat.kind}&limit=1500`).then(r=>r.json())
+  ]);
+  const o = statsRes.overview;
+  main.innerHTML = `
+    <div class="kpi-grid">
+      <div class="kpi"><div class="num">${fmt(o.active)}<small> 곳</small></div><div class="label">영업중</div></div>
+      <div class="kpi"><div class="num">${fmt(o.district_count||0)}<small> 시군구</small></div><div class="label">전국 분포</div></div>
+      <div class="kpi"><div class="num">${(statsRes.by_sido[0]||{}).sido||'-'}</div><div class="label">최다 시도 (${fmt((statsRes.by_sido[0]||{}).c||0)})</div></div>
+      <div class="kpi"><div class="num" style="font-size:14px">${o.last_update||'-'}</div><div class="label">데이터 기준</div></div>
+    </div>
+    <div class="card">
+      <h2>🗺️ ${cat.name} 전국 지도</h2>
+      <div class="desc">샘플 ${fmt(listingsRes.count)}곳 표시. 시도/시군구 필터로 좁혀볼 수 있습니다.</div>
+      <div class="filters">
+        <select id="sidoSel"><option value="">시도 전체</option></select>
+        <select id="sigunguSel"><option value="">시군구</option></select>
+        <button id="resetBtn">초기화</button>
+        <span class="meta" id="mapMeta">${fmt(listingsRes.count)}곳</span>
+      </div>
+      <div id="lodgingMap"></div>
+    </div>
+    <div class="chart-grid">
+      <div class="card">
+        <h2>📊 시도별 영업중</h2>
+        <div class="chart-wrap"><canvas id="sidoChart"></canvas></div>
+      </div>
+      <div class="card">
+        <h2>🏘️ 시군구 Top 20</h2>
+        <div style="max-height:300px;overflow-y:auto">
+          <table>
+            <thead><tr><th>#</th><th>시군구</th><th>시도</th><th>영업중</th></tr></thead>
+            <tbody id="sgTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="source-card">
+      <b>📡 데이터 출처</b> · 행정안전부 지방행정 인허가 데이터 (file.localdata.go.kr). 매일 04:00 KST 자동 갱신.
+      카테고리 분류는 영업장명 키워드 매칭(${cat.kind === 'hotel' ? '호텔' : cat.kind === 'hostel' ? '호스텔·게스트하우스' : cat.kind === 'rural' ? '농어촌민박' : '관광펜션업'}).
+      더 정확한 분류 데이터를 발견하면 <code>data/data-sources.json</code>에 기록 후 교체.
+    </div>
+  `;
+
+  // 필터·맵
+  const sidoSel = document.getElementById('sidoSel');
+  const sigunguSel = document.getElementById('sigunguSel');
+  statsRes.by_sido.forEach(r => {
+    const o = document.createElement('option'); o.value=r.sido; o.textContent=`${r.sido} (${fmt(r.c)})`; sidoSel.appendChild(o);
+  });
+  sidoSel.addEventListener('change', () => {
+    sigunguSel.innerHTML = '<option value="">시군구</option>';
+    const matches = statsRes.by_sigungu_top20.filter(r => r.sido === sidoSel.value);
+    matches.forEach(r => {
+      const o = document.createElement('option'); o.value=r.sigungu; o.textContent=`${r.sigungu} (${fmt(r.c)})`; sigunguSel.appendChild(o);
+    });
+    reloadMap();
+  });
+  sigunguSel.addEventListener('change', reloadMap);
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    sidoSel.value=''; sigunguSel.innerHTML='<option value="">시군구</option>'; reloadMap();
+  });
+
+  // 차트
+  const top10 = statsRes.by_sido.slice(0,10);
+  new Chart(document.getElementById('sidoChart'), {
+    type:'bar',
+    data:{labels:top10.map(r=>r.sido.replace('특별시','').replace('광역시','').replace('특별자치도','')),
+          datasets:[{data:top10.map(r=>r.c), backgroundColor:cat.accent, borderRadius:5}]},
+    options:{indexAxis:'y', maintainAspectRatio:false, plugins:{legend:{display:false}},
+             scales:{x:{ticks:{callback:v=>fmt(v)}}}}
+  });
+
+  const tb = document.getElementById('sgTbody');
+  statsRes.by_sigungu_top20.forEach((r,i) => {
+    tb.insertAdjacentHTML('beforeend', `<tr><td>${i+1}</td><td><b>${r.sigungu}</b></td><td>${r.sido}</td><td>${fmt(r.c)}</td></tr>`);
+  });
+
+  // 지도
+  let map=null, clusterer=null, markers=[];
+  function initMap(){
+    if(!window.kakao||!kakao.maps){
+      document.getElementById('lodgingMap').innerHTML='<div style="padding:30px;text-align:center;color:#888">카카오맵 도메인 미등록</div>'; return;
+    }
+    kakao.maps.load(()=>{
+      map = new kakao.maps.Map(document.getElementById('lodgingMap'),{center:new kakao.maps.LatLng(36.5,127.8),level:13});
+      clusterer = new kakao.maps.MarkerClusterer({map, averageCenter:true, minLevel:7,
+        styles:[{width:'40px',height:'40px',background:cat.accent+'cc',borderRadius:'20px',color:'#fff',textAlign:'center',lineHeight:'40px',fontWeight:'700'}]});
+      drawMarkers(listingsRes.listings);
+    });
+  }
+  function drawMarkers(list){
+    if(clusterer) clusterer.clear();
+    markers = list.map(h => new kakao.maps.Marker({
+      position:new kakao.maps.LatLng(h.lat,h.lng),
+      image:new kakao.maps.MarkerImage(
+        'data:image/svg+xml;base64,' + btoa(`<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"><circle cx="7" cy="7" r="5" fill="${cat.accent}" stroke="#fff" stroke-width="1.5"/></svg>`),
+        new kakao.maps.Size(14,14), {offset:new kakao.maps.Point(7,7)}),
+      title:h.name
+    }));
+    if(clusterer) clusterer.addMarkers(markers);
+    document.getElementById('mapMeta').textContent = `${fmt(list.length)}곳`;
+  }
+  async function reloadMap(){
+    const qs = new URLSearchParams({kind:cat.kind, limit:'1500'});
+    if(sidoSel.value) qs.set('sido', sidoSel.value);
+    if(sigunguSel.value) qs.set('sigungu', sigunguSel.value);
+    const data = await fetch('/api/lodging/listings?'+qs).then(r=>r.json());
+    drawMarkers(data.listings);
+  }
+  initMap();
+}
+
+// ─── 큐레이션 카테고리 ───────────────────────────────────────────────
+async function renderCuratedCategory(){
+  const data = await fetch(cat.json).then(r=>r.json());
+  const items = data[cat.collKey] || [];
+  const intro = data.intro || data.meta?.description || '';
+  const highlights = data.highlights || [];
+  let opGrid = '';
+
+  if (cat.collKey === 'temples' && items.length){
+    opGrid = items.map(t => `<div class="op-card">
+      <div class="nm">${t.name_ko} <span style="font-size:10px;color:#888">${t.name_en||''}</span></div>
+      <div class="tg">${t.order||''} ${t.headquarter ? '· '+t.headquarter : ''}</div>
+      <div class="dt">📍 ${t.sido} ${t.city}<br/>${t.highlight||''}</div>
+      <div class="tag-list">${(t.programs||[]).map(p=>`<span class="tag">${p}</span>`).join('')}</div>
+    </div>`).join('');
+  } else if (cat.collKey === 'operators' && items.length){
+    opGrid = items.map(o => `<div class="op-card">
+      <div class="nm">${o.name}</div>
+      <div class="tg">${o.tagline||''}</div>
+      <div class="dt">📍 ${(o.sites||[]).join(', ')}</div>
+      <div class="price">${o.price_monthly||''}</div>
+      <div class="tag-list">${(o.features||[]).map(p=>`<span class="tag">${p}</span>`).join('')}</div>
+    </div>`).join('');
+  } else if (cat.collKey === 'key_operators' && items.length){
+    opGrid = items.map(o => `<div class="op-card">
+      <div class="nm">${o.name}</div>
+      <div class="dt">${(o.sites||[]).join(', ')}</div>
+      <div class="tg" style="margin-top:4px">${o.notes||o.tagline||''}</div>
+    </div>`).join('');
+  } else if (cat.collKey === 'regional_hotspots' && items.length){
+    opGrid = items.map(r => `<div class="op-card">
+      <div class="nm">${r.region}</div>
+      <div class="tg">운영사 약 ${r.operators}곳</div>
+      <div class="dt">${r.desc}</div>
+    </div>`).join('');
+  } else if (cat.collKey === 'key_franchises' && items.length){
+    opGrid = items.map(f => `<div class="op-card">
+      <div class="nm">${f.name}</div>
+      <div class="tg">${f.type}</div>
+      <div class="dt">${f.desc}</div>
+    </div>`).join('');
+  }
+
+  const totalCount = data.meta?.total_registered || items.length;
+
+  main.innerHTML = `
+    <div class="kpi-grid">
+      <div class="kpi"><div class="num">${fmt(totalCount)}<small> ${cat.collKey==='temples'?'곳':'개'}</small></div><div class="label">큐레이션 ${cat.collKey==='temples'?'사찰':'항목'}</div></div>
+      <div class="kpi"><div class="num" style="font-size:14px">${data.meta?.update_cycle||data.meta?.as_of||'-'}</div><div class="label">갱신 주기</div></div>
+      <div class="kpi"><div class="num" style="font-size:14px">${(data.meta?.source||'').substring(0,30)}…</div><div class="label">출처</div></div>
+      <div class="kpi"><div class="num">${data.meta?.as_of||'-'}</div><div class="label">기준</div></div>
+    </div>
+    <div class="card"><h2>📖 소개</h2><div class="intro-block">${intro}</div>
+      ${highlights.length ? `<div class="highlights">${highlights.map(h=>`<div class="h-card"><div class="t">${h.title}</div><div class="d">${h.detail}</div></div>`).join('')}</div>` : ''}
+    </div>
+    ${cat.collKey==='temples' ? `<div class="card">
+      <h2>🗺️ 사찰 분포 지도</h2>
+      <div class="desc">템플스테이 운영 사찰 ${items.length}곳</div>
+      <div id="lodgingMap"></div>
+    </div>` : ''}
+    <div class="card"><h2>${cat.collKey==='temples'?'🛕 사찰 목록':cat.collKey==='operators'?'🏢 주요 운영사':cat.collKey==='regional_hotspots'?'📍 지역별 핫스팟':'⭐ 주요 브랜드'}</h2>
+      <div class="op-grid">${opGrid}</div>
+    </div>
+    ${data.for_hosts ? `<div class="card"><h2>🎯 호스트를 위한 안내</h2>
+      <ul style="margin-left:18px">${data.for_hosts.map(t=>`<li style="margin:5px 0;font-size:13px;color:#444">${t}</li>`).join('')}</ul>
+    </div>` : ''}
+    <div class="source-card">
+      <b>📡 데이터 출처</b> · ${data.meta?.source||'-'}<br/>
+      갱신 주기: ${data.meta?.update_cycle||'분기 1회'} · 데이터 카탈로그: <a href="/api/data-sources" style="color:#1a52cc">/api/data-sources</a>
+    </div>
+  `;
+
+  // 템플 지도
+  if(cat.collKey==='temples' && window.kakao && kakao.maps){
+    kakao.maps.load(()=>{
+      const map = new kakao.maps.Map(document.getElementById('lodgingMap'),{center:new kakao.maps.LatLng(36.3,127.8),level:13});
+      const clusterer = new kakao.maps.MarkerClusterer({map, averageCenter:true, minLevel:7});
+      const ms = items.filter(t=>t.lat&&t.lng).map(t => new kakao.maps.Marker({
+        position:new kakao.maps.LatLng(t.lat,t.lng),
+        image:new kakao.maps.MarkerImage(
+          'data:image/svg+xml;base64,' + btoa(`<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"><circle cx="9" cy="9" r="7" fill="${cat.accent}" stroke="#fff" stroke-width="2"/></svg>`),
+          new kakao.maps.Size(18,18), {offset:new kakao.maps.Point(9,9)}),
+        title:t.name_ko
+      }));
+      clusterer.addMarkers(ms);
+    });
+  } else if(cat.collKey==='temples'){
+    const el = document.getElementById('lodgingMap');
+    if(el) el.innerHTML='<div style="padding:30px;text-align:center;color:#888">카카오맵 도메인 미등록</div>';
+  }
+}
+
+// ─── 인덱스 페이지 ────────────────────────────────────────────────────
+function renderIndex(){
+  const cards = Object.entries(CATS).map(([k,c])=>`<a href="/${k}" style="text-decoration:none">
+    <div class="op-card" style="border-left:4px solid ${c.accent};cursor:pointer">
+      <div style="font-size:32px">${c.ico}</div>
+      <div class="nm" style="color:#0d1f45">${c.name}</div>
+      <div class="dt">${c.lead.substring(0,80)}…</div>
+    </div></a>`).join('');
+  main.innerHTML = `
+    <div class="card"><h2>한국의 모든 합법 숙박 카테고리</h2>
+      <div class="desc">K-STAY는 외도민업·한옥체험업·호텔·호스텔·농어촌민박·관광펜션·글램핑·여관모텔·생활형숙박·코리빙·템플스테이까지 모든 카테고리의 데이터·시장 인사이트를 한 곳에서 제공합니다.</div>
+      <div class="op-grid">${cards}</div>
+    </div>
+  `;
+}
+
+// ─── K-Culture 카테고리 ──────────────────────────────────────────────
+async function renderCultureCategory(){
+  const data = await fetch(cat.json).then(r=>r.json());
+  const spots = data.hotspots || [];
+  const cats = data.categories || [];
+  const filterButtons = cats.map(c=>`<button data-cat="${c.id}" class="cat-btn" style="background:${c.color}20;color:${c.color};border:1px solid ${c.color}">${c.ico} ${c.name}</button>`).join('');
+  main.innerHTML = `
+    <div class="kpi-grid">
+      <div class="kpi"><div class="num">${fmt(spots.length)}<small> 곳</small></div><div class="label">큐레이션 핫스팟</div></div>
+      <div class="kpi"><div class="num">${cats.length}<small> 카테고리</small></div><div class="label">K-Pop·Drama·Movie·Food·Beauty·Culture</div></div>
+      <div class="kpi"><div class="num" style="font-size:14px">${data.meta?.update_cycle||'분기 1회'}</div><div class="label">갱신 주기</div></div>
+      <div class="kpi"><div class="num">${data.meta?.as_of||'-'}</div><div class="label">기준</div></div>
+    </div>
+    <div class="card"><h2>📖 K-Culture 핫스팟이란?</h2><div class="intro-block">${data.intro||''}</div>
+      ${(data.highlights||[]).length ? `<div class="highlights">${data.highlights.map(h=>`<div class="h-card"><div class="t">${h.title}</div><div class="d">${h.detail}</div></div>`).join('')}</div>` : ''}
+    </div>
+    <div class="card">
+      <h2>🗺️ K-Culture 명소 지도</h2>
+      <div class="filters">
+        <button data-cat="" class="cat-btn" style="background:#1a52cc;color:#fff">전체</button>
+        ${filterButtons}
+      </div>
+      <div id="lodgingMap"></div>
+    </div>
+    <div class="card"><h2>⭐ 명소 목록</h2>
+      <div class="op-grid" id="spotGrid"></div>
+    </div>
+  `;
+  const grid = document.getElementById('spotGrid');
+  function renderSpots(filter){
+    const list = filter ? spots.filter(s=>s.category===filter) : spots;
+    grid.innerHTML = list.map(s => {
+      const cInfo = cats.find(c=>c.id===s.category) || {color:'#888',ico:'•'};
+      return `<div class="op-card" style="border-left:3px solid ${cInfo.color}">
+        <div class="tg" style="color:${cInfo.color}">${cInfo.ico} ${cInfo.name||s.category}</div>
+        <div class="nm">${s.name_ko}</div>
+        <div class="dt"><span style="color:#888;font-size:11px">${s.name_en||''}</span><br/>📍 ${s.city}<br/>${s.highlight||''}</div>
+        ${s.fandom ? `<div class="tag-list">${s.fandom.map(f=>`<span class="tag" style="background:${cInfo.color}20;color:${cInfo.color}">${f}</span>`).join('')}</div>` : ''}
+      </div>`;
+    }).join('');
+  }
+  renderSpots('');
+  document.querySelectorAll('.cat-btn').forEach(b => b.addEventListener('click', e => {
+    document.querySelectorAll('.cat-btn').forEach(x=>x.style.fontWeight='normal');
+    e.target.style.fontWeight='800';
+    renderSpots(e.target.dataset.cat);
+  }));
+  if(window.kakao && kakao.maps){
+    kakao.maps.load(()=>{
+      const map = new kakao.maps.Map(document.getElementById('lodgingMap'),{center:new kakao.maps.LatLng(37.5,127.5),level:12});
+      spots.forEach(s => {
+        if(!s.lat||!s.lng) return;
+        const c = cats.find(c=>c.id===s.category) || {color:'#888'};
+        new kakao.maps.Marker({position:new kakao.maps.LatLng(s.lat,s.lng),
+          image:new kakao.maps.MarkerImage(
+            'data:image/svg+xml;base64,' + btoa(`<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"><circle cx="9" cy="9" r="7" fill="${c.color}" stroke="#fff" stroke-width="2"/></svg>`),
+            new kakao.maps.Size(18,18),{offset:new kakao.maps.Point(9,9)}), title:s.name_ko, map});
+      });
+    });
+  } else {
+    document.getElementById('lodgingMap').innerHTML='<div style="padding:30px;text-align:center;color:#888">카카오맵 도메인 미등록</div>';
+  }
+}
+
+// ─── 한국관광 100선 ──────────────────────────────────────────────
+async function renderKorea100(){
+  const data = await fetch(cat.json).then(r=>r.json());
+  const current = data.by_year?.['2025_2026'] || [];
+  const cats = {};
+  current.forEach(s => { cats[s.category] = (cats[s.category]||0)+1; });
+  const years = Object.keys(data.by_year || {});
+  main.innerHTML = `
+    <div class="kpi-grid">
+      <div class="kpi"><div class="num">${current.length}<small> 곳</small></div><div class="label">2025-2026 한국관광 100선</div></div>
+      <div class="kpi"><div class="num">${years.length}<small> 연도</small></div><div class="label">아카이브</div></div>
+      <div class="kpi"><div class="num" style="font-size:14px">격년 발표</div><div class="label">갱신 주기</div></div>
+      <div class="kpi"><div class="num">KTO</div><div class="label">한국관광공사 공식</div></div>
+    </div>
+    <div class="card"><h2>📖 한국관광 100선이란?</h2><div class="intro-block">${data.intro||''}</div></div>
+    <div class="card">
+      <h2>📊 카테고리별 분포 (2025-2026)</h2>
+      <div class="highlights">
+        ${Object.entries(cats).map(([k,v])=>`<div class="h-card"><div class="t">${k}</div><div class="d" style="font-size:18px;font-weight:800;color:${cat.accent}">${v}곳</div></div>`).join('')}
+      </div>
+    </div>
+    <div class="card">
+      <h2>🗺️ 100선 지도 (2025-2026)</h2>
+      <div id="lodgingMap"></div>
+    </div>
+    <div class="card">
+      <h2>📅 연도 선택</h2>
+      <div class="filters">${years.map(y=>`<button data-y="${y}" class="yr-btn">${y.replace('_','-')}</button>`).join('')}</div>
+      <div class="op-grid" id="spotGrid"></div>
+    </div>
+    <div class="source-card">출처: ${data.meta?.source||''} · ${data.notes||''}</div>
+  `;
+  function renderYear(y){
+    const list = data.by_year[y] || [];
+    document.getElementById('spotGrid').innerHTML = list.map(s => `<div class="op-card" style="border-left:3px solid ${cat.accent}">
+      <div class="tg" style="color:${cat.accent}">${s.category} · ${y.replace('_','-')}</div>
+      <div class="nm">${s.name_ko}</div>
+      <div class="dt">📍 ${s.sido} ${s.city}<br/>${s.description||''}</div>
+    </div>`).join('');
+  }
+  renderYear('2025_2026');
+  document.querySelectorAll('.yr-btn').forEach(b => b.addEventListener('click', e => renderYear(e.target.dataset.y)));
+  if(window.kakao && kakao.maps){
+    kakao.maps.load(()=>{
+      const map = new kakao.maps.Map(document.getElementById('lodgingMap'),{center:new kakao.maps.LatLng(36.3,127.8),level:13});
+      const clusterer = new kakao.maps.MarkerClusterer({map, averageCenter:true, minLevel:7});
+      const ms = current.filter(s=>s.lat&&s.lng).map(s => new kakao.maps.Marker({
+        position:new kakao.maps.LatLng(s.lat,s.lng),
+        image:new kakao.maps.MarkerImage(
+          'data:image/svg+xml;base64,' + btoa(`<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle cx="10" cy="10" r="8" fill="${cat.accent}" stroke="#fff" stroke-width="2"/></svg>`),
+          new kakao.maps.Size(20,20),{offset:new kakao.maps.Point(10,10)}), title:s.name_ko}));
+      clusterer.addMarkers(ms);
+    });
+  } else {
+    document.getElementById('lodgingMap').innerHTML='<div style="padding:30px;text-align:center;color:#888">카카오맵 도메인 미등록</div>';
+  }
+}
+
+// ─── 축제 캘린더 ──────────────────────────────────────────────
+async function renderFestival(){
+  const data = await fetch(cat.json).then(r=>r.json());
+  const fests = data.festivals || [];
+  const cats = data.categories || [];
+  const byMonth = data.by_month || {};
+  const now = new Date(); const thisMonth = now.getMonth()+1;
+  const upcoming = fests.filter(f => {
+    const [m,d] = (f.period_start||'01-01').split('-').map(Number);
+    return m >= thisMonth && m <= thisMonth + 3;
+  });
+  main.innerHTML = `
+    <div class="kpi-grid">
+      <div class="kpi"><div class="num">${fests.length}<small> 개</small></div><div class="label">축제 큐레이션</div></div>
+      <div class="kpi"><div class="num">${upcoming.length}<small> 개</small></div><div class="label">3개월 내 예정</div></div>
+      <div class="kpi"><div class="num">${cats.length}<small> 카테고리</small></div><div class="label">유형</div></div>
+      <div class="kpi"><div class="num">${data.meta?.as_of||'-'}</div><div class="label">기준</div></div>
+    </div>
+    <div class="card">
+      <h2>📅 월별 축제 캘린더</h2>
+      <div class="filters">${[1,2,3,4,5,6,7,8,9,10,11,12].map(m=>`<button data-m="${m}" class="mo-btn">${m}월</button>`).join('')}
+        <button data-m="" class="mo-btn">전체</button></div>
+      <div class="op-grid" id="festGrid"></div>
+    </div>
+    <div class="card">
+      <h2>🗺️ 축제 지도</h2>
+      <div id="lodgingMap"></div>
+    </div>
+    <div class="source-card">출처: ${data.meta?.source||''}</div>
+  `;
+  function renderMonth(m){
+    const list = m ? fests.filter(f => parseInt((f.period_start||'').split('-')[0]) === parseInt(m)) : fests;
+    const grid = document.getElementById('festGrid');
+    grid.innerHTML = list.map(f => {
+      const c = cats.find(c=>c.id===f.category) || {color:'#888',ico:'🎊'};
+      return `<div class="op-card" style="border-left:3px solid ${c.color}">
+        <div class="tg" style="color:${c.color}">${c.ico} ${f.category}</div>
+        <div class="nm">${f.name_ko}</div>
+        <div class="dt"><span style="color:#888">${f.name_en||''}</span><br/>
+          📍 ${f.sido||''} ${f.city}<br/>
+          📅 ${f.period_start}~${f.period_end}<br/>
+          ${f.highlight||''}
+        </div>
+        ${f.attendance ? `<div class="price">관람객 ${f.attendance}</div>` : ''}
+      </div>`;
+    }).join('');
+  }
+  renderMonth(thisMonth);
+  document.querySelectorAll('.mo-btn').forEach(b=>b.addEventListener('click', e=>renderMonth(e.target.dataset.m)));
+  if(window.kakao && kakao.maps){
+    kakao.maps.load(()=>{
+      const map = new kakao.maps.Map(document.getElementById('lodgingMap'),{center:new kakao.maps.LatLng(36.3,127.8),level:13});
+      fests.forEach(f => {
+        if(!f.lat||!f.lng) return;
+        const c = cats.find(c=>c.id===f.category) || {color:'#888'};
+        new kakao.maps.Marker({position:new kakao.maps.LatLng(f.lat,f.lng),
+          image:new kakao.maps.MarkerImage(
+            'data:image/svg+xml;base64,' + btoa(`<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"><circle cx="9" cy="9" r="7" fill="${c.color}" stroke="#fff" stroke-width="2"/></svg>`),
+            new kakao.maps.Size(18,18),{offset:new kakao.maps.Point(9,9)}), title:f.name_ko, map});
+      });
+    });
+  } else {
+    document.getElementById('lodgingMap').innerHTML='<div style="padding:30px;text-align:center;color:#888">카카오맵 도메인 미등록</div>';
+  }
+}
+
+// ─── 디스패치 ────────────────────────────────────────────────────────
+(async () => {
+  if (cat.type === 'db') {
+    await renderDbCategory();
+  } else if (cat.type === 'curated') {
+    await renderCuratedCategory();
+  } else if (cat.type === 'korea100') {
+    await renderKorea100();
+  } else if (cat.type === 'festival') {
+    await renderFestival();
+  } else {
+    renderIndex();
+  }
+})();
+</script>
+<script src="/static/ai-widget.js"></script>
+<script src="/static/feedback-widget.js"></script>
+</body>
+</html>
