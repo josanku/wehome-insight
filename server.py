@@ -207,6 +207,67 @@ def api_stats():
     conn.close()
     return jsonify(dict(row))
 
+@app.route('/api/registrations/monthly')
+def api_registrations_monthly():
+    """지역별 월간 신규 외도민업 등록 호스트 수.
+    Query params:
+      year   : 4자리 연도 (default: 2026)
+      sidos  : 콤마구분 시도명 (default: '서울특별시,부산광역시')
+    Returns:
+      { year, months: ['2026-01',...], series: [{sido, name, color, data}], totals: {...} }
+    """
+    year = request.args.get('year', '2026')
+    sidos_raw = request.args.get('sidos', '서울특별시,부산광역시')
+    sidos = [s.strip() for s in sidos_raw.split(',') if s.strip()]
+    PALETTE = {
+        '서울특별시': '#FF6B35',
+        '부산광역시': '#1a52cc',
+        '인천광역시': '#27ae60',
+        '대구광역시': '#9b59b6',
+        '대전광역시': '#e67e22',
+        '광주광역시': '#16a085',
+        '울산광역시': '#c0392b',
+        '경기도':     '#34495e',
+        '제주특별자치도': '#f39c12',
+    }
+    months = [f"{year}-{m:02d}" for m in range(1, 13)]
+    conn = get_db()
+    series = []
+    grand_total = 0
+    for sido in sidos:
+        rows = conn.execute("""
+            SELECT substr(license_date,1,7) m, COUNT(*) cnt
+              FROM listings
+             WHERE category='foreigner_city_homestays'
+               AND sido=?
+               AND license_date >= ? AND license_date < ?
+          GROUP BY m
+        """, (sido, f"{year}-01-01", f"{int(year)+1}-01-01")).fetchall()
+        by_month = {r['m']: r['cnt'] for r in rows}
+        data = [by_month.get(m, 0) for m in months]
+        total = sum(data)
+        grand_total += total
+        series.append({
+            'sido': sido,
+            'name': sido.replace('특별시','').replace('광역시','').replace('특별자치도',''),
+            'color': PALETTE.get(sido, '#666'),
+            'data': data,
+            'total': total,
+        })
+    last_update = conn.execute("SELECT MAX(update_at) u FROM listings WHERE category='foreigner_city_homestays'").fetchone()['u']
+    conn.close()
+    return jsonify({
+        'year': year,
+        'months': months,
+        'series': series,
+        'grand_total': grand_total,
+        'last_update': last_update,
+    })
+
+@app.route('/registrations')
+def registrations_page():
+    return send_from_directory('.', 'registrations.html')
+
 @app.route('/api/categories')
 def api_categories():
     """5종 카테고리별 통계 요약"""
