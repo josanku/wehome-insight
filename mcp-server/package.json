@@ -1,0 +1,36 @@
+{
+  "name": "@k-stay/mcp-server",
+  "version": "1.0.0",
+  "description": "K-STAY MCP server — Claude Desktop / Claude Code에서 한국 숙박·관광 데이터를 native 도구처럼 사용",
+  "type": "module",
+  "bin": {
+    "k-stay-mcp": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc && chmod +x dist/index.js",
+    "start": "node dist/index.js",
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "files": ["dist", "README.md"],
+  "keywords": ["mcp", "model-context-protocol", "claude", "k-stay", "korea", "tourism", "lodging", "hanok"],
+  "author": "wehome, Inc. <api@k-stay.ai>",
+  "license": "MIT",
+  "homepage": "https://k-stay.ai/docs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/josanku/wehome-insight",
+    "directory": "mcp-server"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/node": "^20.11.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

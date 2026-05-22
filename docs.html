@@ -211,28 +211,64 @@ print(df.nlargest(<span style="color:#FFA500">5</span>, <span style="color:#a3d9
     </div>
 
     <div class="tab-content" id="tab-mcp">
-      <h3>MCP (Model Context Protocol) 서버 — 진정한 네이티브 통합</h3>
-      <p>Claude Desktop·Claude Code에서 K-STAY API를 <b>native 도구처럼</b> 사용하려면 MCP 서버를 추가하면 됩니다.</p>
-      <p><b>현재 상태:</b> K-STAY는 표준 REST API만 제공. MCP 서버는 다음 단계로 검토 중.</p>
-      <h3>임시 해법: 직접 MCP 서버 작성 (개발자용)</h3>
-      <pre><span style="color:#88c"># package.json</span>
-{
-  <span style="color:#FFA500">"name"</span>: <span style="color:#a3d977">"k-stay-mcp"</span>,
-  <span style="color:#FFA500">"dependencies"</span>: {
-    <span style="color:#FFA500">"@modelcontextprotocol/sdk"</span>: <span style="color:#a3d977">"latest"</span>
-  }
-}
+      <h3>MCP (Model Context Protocol) 서버 — 네이티브 통합 ✅</h3>
+      <p>K-STAY 공식 MCP 서버가 <b>준비 완료</b>되었습니다. Claude Desktop·Claude Code·Cursor에서 K-STAY의 모든 데이터를 <b>16개 native 도구</b>로 사용할 수 있습니다.</p>
 
-<span style="color:#88c"># Claude Desktop config (~/.config/claude/claude_desktop_config.json)</span>
-{
+      <h3>🚀 Claude Desktop 설정</h3>
+      <p>설정 파일 위치:</p>
+      <ul style="font-size:12px;color:#555">
+        <li>macOS: <code>~/Library/Application Support/Claude/claude_desktop_config.json</code></li>
+        <li>Windows: <code>%APPDATA%\Claude\claude_desktop_config.json</code></li>
+      </ul>
+      <p>다음 내용을 추가하고 Claude Desktop 재시작:</p>
+      <pre>{
   <span style="color:#FFA500">"mcpServers"</span>: {
     <span style="color:#FFA500">"k-stay"</span>: {
-      <span style="color:#FFA500">"command"</span>: <span style="color:#a3d977">"node"</span>,
-      <span style="color:#FFA500">"args"</span>: [<span style="color:#a3d977">"./k-stay-mcp/index.js"</span>]
+      <span style="color:#FFA500">"command"</span>: <span style="color:#a3d977">"npx"</span>,
+      <span style="color:#FFA500">"args"</span>: [<span style="color:#a3d977">"-y"</span>, <span style="color:#a3d977">"@k-stay/mcp-server"</span>]
     }
   }
 }</pre>
-      <p style="margin-top:10px"><b>로드맵:</b> Q3 2026 — K-STAY 공식 MCP 서버 npm 패키지 출시 예정. <code>npx @k-stay/mcp-server</code> 한 줄로 통합 가능하게.</p>
+
+      <h3>🛠️ Claude Code (CLI) 설정</h3>
+      <pre><span style="color:#FFA500">claude</span> mcp add k-stay -- npx -y @k-stay/mcp-server</pre>
+
+      <h3>📋 제공 도구 16개</h3>
+      <pre><span style="color:#88c"># 통계 및 메타</span>
+get_stats · get_categories_overview · get_registrations_monthly
+get_data_sources · get_monthly_report
+
+<span style="color:#88c"># 한옥 (51 마을 + 55 명품고택 + 2,522 영업장)</span>
+get_hanok_stats · search_hanok_listings
+get_hanok_villages · get_meongpum_gotaek
+
+<span style="color:#88c"># 숙박 카테고리</span>
+get_temple_stays · search_lodging · get_lodging_stats
+
+<span style="color:#88c"># 관광·문화</span>
+get_inbound_tourism · get_kculture_hotspots
+get_korea100 · get_festivals</pre>
+
+      <h3>💬 사용 예시 (자연어 → 도구 호출 자동)</h3>
+      <pre><span style="color:#88c"># 사용자가 자연어로 물으면 Claude가 알아서 호출</span>
+<span style="color:#a3d977">"한옥체험업이 가장 많은 시군구 5곳"</span>
+→ Claude: (get_hanok_stats 호출)
+  경주시 363, 종로구 332, 전주시 298, 안동시 184, 순천시 74곳
+
+<span style="color:#a3d977">"10월 외국인 많이 오는 축제는?"</span>
+→ Claude: (get_festivals with month=10)
+  진주남강유등 280만명, 안동탈춤 150만명...
+
+<span style="color:#a3d977">"서울 한옥 체험할 곳 5개 추천"</span>
+→ Claude: (search_hanok_listings with sido='서울특별시', limit=5)
+  ...</pre>
+
+      <h3>🔗 GitHub · 로컬 빌드</h3>
+      <pre><span style="color:#FFA500">git</span> clone https://github.com/josanku/wehome-insight.git
+<span style="color:#FFA500">cd</span> wehome-insight/mcp-server
+<span style="color:#FFA500">npm</span> install && npm run build
+<span style="color:#FFA500">node</span> dist/index.js   <span style="color:#88c"># stdio MCP 서버 기동</span></pre>
+      <p style="margin-top:10px">자세한 안내: <a href="https://github.com/josanku/wehome-insight/tree/main/mcp-server" target="_blank" style="color:#1a52cc;font-weight:700">github.com/josanku/wehome-insight/tree/main/mcp-server</a></p>
     </div>
   </div>
 
