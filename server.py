@@ -1402,13 +1402,52 @@ Sitemap: https://k-stay.ai/sitemap.xml
 def sitemap_xml():
     from flask import Response
     pages = [
-        ('/',          '1.0', 'daily'),
-        ('/pricing',   '0.9', 'daily'),
-        ('/analysis',  '0.9', 'daily'),
-        ('/map',       '0.8', 'daily'),
-        ('/report',    '0.9', 'monthly'),
-        ('/about',     '0.7', 'monthly'),
-        ('/insights',  '0.6', 'daily'),
+        # 핵심 페이지
+        ('/',                       '1.0', 'daily'),
+        ('/pricing',                '0.9', 'daily'),
+        ('/analysis',               '0.9', 'daily'),
+        ('/registrations',          '0.8', 'daily'),
+        ('/map',                    '0.8', 'daily'),
+        ('/report',                 '0.9', 'monthly'),
+        ('/about',                  '0.7', 'monthly'),
+        ('/insights',               '0.6', 'daily'),
+        # 한옥 섹션
+        ('/hanok',                  '0.9', 'weekly'),
+        ('/hanok/villages',         '0.8', 'monthly'),
+        ('/hanok/meongpum-gotaek',  '0.8', 'monthly'),
+        ('/hanok/intro',            '0.7', 'monthly'),
+        # 숙박 카테고리
+        ('/temple',                 '0.8', 'monthly'),
+        ('/hotel',                  '0.8', 'daily'),
+        ('/hostel',                 '0.8', 'daily'),
+        ('/rural',                  '0.7', 'daily'),
+        ('/pension',                '0.7', 'daily'),
+        ('/glamping',               '0.7', 'monthly'),
+        ('/motel',                  '0.7', 'monthly'),
+        ('/residence',              '0.7', 'monthly'),
+        ('/coliving',               '0.7', 'monthly'),
+        # 관광·문화
+        ('/tourism',                '0.9', 'weekly'),
+        ('/culture',                '0.8', 'monthly'),
+        ('/korea100',               '0.8', 'monthly'),
+        ('/festival',               '0.8', 'weekly'),
+        # 커뮤니티·콘텐츠
+        ('/newsletter',             '0.7', 'weekly'),
+        ('/community',              '0.6', 'monthly'),
+        ('/board',                  '0.7', 'daily'),
+        ('/regulation',             '0.7', 'monthly'),
+        ('/tax-finance',            '0.6', 'monthly'),
+        ('/tips',                   '0.6', 'monthly'),
+        ('/services',               '0.6', 'monthly'),
+        ('/styling',                '0.6', 'monthly'),
+        ('/academy',                '0.6', 'monthly'),
+        ('/news',                   '0.6', 'daily'),
+        ('/property',               '0.6', 'weekly'),
+        ('/ask',                    '0.7', 'monthly'),
+        ('/search',                 '0.6', 'monthly'),
+        # 개발자
+        ('/docs',                   '0.8', 'weekly'),
+        ('/developer',              '0.8', 'weekly'),
     ]
     items = []
     for path, prio, freq in pages:
