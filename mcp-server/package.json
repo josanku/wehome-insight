@@ -1,6 +1,7 @@
 {
   "name": "@k-stay/mcp-server",
   "version": "1.0.0",
+  "mcpName": "io.github.josanku/k-stay",
   "description": "K-STAY MCP server — Claude Desktop / Claude Code에서 한국 숙박·관광 데이터를 native 도구처럼 사용",
   "type": "module",
   "bin": {

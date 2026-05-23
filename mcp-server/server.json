@@ -1,0 +1,22 @@
+{
+  "name": "io.github.josanku/k-stay",
+  "description": "Korean tourism, lodging, and culture data for AI tools — 50,000+ verified listings (legal homestays 외도민업, hanok 한옥, hotels, hostels, temple stays, festivals, K-Culture hotspots, inbound tourism stats). Sourced from Korean government open data (행정안전부·KTO·문화재청). 16 tools, free, MIT.",
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@k-stay/mcp-server",
+      "version": "1.0.0",
+      "transport": {"type": "stdio"}
+    }
+  ],
+  "repository": {
+    "url": "https://github.com/josanku/wehome-insight",
+    "source": "github",
+    "subfolder": "mcp-server"
+  },
+  "tags": ["korea", "tourism", "lodging", "hanok", "temple-stay", "open-data", "claude", "travel"],
+  "homepage": "https://k-stay.ai/developer",
+  "documentation": "https://github.com/josanku/wehome-insight/blob/main/mcp-server/DEVELOPER_GUIDE.md",
+  "license": "MIT"
+}
