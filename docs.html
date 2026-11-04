@@ -103,7 +103,7 @@ footer a{color:#FF6B35;text-decoration:none}
 <section class="hero">
   <div class="pre">▎K-STAY OPEN API · v1.0</div>
   <h1>한국 모든 숙박·관광·문화 <em>데이터 API</em></h1>
-  <p class="lead">외도민업 9,922곳 · 한옥체험업 2,522곳 · 호텔·호스텔·템플스테이·축제·외국인 통계까지.<br/>무료, 회원가입 불필요, CORS 허용 — 즉시 사용 가능합니다.</p>
+  <p class="lead">외도민업 11,910곳 · 한옥체험업 2,638곳 · 호텔·호스텔·템플스테이·축제·외국인 통계까지.<br/>무료, 회원가입 불필요, CORS 허용 — 즉시 사용 가능합니다.</p>
   <div class="badges">
     <div class="b"><em>20+</em> 엔드포인트</div>
     <div class="b"><em>50,000+</em> 영업장 데이터</div>
@@ -121,7 +121,7 @@ footer a{color:#FF6B35;text-decoration:none}
     <pre><span style="color:#FFA500">curl</span> <span style="color:#a3d977">https://k-stay.ai/api/stats</span></pre>
     <p style="margin-top:10px"><b>응답:</b></p>
     <pre>{
-  <span style="color:#FFA500">"active"</span>: 9922,
+  <span style="color:#FFA500">"active"</span>: 11910,
   <span style="color:#FFA500">"closed"</span>: 3014,
   <span style="color:#FFA500">"total"</span>: 13087,
   <span style="color:#FFA500">"last_update"</span>: <span style="color:#a3d977">"2026-05-17 13:41:00"</span>
@@ -181,7 +181,7 @@ curl https://k-stay.ai/api/festivals</pre>
       <pre><span style="color:#88c">// Node.js / 브라우저 동일</span>
 <span style="color:#FFA500">const</span> res = <span style="color:#FFA500">await</span> fetch(<span style="color:#a3d977">'https://k-stay.ai/api/hanok/stats'</span>);
 <span style="color:#FFA500">const</span> data = <span style="color:#FFA500">await</span> res.json();
-console.log(data.overview.active); <span style="color:#88c">// 2522</span>
+console.log(data.overview.active); <span style="color:#88c">// 2638</span>
 
 <span style="color:#88c">// 카카오맵 + K-STAY API</span>
 <span style="color:#FFA500">const</span> listings = <span style="color:#FFA500">await</span> fetch(
@@ -238,7 +238,7 @@ print(df.nlargest(<span style="color:#FFA500">5</span>, <span style="color:#a3d9
 get_stats · get_categories_overview · get_registrations_monthly
 get_data_sources · get_monthly_report
 
-<span style="color:#88c"># 한옥 (51 마을 + 55 명품고택 + 2,522 영업장)</span>
+<span style="color:#88c"># 한옥 (51 마을 + 55 명품고택 + 2,638 영업장)</span>
 get_hanok_stats · search_hanok_listings
 get_hanok_villages · get_meongpum_gotaek
 
@@ -353,7 +353,7 @@ const ENDPOINTS = {
     {p:'/api/data-sources', s:'데이터 소스 카탈로그 (각 데이터셋 출처·갱신 주기)'},
   ],
   hanok: [
-    {p:'/api/hanok/stats', s:'한옥체험업 종합 통계 (DB 기반, 2,522곳 영업중)'},
+    {p:'/api/hanok/stats', s:'한옥체험업 종합 통계 (DB 기반, 2,638곳 영업중)'},
     {p:'/api/hanok/listings', s:'한옥체험업 영업장 좌표 (카카오맵용)', params:[
       {n:'sido', d:'시도 필터', t:'string'},
       {n:'sigungu', d:'시군구 필터', t:'string'},

@@ -17,7 +17,7 @@
         "license": "공공누리 제4유형 (출처표시·상업적이용금지·변경금지)"
       },
       "update_cycle": "매일 04:00 KST (cron) — D-2 데이터",
-      "active_count": "약 9,922곳 영업중",
+      "active_count": "약 11,910곳 영업중",
       "alternative_sources": [
         {"name":"data.go.kr OpenAPI","url":"https://www.data.go.kr","status":"구독 완료하나 API -3 오류 빈발. 백업용"},
         {"name":"서울스테이 (서울만)","url":"https://stay.visitseoul.net","status":"서울만, 보완"}
@@ -35,7 +35,7 @@
         "license": "공공누리 제4유형"
       },
       "update_cycle": "매일 04:00 KST",
-      "active_count": "약 2,522곳 영업중",
+      "active_count": "약 2,638곳 영업중",
       "alternative_sources": [
         {"name":"KTO 한옥홍보 hanok.visitkorea.or.kr","url":"https://hanok.visitkorea.or.kr","status":"명품고택·인증 한옥 보강용 — 403 제한 잦음"},
         {"name":"문화재청 국가민속문화재 DB","url":"https://www.cha.go.kr","status":"문화재 한옥 보강"}
@@ -50,7 +50,7 @@
         "format": "CSV"
       },
       "update_cycle": "매일 04:00 KST",
-      "active_count": "약 3,257곳 영업중 (호텔 1,229 / 호스텔 397 + 기타)",
+      "active_count": "약 3,606곳 영업중",
       "sub_categorization": "biz_name 패턴(호텔/호스텔/게스트하우스) 키워드 매칭으로 분류 중 — 향후 detail_status 필드 활용 권장",
       "alternative_sources": [
         {"name":"문체부 호텔등급결정 DB","url":"https://www.hotelrating.or.kr","status":"호텔 등급 보강"}
@@ -64,7 +64,7 @@
         "url": "https://file.localdata.go.kr/file/download/rural_homestays/info"
       },
       "update_cycle": "매일 04:00 KST",
-      "active_count": "약 36,361곳",
+      "active_count": "약 36,641곳",
       "alternative_sources": [
         {"name":"농촌체험휴양마을 — 농림축산식품부 welchon.invil.org","url":"https://welchon.invil.org","status":"마을 단위 데이터 보강"}
       ]
