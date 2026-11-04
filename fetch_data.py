@@ -34,6 +34,9 @@ CATEGORIES = {
 BASE_INFO  = "https://file.localdata.go.kr/file/{slug}/info"
 BASE_DL    = "https://file.localdata.go.kr/file/download/{slug}/info"
 
+# 원본 줄 수가 DB의 이 비율보다 적으면 내려받기가 잘린 것으로 보고 삭제하지 않는다
+MIN_KEEP_RATIO = 0.8
+
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120.0.0.0",
     "Accept": "*/*",
@@ -122,6 +125,22 @@ def save_to_db(conn, category, key_row_pairs):
     conn.commit()
     return len(data)
 
+def prune_stale(conn, category, keys):
+    """원본에서 사라진 줄 삭제(주소 변경·구 개편으로 키가 바뀌면 옛 줄이 남아 영업중이 부풀어 오름)"""
+    existing = conn.execute("SELECT COUNT(*) FROM listings WHERE category=?", (category,)).fetchone()[0]
+    if len(keys) < existing * MIN_KEEP_RATIO:
+        print(f"  [{category}] 삭제 건너뜀: 원본 {len(keys):,} / DB {existing:,} (내려받기 잘림 의심)")
+        return 0
+    conn.execute("CREATE TEMP TABLE IF NOT EXISTS current_keys (k TEXT PRIMARY KEY)")
+    conn.execute("DELETE FROM current_keys")
+    conn.executemany("INSERT INTO current_keys VALUES (?)", [(k,) for k in keys])
+    removed = conn.execute(
+        "DELETE FROM listings WHERE category=? AND unique_key NOT IN (SELECT k FROM current_keys)",
+        (category,)
+    ).rowcount
+    conn.commit()
+    return removed
+
 def main():
     os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
@@ -134,8 +153,9 @@ def main():
             content = download_csv(session, slug)
             pairs = parse_and_dedup(content, slug)
             n = save_to_db(conn, slug, pairs)
+            removed = prune_stale(conn, slug, [k for k, _ in pairs])
             totals[slug] = n
-            print(f"  [{slug}] ✓ {n:,}개 저장")
+            print(f"  [{slug}] ✓ {n:,}개 저장, 옛 줄 {removed:,}개 삭제")
         except Exception as e:
             print(f"  [{slug}] ✗ {e}")
             totals[slug] = 0

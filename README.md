@@ -128,7 +128,7 @@ wehome-insight/
 │   ├── DEVELOPER_GUIDE.md # 개발자 매뉴얼 (9 섹션)
 │   └── PROMOTION.md       # 보급 전략 가이드
 ├── fetch_data.py          # 매일 04:00 cron - 5종 CSV 갱신
-├── publish_report.py      # 매월 25일 cron - 월간 리포트
+├── publish_report.py      # 매월 1일 cron - 월간 리포트
 ├── news_monitor.py        # 매일 06:00 cron - 뉴스 모니터
 └── aws/                   # AWS 배포 자산 (App Runner / CloudFormation)
 ```
@@ -140,7 +140,7 @@ wehome-insight/
 - **매일 04:00** — `fetch_data.py` 행정안전부 CSV 5종 자동 다운로드 + 서비스 재시작
 - **매일 06:00** — `news_monitor.py` 공유숙박 관련 뉴스 수집
 - **매주 일요일 03:30** — 큐레이션 JSON 변경 감지
-- **매월 25일 00:05** — `publish_report.py` 월간 시장 리포트 스냅샷
+- **매월 1일 05:40** — `publish_report.py` 전달 호 월간 시장 리포트 스냅샷
 - **GitHub Actions** — main push 시 EC2 SSH 자동 배포
 
 ---
