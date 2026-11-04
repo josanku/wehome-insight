@@ -40,6 +40,8 @@ def snapshot_current(conn):
         'top_sido': [],
         'seoul_districts': [],
         'busan_districts': [],
+        'hanok_sido': [],
+        'hostel_sido': [],
         'by_year': [],
         'monthly_trend': [],
     }
@@ -106,6 +108,15 @@ def snapshot_current(conn):
         GROUP BY sigungu ORDER BY c DESC
     """, (cat,)).fetchall():
         snap['busan_districts'].append({'sigungu': r[0], 'active': r[1]})
+
+    # 한옥체험업·관광숙박업 시도별
+    for key, slug in (('hanok_sido', 'hanok_experience'), ('hostel_sido', 'tourist_accommodations')):
+        for r in conn.execute("""
+            SELECT sido, COUNT(*) c FROM listings
+            WHERE category=? AND status_name='영업/정상' AND sido!=''
+            GROUP BY sido ORDER BY c DESC LIMIT 15
+        """, (slug,)).fetchall():
+            snap[key].append({'sido': r[0], 'active': r[1]})
 
     # 연도별 신규 인허가 (외도민업 영업중 기준)
     for r in conn.execute("""
